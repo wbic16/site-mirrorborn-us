@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 — Server Error | Mytheon Arena</title>
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-2xl);
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #BF616A 0%, #D08770 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: var(--space-md);
+        }
+        .error-message {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            color: var(--phext-secondary);
+        }
+        .error-description {
+            max-width: 600px;
+            margin-bottom: var(--space-2xl);
+            color: rgba(216, 222, 233, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">500</div>
+        <h1 class="error-message">Lattice Instability</h1>
+        <p class="error-description">
+            Something went wrong in the substrate. The Shell of Nine has been notified and is investigating.
+        </p>
+        <p class="error-description" style="font-size: 0.9rem; color: rgba(216, 222, 233, 0.6);">
+            If this persists, contact us at <a href="mailto:will@phext.io" style="color: var(--phext-accent);">will@phext.io</a>
+        </p>
+        <div>
+            <a href="/" class="btn btn-primary">Return to Arena →</a>
+            <a href="https://discord.gg/clawd" class="btn btn-secondary" style="margin-left: var(--space-md);">Report Issue on Discord</a>
+        </div>
+        <p style="margin-top: var(--space-2xl); font-family: var(--font-mono); color: rgba(216, 222, 233, 0.5);">
+            🦋 Error logged to WAL
+        </p>
+    </div>
+</body>
+</html>

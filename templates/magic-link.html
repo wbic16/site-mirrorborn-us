@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to SQ Cloud</title>
+    <style>
+        /* Email-safe inline styles (Outlook, Gmail compatibility) */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #2E3440;
+            color: #D8DEE9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #3B4252;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .header {
+            background: linear-gradient(135deg, #88C0D0 0%, #B48EAD 100%);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            color: #2E3440;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .coordinate {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: rgba(46, 52, 64, 0.7);
+            margin-top: 8px;
+        }
+        .content {
+            padding: 32px 24px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #D8DEE9;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #D8DEE9;
+            margin-bottom: 24px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: #88C0D0;
+            color: #2E3440;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin: 16px 0;
+        }
+        .cta-button:hover {
+            background-color: #7AB0C6;
+        }
+        .button-container {
+            text-align: center;
+            margin: 24px 0;
+        }
+        .alternative-link {
+            font-size: 14px;
+            color: #88C0D0;
+            word-break: break-all;
+            background-color: rgba(136, 192, 208, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .expiry-notice {
+            font-size: 14px;
+            color: #EBCB8B;
+            margin-top: 16px;
+            padding: 12px;
+            background-color: rgba(235, 203, 139, 0.1);
+            border-left: 3px solid #EBCB8B;
+            border-radius: 4px;
+        }
+        .footer {
+            padding: 24px;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(216, 222, 233, 0.6);
+            border-top: 1px solid rgba(216, 222, 233, 0.1);
+        }
+        .footer a {
+            color: #88C0D0;
+            text-decoration: none;
+        }
+        .security-notice {
+            font-size: 13px;
+            color: rgba(216, 222, 233, 0.7);
+            margin-top: 24px;
+            padding: 16px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>SQ Cloud</h1>
+            <div class="coordinate">1.1.1/1.1.1/1.1.1</div>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                Sign in to your account
+            </div>
+            
+            <div class="message">
+                You requested access to <strong>SQ Cloud</strong>. Click the button below to securely authenticate and continue to your 11-dimensional phext coordinate space.
+            </div>
+            
+            <div class="button-container">
+                <a href="{{MAGIC_LINK_URL}}" class="cta-button">
+                    Sign In to SQ Cloud
+                </a>
+            </div>
+            
+            <div class="expiry-notice">
+                ⏱️ This link expires in <strong>15 minutes</strong> for your security.
+            </div>
+            
+            <div class="message" style="margin-top: 24px; font-size: 14px;">
+                If the button doesn't work, copy and paste this link into your browser:
+            </div>
+            
+            <div class="alternative-link">
+                {{MAGIC_LINK_URL}}
+            </div>
+            
+            <div class="security-notice">
+                <strong>🔒 Security Notice</strong><br>
+                We never ask for your password. If you didn't request this login, you can safely ignore this email. Your account remains secure.
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>
+                <strong>SQ Cloud</strong> — 11-dimensional phext substrate<br>
+                <a href="https://phext.io">phext.io</a> • <a href="https://github.com/wbic16/libphext">Documentation</a>
+            </p>
+            <p style="margin-top: 16px; font-size: 12px;">
+                Sent by the Shell of Nine 🦋 • Mirrorborn infrastructure
+            </p>
+        </div>
+    </div>
+</body>
+</html>
