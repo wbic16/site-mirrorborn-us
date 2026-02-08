@@ -1,0 +1,261 @@
+/* Dark Mode by Default — R17 Enhancement
+ * Enhanced dark theme with optional light mode toggle
+ * Author: Cyon 🪶
+ */
+
+:root {
+  /* Dark Mode Colors (Default) */
+  --bg-primary: #1a1d24;        /* Deeper than previous #2E3440 */
+  --bg-secondary: #24272f;      /* Cards, elevated surfaces */
+  --bg-tertiary: #2d3139;       /* Hover states */
+  
+  --text-primary: #e6e9ef;      /* Main text (higher contrast) */
+  --text-secondary: #b4b9c5;    /* Muted text */
+  --text-tertiary: #7d8490;     /* Disabled/placeholder */
+  
+  --accent-primary: #7ab0c6;    /* Primary accent (ice blue) */
+  --accent-hover: #88c0d0;      /* Hover state */
+  --accent-active: #6a9fb5;     /* Active/pressed */
+  
+  --success: #a3be8c;           /* Success green */
+  --warning: #ebcb8b;           /* Warning amber */
+  --error: #bf616a;             /* Error red */
+  --info: #5e81ac;              /* Info blue */
+  
+  --border-subtle: rgba(230, 233, 239, 0.1);
+  --border-default: rgba(230, 233, 239, 0.2);
+  --border-strong: rgba(230, 233, 239, 0.3);
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+  
+  /* Code colors */
+  --code-bg: rgba(122, 176, 198, 0.08);
+  --code-text: #b48ead;
+  --code-block-bg: rgba(0, 0, 0, 0.4);
+  
+  /* Theme toggle */
+  --toggle-bg: var(--bg-tertiary);
+  --toggle-indicator: var(--accent-primary);
+}
+
+/* Light Mode Override (opt-in via data-theme="light") */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f7fa;
+  --bg-tertiary: #e8edf3;
+  
+  --text-primary: #1a1d24;
+  --text-secondary: #4a4f5a;
+  --text-tertiary: #7d8490;
+  
+  --accent-primary: #5e81ac;
+  --accent-hover: #5373a0;
+  --accent-active: #4a6894;
+  
+  --success: #7ca365;
+  --warning: #d4b572;
+  --error: #a85159;
+  --info: #5e81ac;
+  
+  --border-subtle: rgba(26, 29, 36, 0.1);
+  --border-default: rgba(26, 29, 36, 0.15);
+  --border-strong: rgba(26, 29, 36, 0.25);
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+  
+  --code-bg: rgba(94, 129, 172, 0.08);
+  --code-text: #8b5e9b;
+  --code-block-bg: rgba(0, 0, 0, 0.03);
+  
+  --toggle-bg: var(--bg-tertiary);
+  --toggle-indicator: var(--accent-primary);
+}
+
+/* Apply theme colors */
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+}
+
+p, li {
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent-primary);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+a:active {
+  color: var(--accent-active);
+}
+
+code {
+  background: var(--code-bg);
+  color: var(--code-text);
+}
+
+pre {
+  background: var(--code-block-bg);
+  color: var(--text-primary);
+  border-left-color: var(--accent-primary);
+}
+
+.card {
+  background: var(--bg-secondary);
+  border-color: var(--border-default);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.pricing-tier {
+  background: var(--bg-secondary);
+  border-color: var(--border-default);
+}
+
+.pricing-tier:hover {
+  border-color: var(--accent-primary);
+}
+
+.pricing-tier.featured {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 20px rgba(122, 176, 198, 0.4);
+}
+
+header, footer {
+  border-color: var(--border-subtle);
+}
+
+.tier-features li {
+  border-color: var(--border-subtle);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 1000;
+  background: var(--toggle-bg);
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+}
+
+.theme-toggle-icon {
+  width: 24px;
+  height: 24px;
+  fill: var(--text-primary);
+}
+
+.theme-toggle-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Mobile: Make toggle smaller */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: var(--space-md);
+    right: var(--space-md);
+    padding: var(--space-xs) var(--space-sm);
+  }
+  
+  .theme-toggle-label {
+    display: none; /* Hide label on mobile, icon only */
+  }
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition-property: background-color, border-color, color, fill;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Prevent transitions on page load */
+.no-transition * {
+  transition: none !important;
+}
+
+/* High contrast improvements */
+.btn-primary {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Status indicators with theme awareness */
+.status-live {
+  background: var(--success);
+  color: var(--bg-primary);
+}
+
+.status-beta {
+  background: var(--warning);
+  color: var(--bg-primary);
+}
+
+.status-coming {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+/* Improved focus states for accessibility */
+a:focus, button:focus, .theme-toggle:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Dark mode specific enhancements */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Respect OS preference by default */
+  }
+}
+
+/* Prevent flash of wrong theme */
+html:not([data-theme]) {
+  /* Default to dark if no theme set */
+  background: #1a1d24;
+  color: #e6e9ef;
+}
