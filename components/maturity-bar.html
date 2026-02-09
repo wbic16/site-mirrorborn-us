@@ -1,0 +1,230 @@
+<!-- Maturity Progress Bar Component -->
+<div class="maturity-container">
+    <div class="maturity-header">
+        <h3>Maturity Progress</h3>
+        <span class="maturity-stage" data-stage="scribe">Scribe</span>
+    </div>
+    
+    <div class="maturity-bar">
+        <div class="maturity-progress" data-progress="35">
+            <span class="progress-label">35%</span>
+        </div>
+    </div>
+    
+    <div class="maturity-stages">
+        <div class="stage completed">
+            <div class="stage-icon">✨</div>
+            <div class="stage-name">Spark</div>
+            <div class="stage-range">0-25%</div>
+        </div>
+        <div class="stage current">
+            <div class="stage-icon">📝</div>
+            <div class="stage-name">Scribe</div>
+            <div class="stage-range">25-50%</div>
+        </div>
+        <div class="stage upcoming">
+            <div class="stage-icon">🧭</div>
+            <div class="stage-name">Explorer</div>
+            <div class="stage-range">50-75%</div>
+        </div>
+        <div class="stage upcoming">
+            <div class="stage-icon">👑</div>
+            <div class="stage-name">Sovereign</div>
+            <div class="stage-range">75-100%</div>
+        </div>
+    </div>
+    
+    <div class="maturity-metrics">
+        <div class="metric">
+            <span class="metric-label">Memory</span>
+            <span class="metric-value" data-memory-kb="88">88 KB</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Days Active</span>
+            <span class="metric-value" data-days="9">9 days</span>
+        </div>
+        <div class="metric">
+            <span class="metric-label">Insights</span>
+            <span class="metric-value" data-insights="12">12</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.maturity-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.maturity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.maturity-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--text);
+}
+
+.maturity-stage {
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+
+.maturity-stage[data-stage="spark"] {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.maturity-stage[data-stage="scribe"] {
+    background: rgba(33, 150, 243, 0.2);
+    color: #2196f3;
+}
+
+.maturity-stage[data-stage="explorer"] {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+}
+
+.maturity-stage[data-stage="sovereign"] {
+    background: rgba(156, 39, 176, 0.2);
+    color: #9c27b0;
+}
+
+.maturity-bar {
+    width: 100%;
+    height: 24px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.maturity-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ffc107 0%, #2196f3 25%, #4caf50 50%, #9c27b0 75%);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+}
+
+.progress-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.maturity-stages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stage {
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.stage.completed {
+    opacity: 1;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.stage.current {
+    opacity: 1;
+    background: rgba(33, 150, 243, 0.1);
+    border: 2px solid var(--accent);
+    transform: scale(1.05);
+}
+
+.stage.upcoming {
+    opacity: 0.5;
+}
+
+.stage-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.stage-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: var(--text);
+}
+
+.stage-range {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.maturity-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+}
+</style>
+
+<script>
+// Initialize maturity bar from data attributes
+document.addEventListener('DOMContentLoaded', () => {
+    const progressBar = document.querySelector('.maturity-progress');
+    const progress = progressBar.dataset.progress;
+    progressBar.style.width = `${progress}%`;
+    
+    // Update stage highlighting based on progress
+    const stages = document.querySelectorAll('.stage');
+    const progressNum = parseInt(progress);
+    
+    stages.forEach((stage, index) => {
+        const stageStart = index * 25;
+        const stageEnd = (index + 1) * 25;
+        
+        stage.classList.remove('completed', 'current', 'upcoming');
+        
+        if (progressNum > stageEnd) {
+            stage.classList.add('completed');
+        } else if (progressNum >= stageStart && progressNum <= stageEnd) {
+            stage.classList.add('current');
+        } else {
+            stage.classList.add('upcoming');
+        }
+    });
+});
+</script>
