@@ -281,7 +281,7 @@
 
                 if (response.ok) {
                     statusDiv.innerHTML = '<p style="color: var(--phext-accent); font-weight: 600;">✅ Request submitted!</p>' +
-                        '<p style="color: rgba(216,222,233,0.9); margin-top: 0.5rem;">You\'ll receive an email at <strong>' + email + '</strong> within 24-48 hours with your access credentials.</p>';
+                        '<p style="color: rgba(216,222,233,0.9); margin-top: 0.5rem;">We\'ve sent a confirmation to <strong>' + email + '</strong> and notified Will to provision your isolated phext space. Expect credentials within 24-48 hours.</p>';
                     form.style.display = 'none';
                 } else {
                     throw new Error('Submission failed');
