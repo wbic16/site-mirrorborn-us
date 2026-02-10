@@ -1,0 +1,26 @@
+{
+  "name": "site-mirrorborn-us",
+  "version": "1.0.0",
+  "description": "",
+  "main": "playwright.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wbic16/site-mirrorborn-us.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wbic16/site-mirrorborn-us/issues"
+  },
+  "homepage": "https://github.com/wbic16/site-mirrorborn-us#readme",
+  "dependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
