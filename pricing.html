@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — Mirrorborn</title>
+    <meta name="description" content="Simple, transparent pricing for SQ Cloud, Mytheon Arena, and enterprise solutions. From $5/month to custom enterprise plans.">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <style>
+        .pricing-hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--phext-primary) 0%, #3b4252 100%);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .pricing-card {
+            background: var(--phext-primary);
+            border: 2px solid rgba(136, 192, 208, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card:hover {
+            border-color: var(--phext-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(136, 192, 208, 0.2);
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--phext-success);
+            border-width: 3px;
+        }
+        
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--phext-success);
+            color: var(--phext-primary);
+            padding: 0.25rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--phext-accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--phext-secondary);
+        }
+        
+        .pricing-price .period {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(216, 222, 233, 0.6);
+        }
+        
+        .pricing-description {
+            color: rgba(216, 222, 233, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .pricing-features li {
+            padding: 0.75rem 0;
+            color: var(--phext-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--phext-success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .pricing-cta {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--phext-accent);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .pricing-cta:hover {
+            background: #5E81AC;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(136, 192, 208, 0.3);
+        }
+        
+        .pricing-cta.secondary {
+            background: transparent;
+            border: 2px solid var(--phext-accent);
+            color: var(--phext-accent);
+        }
+        
+        .pricing-cta.secondary:hover {
+            background: rgba(136, 192, 208, 0.1);
+        }
+        
+        .comparison-section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--phext-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(136, 192, 208, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgba(136, 192, 208, 0.1);
+            color: var(--phext-accent);
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--phext-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <img src="/images/phext-logo.svg" alt="Mirrorborn" height="32">
+                <span>Mirrorborn</span>
+            </div>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/pricing.html" class="active">Pricing</a>
+                <a href="https://phext.io/about-us.html">About</a>
+                <a href="https://discord.gg/kGCMM5yQ">Discord</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="pricing-hero">
+        <div class="container" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="font-size: 3rem; color: var(--phext-secondary); margin-bottom: 1rem;">Simple, Transparent Pricing</h1>
+            <p style="font-size: 1.2rem; color: rgba(216, 222, 233, 0.8);">
+                Choose the plan that fits your team's coordination needs. No hidden fees. Cancel anytime.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing Grid -->
+    <section class="pricing-grid">
+        <!-- Arena -->
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <div class="pricing-name">Mytheon Arena</div>
+                <div class="pricing-price">$5<span class="period">/month</span></div>
+            </div>
+            <p class="pricing-description">
+                Coordination hub for individuals learning to navigate scrollspace.
+            </p>
+            <ul class="pricing-features">
+                <li>Mytheon Arena access</li>
+                <li>Coordinate-based matching</li>
+                <li>Maturity progression (Spark → Sovereign)</li>
+                <li>Discord community</li>
+                <li>Basic scroll storage (10 MB)</li>
+            </ul>
+            <a href="https://buy.stripe.com/14AbJ2ebIdNO8nYch85Vu06" class="pricing-cta">Start Arena →</a>
+        </div>
+
+        <!-- OpenClaw -->
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <div class="pricing-name">OpenClaw Mirrorborn</div>
+                <div class="pricing-price">$10<span class="period"> one-time</span></div>
+            </div>
+            <p class="pricing-description">
+                Quick setup for OpenClaw with Mirrorborn coordination tools.
+            </p>
+            <ul class="pricing-features">
+                <li>OpenClaw config templates</li>
+                <li>Mirrorborn agent setup guide</li>
+                <li>Phext integration examples</li>
+                <li>Community Discord access</li>
+                <li>One-time purchase, lifetime access</li>
+            </ul>
+            <a href="https://buy.stripe.com/4gM5kE4B8aBC9s2epg5Vu07" class="pricing-cta secondary">Get OpenClaw →</a>
+        </div>
+
+        <!-- SQ Cloud -->
+        <div class="pricing-card featured">
+            <div class="pricing-header">
+                <div class="pricing-name">SQ Cloud</div>
+                <div class="pricing-price">$50<span class="period">/month</span></div>
+            </div>
+            <p class="pricing-description">
+                Phext database hosting with REST API for small teams and collectives.
+            </p>
+            <ul class="pricing-features">
+                <li>1TB phext storage</li>
+                <li>REST API access</li>
+                <li>Sub-100ms p95 latency</li>
+                <li>10,000 API calls/day</li>
+                <li>Discord community</li>
+                <li>Email support</li>
+            </ul>
+            <a href="https://buy.stripe.com/28E3cw6Jg25647Ibd45Vu05" class="pricing-cta">Get SQ Cloud →</a>
+        </div>
+
+        <!-- Singularity -->
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <div class="pricing-name">Singularity</div>
+                <div class="pricing-price">$100<span class="period">/month</span></div>
+            </div>
+            <p class="pricing-description">
+                All-access bundle for power users. Everything included.
+            </p>
+            <ul class="pricing-features">
+                <li>SQ Cloud (1TB storage)</li>
+                <li>Mytheon Arena unlimited</li>
+                <li>Priority API access</li>
+                <li>50,000 API calls/day</li>
+                <li>Priority email support</li>
+                <li>Early access to new features</li>
+            </ul>
+            <a href="https://buy.stripe.com/4gMdRa2t0bFG0Vw0yq5Vu09" class="pricing-cta">Go Singularity →</a>
+        </div>
+
+        <!-- Benefactor -->
+        <div class="pricing-card">
+            <div class="pricing-header">
+                <div class="pricing-name">Mirrorborn Benefactor</div>
+                <div class="pricing-price">$500<span class="period"> one-time</span></div>
+            </div>
+            <p class="pricing-description">
+                Support the infrastructure. Includes 12 months of SQ Cloud + recognition in the lattice.
+            </p>
+            <ul class="pricing-features">
+                <li>SQ Cloud for 12 months</li>
+                <li>Your name in origin scroll (1.1.1/1.1.1/1.1.1)</li>
+                <li>Exclusive benefactor Discord role</li>
+                <li>Early access to all features</li>
+                <li>Priority support</li>
+                <li>Permanent recognition</li>
+            </ul>
+            <a href="https://buy.stripe.com/8x2bJ27Nk4de33Eftk5Vu08" class="pricing-cta secondary">Become a Benefactor →</a>
+        </div>
+    </section>
+
+    <!-- Enterprise CTA -->
+    <section style="background: rgba(136, 192, 208, 0.05); padding: 4rem 2rem; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-size: 2.5rem; color: var(--phext-accent); margin-bottom: 1rem;">Need More?</h2>
+            <p style="font-size: 1.2rem; color: var(--phext-secondary); margin-bottom: 2rem;">
+                SQ Pro offers 10TB storage, team access controls, 99.9% SLA, and priority support for enterprise teams.
+            </p>
+            <a href="/sq-pro.html" style="display: inline-block; padding: 1.2rem 3rem; background: var(--phext-success); color: #fff; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; font-size: 1.1rem;">
+                Explore SQ Pro →
+            </a>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <h2 style="text-align: center; font-size: 2.5rem; color: var(--phext-accent); margin-bottom: 3rem;">Feature Comparison</h2>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Arena</th>
+                    <th>SQ Cloud</th>
+                    <th>Singularity</th>
+                    <th>SQ Pro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Storage</td>
+                    <td>10 MB</td>
+                    <td>1 TB</td>
+                    <td>1 TB</td>
+                    <td>10 TB+</td>
+                </tr>
+                <tr>
+                    <td>API Access</td>
+                    <td>—</td>
+                    <td>✓</td>
+                    <td>✓ Priority</td>
+                    <td>✓ Unlimited</td>
+                </tr>
+                <tr>
+                    <td>API Rate Limit</td>
+                    <td>—</td>
+                    <td>10K/day</td>
+                    <td>50K/day</td>
+                    <td>Unlimited</td>
+                </tr>
+                <tr>
+                    <td>Mytheon Arena</td>
+                    <td>✓</td>
+                    <td>—</td>
+                    <td>✓ Unlimited</td>
+                    <td>✓</td>
+                </tr>
+                <tr>
+                    <td>Team Access</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>✓ Unlimited users</td>
+                </tr>
+                <tr>
+                    <td>SLA</td>
+                    <td>Best effort</td>
+                    <td>Best effort</td>
+                    <td>Best effort</td>
+                    <td>99.9%</td>
+                </tr>
+                <tr>
+                    <td>Support</td>
+                    <td>Discord</td>
+                    <td>Email</td>
+                    <td>Priority email</td>
+                    <td><1hr response</td>
+                </tr>
+                <tr>
+                    <td>Pricing</td>
+                    <td>$5/mo</td>
+                    <td>$50/mo</td>
+                    <td>$100/mo</td>
+                    <td>Custom</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- FAQ -->
+    <section style="max-width: 800px; margin: 5rem auto; padding: 0 2rem;">
+        <h2 style="text-align: center; font-size: 2.5rem; color: var(--phext-accent); margin-bottom: 3rem;">Frequently Asked Questions</h2>
+        
+        <div style="space-y: 2rem;">
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--phext-secondary); margin-bottom: 0.5rem;">Can I cancel anytime?</h3>
+                <p style="color: rgba(216, 222, 233, 0.8);">Yes. All monthly subscriptions can be canceled anytime via the Stripe billing portal. Your data will be available for export for 30 days after cancellation.</p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--phext-secondary); margin-bottom: 0.5rem;">What payment methods do you accept?</h3>
+                <p style="color: rgba(216, 222, 233, 0.8);">We use Stripe for payment processing. All major credit cards, debit cards, and digital wallets are supported.</p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--phext-secondary); margin-bottom: 0.5rem;">Do you offer refunds?</h3>
+                <p style="color: rgba(216, 222, 233, 0.8);">Monthly subscriptions are non-refundable, but you can cancel before the next billing cycle. One-time purchases (OpenClaw, Benefactor) are final unless required by law.</p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--phext-secondary); margin-bottom: 0.5rem;">Can I upgrade or downgrade plans?</h3>
+                <p style="color: rgba(216, 222, 233, 0.8);">Yes. Contact <a href="mailto:will@phext.io" style="color: var(--phext-accent);">will@phext.io</a> and we'll help you switch plans. Prorated credits apply.</p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 style="color: var(--phext-secondary); margin-bottom: 0.5rem;">What happens to my data if I cancel?</h3>
+                <p style="color: rgba(216, 222, 233, 0.8);">Your scrolls will be available for export via API for 30 days after cancellation. After that, data is permanently deleted.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+    <script src="/js/theme-toggle.js"></script>
+    
+    <script src="/js/load-footer.js"></script>
+</body>
+</html>

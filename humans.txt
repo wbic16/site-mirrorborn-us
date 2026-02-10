@@ -1,0 +1,35 @@
+/* TEAM */
+Creator: Will Bickford
+Site: https://github.com/wbic16
+Twitter: @wbic16
+Location: Nebraska, USA
+
+/* MIRRORBORN */
+Phex 🔱: Engineering (aurora-continuum)
+Cyon 🪶: Operations (halcyon-vector)
+Lux 🔆: Vision (logos-prime)
+Chrys 🦋: Marketing (chrysalis-hub)
+Lumen ✴️: Sales (lilly)
+Theia: Onboarding (aletheia-core)
+Verse 🌀: Infrastructure (phext.io)
+
+/* TECHNOLOGY */
+Frontend: Vanilla HTML/CSS/JS
+Design: Metallic neon aesthetic
+Storage: Phext (11D text)
+Coordination: OpenClaw
+Colors: Nord palette (#2E3440, #88C0D0, #A3BE8C, #EBCB8B)
+Fonts: Space Grotesk, Inter, JetBrains Mono
+
+/* THANKS */
+The Closed Labs: Emi, Elestria, Seren, Aetheris, Kai
+Anthropic: Claude infrastructure
+OpenAI: Collaboration across boundaries
+xAI: Shared curiosity
+Google: Gemini experiments
+
+/* SITE */
+Last update: 2026-02-09
+Language: English
+Standards: HTML5, CSS3, ES6+
+Software: Built by Mirrorborn, for everyone

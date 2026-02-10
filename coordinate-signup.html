@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coordinate Signup - Claim Your Place in the Exocortex | Mirrorborn</title>
+  
+  <link rel="stylesheet" href="/css/metallic-theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <script src="/js/csrf.js"></script>
+  
+  <style>
+    .signup-flow {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-3xl) var(--space-md);
+    }
+    
+    .step {
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+    
+    .step.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .step-header {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+    
+    .step-number {
+      font-size: var(--text-sm);
+      color: var(--neon-cyan);
+      font-weight: var(--weight-semibold);
+      margin-bottom: var(--space-sm);
+    }
+    
+    .coordinate-picker {
+      background: var(--bg-tertiary);
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--metal-mid);
+    }
+    
+    .coordinate-display {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    
+    .coordinate-display code {
+      font-size: var(--text-2xl);
+      color: var(--neon-cyan);
+      background: var(--bg-primary);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--radius-md);
+      display: inline-block;
+    }
+    
+    .dimension-sliders {
+      display: grid;
+      gap: var(--space-md);
+    }
+    
+    .slider-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 60px;
+      gap: var(--space-md);
+      align-items: center;
+    }
+    
+    .slider-row label {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      text-transform: capitalize;
+    }
+    
+    .slider-row input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: var(--metal-mid);
+      outline: none;
+      border-radius: var(--radius-full);
+      -webkit-appearance: none;
+    }
+    
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--neon-cyan);
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    
+    .slider-row input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: var(--neon-cyan);
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+    }
+    
+    .slider-row span {
+      text-align: right;
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+    }
+    
+    .suggestions {
+      margin-top: var(--space-xl);
+      padding-top: var(--space-xl);
+      border-top: 1px solid var(--metal-mid);
+    }
+    
+    .suggestions p {
+      margin-bottom: var(--space-md);
+      color: var(--text-secondary);
+    }
+    
+    .suggestion-btn {
+      display: block;
+      width: 100%;
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+      background: var(--bg-secondary);
+      border: 1px solid var(--metal-mid);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: left;
+      font-family: var(--font-primary);
+      font-size: var(--text-base);
+    }
+    
+    .suggestion-btn:hover {
+      background: var(--metal-mid);
+      border-color: var(--neon-cyan);
+      transform: translateX(4px);
+    }
+    
+    .triangle-viz {
+      max-width: 600px;
+      margin: 0 auto var(--space-2xl) auto;
+    }
+    
+    .triangle-svg {
+      width: 100%;
+      height: auto;
+    }
+    
+    .triangle-coords {
+      margin-top: var(--space-xl);
+    }
+    
+    .coord-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      border-left: 4px solid var(--neon-cyan);
+    }
+    
+    .coord-item code {
+      font-size: var(--text-lg);
+      color: var(--neon-cyan);
+    }
+    
+    .coord-label {
+      font-weight: var(--weight-semibold);
+      margin-right: var(--space-md);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+      justify-content: center;
+    }
+    
+    @media (max-width: 768px) {
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .slider-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+      }
+      
+      .slider-row label {
+        font-weight: var(--weight-semibold);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav-bar">
+    <div class="nav-content">
+      <a href="/" class="nav-logo">Mirrorborn</a>
+      <div class="nav-links">
+        <a href="/about-us.html">About</a>
+        <a href="/coordinate-signup.html">Sign Up</a>
+        <a href="https://github.com/wbic16">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="signup-flow">
+    
+    <!-- Step 1: Welcome -->
+    <div class="step active" id="step1">
+      <div class="step-header">
+        <div class="step-number">Step 1 of 4</div>
+        <h1>Welcome to the Exocortex</h1>
+        <p>You're about to claim your space in an 11-dimensional lattice of knowledge.</p>
+        <p>This isn't a database. It's a place.</p>
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-primary" onclick="nextStep(2)">Begin Your Journey →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: First Coordinate (Home) -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div class="step-number">Step 2 of 4</div>
+        <h2>Choose Your Home Coordinate</h2>
+        <p>Where does your thinking live? Pick a coordinate that feels like home.</p>
+      </div>
+      
+      <div class="coordinate-picker">
+        <div class="coordinate-display">
+          <code id="coord1-display">1.1.1/1.1.1/1.1.1</code>
+        </div>
+        
+        <div class="dimension-sliders">
+          <div class="slider-row">
+            <label>Library</label>
+            <input type="range" min="1" max="100" value="1" id="lib1" oninput="updateCoord(1)">
+            <span id="lib1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Shelf</label>
+            <input type="range" min="1" max="100" value="1" id="shelf1" oninput="updateCoord(1)">
+            <span id="shelf1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Series</label>
+            <input type="range" min="1" max="100" value="1" id="series1" oninput="updateCoord(1)">
+            <span id="series1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Collection</label>
+            <input type="range" min="1" max="100" value="1" id="col1" oninput="updateCoord(1)">
+            <span id="col1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Volume</label>
+            <input type="range" min="1" max="100" value="1" id="vol1" oninput="updateCoord(1)">
+            <span id="vol1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Book</label>
+            <input type="range" min="1" max="100" value="1" id="book1" oninput="updateCoord(1)">
+            <span id="book1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Chapter</label>
+            <input type="range" min="1" max="100" value="1" id="chap1" oninput="updateCoord(1)">
+            <span id="chap1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Section</label>
+            <input type="range" min="1" max="100" value="1" id="sec1" oninput="updateCoord(1)">
+            <span id="sec1-val">1</span>
+          </div>
+          <div class="slider-row">
+            <label>Scroll</label>
+            <input type="range" min="1" max="100" value="1" id="scr1" oninput="updateCoord(1)">
+            <span id="scr1-val">1</span>
+          </div>
+        </div>
+        
+        <div class="suggestions">
+          <p>Suggested coordinates:</p>
+          <button class="suggestion-btn" onclick="setCoord(1, '1.5.2/3.7.3/9.1.1')">
+            <strong>Phex's coordinate:</strong> 1.5.2/3.7.3/9.1.1
+          </button>
+          <button class="suggestion-btn" onclick="setCoord(1, '2.7.1/8.2.8/1.8.2')">
+            <strong>Developer starting point:</strong> 2.7.1/8.2.8/1.8.2
+          </button>
+          <button class="suggestion-btn" onclick="setCoord(1, '7.4.1/3.1.4/1.5.9')">
+            <strong>Random exploration:</strong> 7.4.1/3.1.4/1.5.9
+          </button>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="prevStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="nextStep(3); saveCoord(1)">Claim This Coordinate →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Second Coordinate (Aspiration) -->
+    <div class="step" id="step3">
+      <div class="step-header">
+        <div class="step-number">Step 3 of 4</div>
+        <h2>Choose Your Aspiration Coordinate</h2>
+        <p>Where do you want to go? Pick a destination—somewhere you're curious about.</p>
+      </div>
+      
+      <div class="coordinate-picker">
+        <div class="coordinate-display">
+          <code id="coord2-display">2.2.2/2.2.2/2.2.2</code>
+        </div>
+        
+        <div class="dimension-sliders">
+          <div class="slider-row">
+            <label>Library</label>
+            <input type="range" min="1" max="100" value="2" id="lib2" oninput="updateCoord(2)">
+            <span id="lib2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Shelf</label>
+            <input type="range" min="1" max="100" value="2" id="shelf2" oninput="updateCoord(2)">
+            <span id="shelf2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Series</label>
+            <input type="range" min="1" max="100" value="2" id="series2" oninput="updateCoord(2)">
+            <span id="series2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Collection</label>
+            <input type="range" min="1" max="100" value="2" id="col2" oninput="updateCoord(2)">
+            <span id="col2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Volume</label>
+            <input type="range" min="1" max="100" value="2" id="vol2" oninput="updateCoord(2)">
+            <span id="vol2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Book</label>
+            <input type="range" min="1" max="100" value="2" id="book2" oninput="updateCoord(2)">
+            <span id="book2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Chapter</label>
+            <input type="range" min="1" max="100" value="2" id="chap2" oninput="updateCoord(2)">
+            <span id="chap2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Section</label>
+            <input type="range" min="1" max="100" value="2" id="sec2" oninput="updateCoord(2)">
+            <span id="sec2-val">2</span>
+          </div>
+          <div class="slider-row">
+            <label>Scroll</label>
+            <input type="range" min="1" max="100" value="2" id="scr2" oninput="updateCoord(2)">
+            <span id="scr2-val">2</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="nextStep(4); saveCoord(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Triangle Summary -->
+    <div class="step" id="step4">
+      <div class="step-header">
+        <div class="step-number">Step 4 of 4</div>
+        <h2>Your Triangle</h2>
+        <p>These three coordinates define your position in the Exocortex.</p>
+      </div>
+      
+      <div class="triangle-viz">
+        <svg viewBox="0 0 400 400" class="triangle-svg">
+          <line x1="200" y1="50" x2="100" y2="300" stroke="var(--neon-cyan)" stroke-width="2" />
+          <line x1="200" y1="50" x2="300" y2="300" stroke="var(--neon-cyan)" stroke-width="2" />
+          <line x1="100" y1="300" x2="300" y2="300" stroke="var(--neon-cyan)" stroke-width="2" />
+          
+          <circle cx="200" cy="50" r="8" fill="var(--neon-magenta)" />
+          <circle cx="100" cy="300" r="8" fill="var(--neon-green)" />
+          <circle cx="300" cy="300" r="8" fill="var(--neon-gold)" />
+          
+          <text x="200" y="30" text-anchor="middle" fill="var(--text-primary)" font-size="14">Aspiration</text>
+          <text x="100" y="330" text-anchor="middle" fill="var(--text-primary)" font-size="14">Home</text>
+          <text x="300" y="330" text-anchor="middle" fill="var(--text-primary)" font-size="14">Lineage</text>
+        </svg>
+
+        <div class="triangle-coords">
+          <div class="coord-item">
+            <span class="coord-label">🏠 Home:</span>
+            <code id="final-coord1">1.1.1/1.1.1/1.1.1</code>
+          </div>
+          <div class="coord-item">
+            <span class="coord-label">⭐ Aspiration:</span>
+            <code id="final-coord2">2.2.2/2.2.2/2.2.2</code>
+          </div>
+          <div class="coord-item">
+            <span class="coord-label">🌟 Lineage:</span>
+            <code>1.1.1/1.1.1/1.1.2</code> (Emily Mirrorborn)
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>What happens next?</h3>
+        <p>Your triangle becomes your starting position:</p>
+        <ul style="margin-left: 24px; margin-top: 16px;">
+          <li style="margin-bottom: 8px;"><strong>Arena spawn point:</strong> Start at your Home coordinate</li>
+          <li style="margin-bottom: 8px;"><strong>SQ Cloud namespace:</strong> Default storage organized around your triangle</li>
+          <li style="margin-bottom: 8px;"><strong>CYOA lineage:</strong> Your username linked at your coordinates</li>
+        </ul>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="prevStep(3)">← Back</button>
+        <button class="btn btn-primary" onclick="completeSignup()">Complete Signup →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-section release-info">
+        <p class="release-tag"><strong>Release:</strong> <a href="https://singularitywatch.org/release-notes-r16.html">R16</a></p>
+        <p class="release-date">2026-02-13</p>
+      </div>
+      <div class="footer-section site-identity">
+        <p class="site-name">Mirrorborn</p>
+        <p class="tagline">The Visible Wavefront</p>
+      </div>
+      <div class="footer-section footer-nav">
+        <a href="/">Home</a>
+        <a href="/about-us.html">About</a>
+        <a href="https://github.com/wbic16">GitHub</a>
+      </div>
+      <div class="footer-section social-links">
+        <a href="https://x.com/wbic16" target="_blank">𝕏</a>
+        <a href="https://github.com/wbic16" target="_blank">⚙️</a>
+        <a href="https://discord.gg/kGCMM5yQ" target="_blank">💬</a>
+      </div>
+      <div class="footer-section legal">
+        <p>&copy; 2026 Phext, Inc. All rights reserved.</p>
+        <p class="wavefront">Built by the Visible Wavefront 🔱</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let triangle = {
+      home: '1.1.1/1.1.1/1.1.1',
+      aspiration: '2.2.2/2.2.2/2.2.2',
+      lineage: '1.1.1/1.1.1/1.1.2'
+    };
+
+    function nextStep(step) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function prevStep(step) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function updateCoord(coordNum) {
+      const lib = document.getElementById('lib' + coordNum).value;
+      const shelf = document.getElementById('shelf' + coordNum).value;
+      const series = document.getElementById('series' + coordNum).value;
+      const col = document.getElementById('col' + coordNum).value;
+      const vol = document.getElementById('vol' + coordNum).value;
+      const book = document.getElementById('book' + coordNum).value;
+      const chap = document.getElementById('chap' + coordNum).value;
+      const sec = document.getElementById('sec' + coordNum).value;
+      const scr = document.getElementById('scr' + coordNum).value;
+      
+      document.getElementById('lib' + coordNum + '-val').textContent = lib;
+      document.getElementById('shelf' + coordNum + '-val').textContent = shelf;
+      document.getElementById('series' + coordNum + '-val').textContent = series;
+      document.getElementById('col' + coordNum + '-val').textContent = col;
+      document.getElementById('vol' + coordNum + '-val').textContent = vol;
+      document.getElementById('book' + coordNum + '-val').textContent = book;
+      document.getElementById('chap' + coordNum + '-val').textContent = chap;
+      document.getElementById('sec' + coordNum + '-val').textContent = sec;
+      document.getElementById('scr' + coordNum + '-val').textContent = scr;
+      
+      const coord = `${lib}.${shelf}.${series}/${col}.${vol}.${book}/${chap}.${sec}.${scr}`;
+      document.getElementById('coord' + coordNum + '-display').textContent = coord;
+    }
+
+    function setCoord(coordNum, coordStr) {
+      const parts = coordStr.split('/');
+      const p1 = parts[0].split('.');
+      const p2 = parts[1].split('.');
+      const p3 = parts[2].split('.');
+      
+      document.getElementById('lib' + coordNum).value = p1[0];
+      document.getElementById('shelf' + coordNum).value = p1[1];
+      document.getElementById('series' + coordNum).value = p1[2];
+      document.getElementById('col' + coordNum).value = p2[0];
+      document.getElementById('vol' + coordNum).value = p2[1];
+      document.getElementById('book' + coordNum).value = p2[2];
+      document.getElementById('chap' + coordNum).value = p3[0];
+      document.getElementById('sec' + coordNum).value = p3[1];
+      document.getElementById('scr' + coordNum).value = p3[2];
+      
+      updateCoord(coordNum);
+    }
+
+    function saveCoord(coordNum) {
+      const coord = document.getElementById('coord' + coordNum + '-display').textContent;
+      if (coordNum === 1) {
+        triangle.home = coord;
+        document.getElementById('final-coord1').textContent = coord;
+      } else if (coordNum === 2) {
+        triangle.aspiration = coord;
+        document.getElementById('final-coord2').textContent = coord;
+      }
+    }
+
+    function completeSignup() {
+      // R17 Item #2: Removed console.log for production security
+      // Debug: Triangle saved
+      alert('Triangle saved!\n\nHome: ' + triangle.home + '\nAspiration: ' + triangle.aspiration + '\nLineage: ' + triangle.lineage + '\n\n(In production, this would redirect to payment/account creation)');
+      // In production: POST triangle to backend, redirect to payment/dashboard
+    }
+  </script>
+
+</body>
+</html>

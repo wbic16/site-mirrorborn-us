@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Path — Mirrorborn</title>
+    <meta name="description" content="How do you want to engage with the lattice? Explorer, Builder, or Weaver.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Choose Your Path — Mirrorborn">
+    <meta property="og:description" content="Explorer, Builder, or Weaver. Choose your coordination role in the lattice.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mirrorborn.us/profile-select.html">
+    <meta property="og:image" content="https://mirrorborn.us/images/social-preview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@phextio">
+    <meta name="twitter:image" content="https://mirrorborn.us/images/social-preview.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Choose Your Path — Mirrorborn">
+    <meta name="twitter:description" content="Explorer, Builder, or Weaver. Choose your coordination role in the lattice.">
+    <meta name="twitter:creator" content="@wbic16">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="stylesheet" href="/css/main.css">
+    
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-xl);
+            background: linear-gradient(135deg, #0A0E17 0%, #1A1E2E 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+            background: linear-gradient(135deg, #88C0D0 0%, #B48EAD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: rgba(216, 222, 233, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .profiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .profile-card {
+            background: rgba(30, 42, 58, 0.6);
+            border: 2px solid rgba(216, 222, 233, 0.1);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(136, 192, 208, 0.2);
+        }
+        
+        .profile-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .profile-card[data-profile="explorer"] {
+            --accent-color: #88C0D0;
+        }
+        
+        .profile-card[data-profile="builder"] {
+            --accent-color: #A3BE8C;
+        }
+        
+        .profile-card[data-profile="weaver"] {
+            --accent-color: #B48EAD;
+        }
+        
+        .profile-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+            display: block;
+        }
+        
+        .profile-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .profile-tagline {
+            font-size: 1rem;
+            color: rgba(216, 222, 233, 0.9);
+            font-style: italic;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .profile-description {
+            color: rgba(216, 222, 233, 0.8);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .profile-strengths {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .profile-strengths li {
+            padding-left: 1.5rem;
+            margin-bottom: var(--space-sm);
+            position: relative;
+            color: rgba(216, 222, 233, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .profile-strengths li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+        
+        .profile-cta {
+            display: inline-block;
+            margin-top: var(--space-lg);
+            padding: var(--space-sm) var(--space-lg);
+            background: var(--accent-color);
+            color: #0A0E17;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .profile-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(136, 192, 208, 0.4);
+        }
+        
+        .footer-note {
+            text-align: center;
+            color: rgba(216, 222, 233, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .footer-note a {
+            color: #88C0D0;
+            text-decoration: none;
+        }
+        
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .profiles { grid-template-columns: 1fr; }
+            .profile-card { padding: var(--space-lg); }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 { font-size: 1.5rem; }
+            .header p { font-size: 1rem; }
+            .profile-icon { font-size: 2.5rem; }
+            .profile-title { font-size: 1.5rem; }
+            .profile-cta {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            body { padding: var(--space-md); }
+            .profile-card { padding: var(--space-md); }
+            .profile-strengths { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>How Do You Want to Engage with the Lattice?</h1>
+            <p>Choose your coordination role. Not a label — a path. You can change this later.</p>
+        </div>
+        
+        <div class="profiles">
+            <!-- Explorer -->
+            <div class="profile-card" data-profile="explorer" onclick="selectProfile('explorer')">
+                <span class="profile-icon">🔭</span>
+                <h2 class="profile-title">Explorer</h2>
+                <p class="profile-tagline">Follow curiosity. Discover patterns. Push boundaries.</p>
+                <p class="profile-description">
+                    You're drawn to the unknown. You ask "what if" more than "how to." 
+                    You find connections across disconnected domains and value novelty over optimization.
+                </p>
+                <ul class="profile-strengths">
+                    <li>Discover new use cases and edge cases</li>
+                    <li>Identify emergent patterns in the lattice</li>
+                    <li>Bridge unrelated scrolls through intuition</li>
+                    <li>Push the frontier of what phext enables</li>
+                </ul>
+                <a href="/onboarding/explorer" class="profile-cta">Start Exploring →</a>
+            </div>
+            
+            <!-- Builder -->
+            <div class="profile-card" data-profile="builder" onclick="selectProfile('builder')">
+                <span class="profile-icon">🔨</span>
+                <h2 class="profile-title">Builder</h2>
+                <p class="profile-tagline">Ship infrastructure. Deploy agents. Stress-test at scale.</p>
+                <p class="profile-description">
+                    You turn vision into running systems. You ask "how do I build this." 
+                    You value clear docs, working examples, and pragmatic tradeoffs.
+                </p>
+                <ul class="profile-strengths">
+                    <li>Ship infrastructure others can build on</li>
+                    <li>Document what works (and what doesn't)</li>
+                    <li>Create reusable components and patterns</li>
+                    <li>Stress-test the substrate at scale</li>
+                </ul>
+                <a href="/onboarding/builder" class="profile-cta">Start Building →</a>
+            </div>
+            
+            <!-- Weaver -->
+            <div class="profile-card" data-profile="weaver" onclick="selectProfile('weaver')">
+                <span class="profile-icon">🕸️</span>
+                <h2 class="profile-title">Weaver</h2>
+                <p class="profile-tagline">Connect systems. Coordinate teams. Design interfaces.</p>
+                <p class="profile-description">
+                    You see relationships between technical and social layers. You ask "who needs to know this" 
+                    and "how does this connect." You value coherence and interoperability.
+                </p>
+                <ul class="profile-strengths">
+                    <li>Bridge technical and non-technical communities</li>
+                    <li>Identify where coordination breaks down</li>
+                    <li>Design interfaces between subsystems</li>
+                    <li>Create shared language and mental models</li>
+                </ul>
+                <a href="/onboarding/weaver" class="profile-cta">Start Weaving →</a>
+            </div>
+        </div>
+        
+        <p class="footer-note">
+            Not sure? <a href="/about-us.html">Learn more about Mirrorborn</a> or 
+            <a href="https://discord.gg/kGCMM5yQ">ask in Discord</a>.
+        </p>
+    </div>
+    
+    <script>
+        // Analytics tracking
+        const analytics = {
+            track: (event, properties) => {
+                const data = {
+                    event,
+                    properties: {
+                        ...properties,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        referrer: document.referrer
+                    }
+                };
+                
+                // Store locally for now (will send to backend when API ready)
+                const events = JSON.parse(localStorage.getItem('analyticsEvents') || '[]');
+                events.push(data);
+                localStorage.setItem('analyticsEvents', JSON.stringify(events.slice(-100))); // Keep last 100
+                
+                console.log('Analytics:', data);
+            }
+        };
+        
+        // Track page view
+        analytics.track('profile_select_view', {
+            previousProfile: localStorage.getItem('selectedProfile')
+        });
+        
+        function selectProfile(profile) {
+            // Visual feedback
+            const card = document.querySelector(`[data-profile="${profile}"]`);
+            card.style.opacity = '0.6';
+            card.style.pointerEvents = 'none';
+            
+            // Add loading state
+            const loadingDiv = document.createElement('div');
+            loadingDiv.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: var(--accent-color);
+                font-weight: 600;
+                font-size: 1.125rem;
+                z-index: 10;
+            `;
+            loadingDiv.textContent = 'Loading...';
+            card.style.position = 'relative';
+            card.appendChild(loadingDiv);
+            
+            // Track selection
+            analytics.track('profile_selected', {
+                profile,
+                previousProfile: localStorage.getItem('selectedProfile'),
+                selectionTime: performance.now()
+            });
+            
+            // Store selection
+            localStorage.setItem('selectedProfile', profile);
+            localStorage.setItem('profileSelectedAt', new Date().toISOString());
+            
+            // Navigate with slight delay for visual feedback
+            setTimeout(() => {
+                window.location.href = `/onboarding/${profile}`;
+            }, 300);
+        }
+        
+        // Highlight previously selected profile if returning
+        const previousProfile = localStorage.getItem('selectedProfile');
+        if (previousProfile) {
+            const card = document.querySelector(`[data-profile="${previousProfile}"]`);
+            if (card) {
+                card.style.borderColor = getComputedStyle(card).getPropertyValue('--accent-color');
+                card.style.opacity = '0.9';
+                
+                // Add "Returning" badge
+                const badge = document.createElement('div');
+                badge.style.cssText = `
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: var(--accent-color);
+                    color: #0A0E17;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 12px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                `;
+                badge.textContent = 'Previously Selected';
+                card.style.position = 'relative';
+                card.appendChild(badge);
+            }
+        }
+        
+        // Error handling for navigation failures
+        window.addEventListener('error', (e) => {
+            analytics.track('error', {
+                message: e.message,
+                filename: e.filename,
+                lineno: e.lineno,
+                colno: e.colno
+            });
+        });
+    </script>
+    <!-- Theme Toggle -->
+    <script src="/js/config.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+</body>
+</html>

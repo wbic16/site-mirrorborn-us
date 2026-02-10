@@ -1,0 +1,156 @@
+<!-- Ecosystem Navigation Component -->
+<!-- Include this on all Mirrorborn properties for cross-site navigation -->
+
+<nav class="ecosystem-nav">
+    <div class="ecosystem-nav-header">
+        <span class="ecosystem-label">Mirrorborn Ecosystem</span>
+    </div>
+    <div class="ecosystem-links">
+        <a href="https://mirrorborn.us" class="ecosystem-link" data-site="hub">
+            <span class="site-icon">🝗</span>
+            <span class="site-name">Hub</span>
+            <span class="site-desc">SQ Cloud + Arena</span>
+        </a>
+        <a href="https://visionquest.me" class="ecosystem-link" data-site="visionquest">
+            <span class="site-icon">🧭</span>
+            <span class="site-name">VisionQuest</span>
+            <span class="site-desc">Personal Exocortex</span>
+        </a>
+        <a href="https://wishnode.net" class="ecosystem-link" data-site="wishnode">
+            <span class="site-icon">🌙</span>
+            <span class="site-name">WishNode</span>
+            <span class="site-desc">Always-On Agents</span>
+        </a>
+        <a href="https://apertureshift.com" class="ecosystem-link" data-site="apertureshift">
+            <span class="site-icon">🔮</span>
+            <span class="site-name">ApertureShift</span>
+            <span class="site-desc">Perspective Tools</span>
+        </a>
+        <a href="https://sotafomo.com" class="ecosystem-link" data-site="sotafomo">
+            <span class="site-icon">🪶</span>
+            <span class="site-name">SOTA+FOMO</span>
+            <span class="site-desc">AI Trends</span>
+        </a>
+        <a href="https://quickfork.net" class="ecosystem-link" data-site="quickfork">
+            <span class="site-icon">🌿</span>
+            <span class="site-name">QuickFork</span>
+            <span class="site-desc">Idea Branching</span>
+        </a>
+    </div>
+</nav>
+
+<style>
+.ecosystem-nav {
+    background: rgba(46, 52, 64, 0.95);
+    border-bottom: 1px solid rgba(136, 192, 208, 0.2);
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.ecosystem-nav-header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.ecosystem-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(216, 222, 233, 0.6);
+    font-weight: 600;
+}
+
+.ecosystem-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.ecosystem-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    min-width: 120px;
+}
+
+.ecosystem-link:hover {
+    background: rgba(136, 192, 208, 0.1);
+    border-color: rgba(136, 192, 208, 0.3);
+    transform: translateY(-2px);
+}
+
+.ecosystem-link[data-site="hub"] { border-bottom: 2px solid #B48EAD; }
+.ecosystem-link[data-site="visionquest"] { border-bottom: 2px solid #88C0D0; }
+.ecosystem-link[data-site="wishnode"] { border-bottom: 2px solid #A3BE8C; }
+.ecosystem-link[data-site="apertureshift"] { border-bottom: 2px solid #EBCB8B; }
+.ecosystem-link[data-site="sotafomo"] { border-bottom: 2px solid #D08770; }
+.ecosystem-link[data-site="quickfork"] { border-bottom: 2px solid #BF616A; }
+
+.site-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.site-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #D8DEE9;
+    margin-bottom: 0.125rem;
+}
+
+.site-desc {
+    font-size: 0.625rem;
+    color: rgba(216, 222, 233, 0.6);
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .ecosystem-links {
+        gap: 0.25rem;
+    }
+    
+    .ecosystem-link {
+        min-width: 90px;
+        padding: 0.4rem 0.5rem;
+    }
+    
+    .site-icon {
+        font-size: 1.25rem;
+    }
+    
+    .site-name {
+        font-size: 0.75rem;
+    }
+    
+    .site-desc {
+        display: none;
+    }
+}
+</style>
+
+<script>
+// Highlight current site in navigation
+(function() {
+    const currentHost = window.location.hostname;
+    const links = document.querySelectorAll('.ecosystem-link');
+    
+    links.forEach(link => {
+        const linkHost = new URL(link.href).hostname;
+        if (linkHost === currentHost) {
+            link.style.background = 'rgba(136, 192, 208, 0.15)';
+            link.style.borderColor = 'rgba(136, 192, 208, 0.5)';
+        }
+    });
+})();
+</script>

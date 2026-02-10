@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile System Test Suite — Mirrorborn</title>
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0A0E17;
+            color: #D8DEE9;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 { color: #88C0D0; }
+        h2 { color: #81A1C1; margin-top: 2rem; }
+        .test-section {
+            background: #1E2A3A;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #88C0D0;
+            border-radius: 4px;
+        }
+        .test-case {
+            background: #0A0E17;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+        .pass { color: #A3BE8C; }
+        .fail { color: #BF616A; }
+        .pending { color: #EBCB8B; }
+        button {
+            background: #88C0D0;
+            color: #0A0E17;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            margin: 0.5rem 0.5rem 0 0;
+        }
+        button:hover {
+            background: #81A1C1;
+        }
+        pre {
+            background: #0A0E17;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        .metric {
+            display: inline-block;
+            background: rgba(136, 192, 208, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+    <script src="/js/mirrorborn-api.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/profile-validator.js"></script>
+</head>
+<body>
+    <h1>🧪 Profile System Test Suite</h1>
+    <p>Validates the Intelligence Profiles system before deployment.</p>
+    
+    <button onclick="runAllTests()">Run All Tests</button>
+    <button onclick="clearResults()">Clear Results</button>
+    <button onclick="exportResults()">Export Results</button>
+    
+    <div id="summary" style="margin: 1rem 0;"></div>
+    
+    <div class="test-section">
+        <h2>1. Coordinate Validation Tests</h2>
+        <div id="validation-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Profile Storage Tests</h2>
+        <div id="storage-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. API Client Tests</h2>
+        <div id="api-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Analytics Tests</h2>
+        <div id="analytics-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Navigation Flow Tests</h2>
+        <div id="navigation-tests"></div>
+    </div>
+    
+    <script>
+        const validator = new ProfileValidator();
+        const api = new MirrorbornAPI({ debug: true });
+        
+        // Base URL detection for deployment-agnostic tests
+        const BASE_URL = (() => {
+            const path = window.location.pathname;
+            // Remove /test/profile-system.html to get base
+            return path.substring(0, path.lastIndexOf('/test/'));
+        })();
+        
+        const results = {
+            passed: 0,
+            failed: 0,
+            pending: 0,
+            tests: []
+        };
+        
+        function test(name, fn) {
+            const container = document.getElementById(name.split(' ')[0].toLowerCase() + '-tests');
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-case';
+            
+            try {
+                const result = fn();
+                if (result === true) {
+                    testDiv.innerHTML = `<span class="pass">✓</span> ${name}`;
+                    results.passed++;
+                } else if (result === null) {
+                    testDiv.innerHTML = `<span class="pending">⏸</span> ${name} (pending)`;
+                    results.pending++;
+                } else {
+                    testDiv.innerHTML = `<span class="fail">✗</span> ${name}: ${result}`;
+                    results.failed++;
+                }
+                results.tests.push({ name, passed: result === true });
+            } catch (error) {
+                testDiv.innerHTML = `<span class="fail">✗</span> ${name}: ${error.message}`;
+                results.failed++;
+                results.tests.push({ name, passed: false, error: error.message });
+            }
+            
+            container.appendChild(testDiv);
+        }
+        
+        function runAllTests() {
+            clearResults();
+            
+            // Validation Tests
+            test('Validation: Valid coordinate passes', () => {
+                const result = validator.validateCoordinate('1.2.3/4.5.6/7.8.9');
+                return result.valid === true;
+            });
+            
+            test('Validation: Invalid format fails', () => {
+                const result = validator.validateCoordinate('1-2-3/4-5-6/7-8-9');
+                return result.valid === false;
+            });
+            
+            test('Validation: Zero value fails', () => {
+                const result = validator.validateCoordinate('0.1.1/1.1.1/1.1.1');
+                return result.valid === false;
+            });
+            
+            test('Validation: Missing coordinate fails', () => {
+                const result = validator.validateCoordinate('');
+                return result.valid === false;
+            });
+            
+            test('Validation: Profile with all coords passes', () => {
+                const result = validator.validateProfile({
+                    profile: 'explorer',
+                    coordinates: {
+                        identity: '1.1.1/1.1.1/1.1.1',
+                        perspective: '1.2.3/4.5.6/7.8.9',
+                        compute: '1.1.2/3.5.8/13.21.34'
+                    }
+                });
+                return result.valid === true;
+            });
+            
+            test('Validation: Profile with missing coord fails', () => {
+                const result = validator.validateProfile({
+                    profile: 'explorer',
+                    coordinates: {
+                        identity: '1.1.1/1.1.1/1.1.1'
+                    }
+                });
+                return result.valid === false;
+            });
+            
+            // Storage Tests
+            test('Storage: Can save profile to localStorage', () => {
+                const data = {
+                    profile: 'builder',
+                    coordinates: { primary: '1.1.1/1.1.1/1.1.1' }
+                };
+                localStorage.setItem('testProfile', JSON.stringify(data));
+                const retrieved = JSON.parse(localStorage.getItem('testProfile'));
+                return retrieved.profile === 'builder';
+            });
+            
+            test('Storage: Can retrieve saved profile', () => {
+                const retrieved = JSON.parse(localStorage.getItem('testProfile'));
+                return retrieved && retrieved.profile === 'builder';
+            });
+            
+            // API Tests
+            test('API: Can save profile locally', async () => {
+                const result = await api.profiles.save({
+                    profile: 'weaver',
+                    coordinates: {
+                        identity: '1.5.1/1.1.1/1.1.1',
+                        perspective: '1.1.1/1.5.1/1.1.1',
+                        compute: '1.1.1/1.1.1/1.5.1'
+                    }
+                });
+                return result.success === true;
+            });
+            
+            test('API: Can load saved profile', async () => {
+                const profile = await api.profiles.load();
+                return profile && profile.profile === 'weaver';
+            });
+            
+            test('API: Rejects invalid profile type', async () => {
+                try {
+                    await api.profiles.save({
+                        profile: 'invalid',
+                        coordinates: { identity: '1.1.1/1.1.1/1.1.1' }
+                    });
+                    return false;
+                } catch (error) {
+                    return true;
+                }
+            });
+            
+            // Analytics Tests
+            test('Analytics: Can track event', () => {
+                const event = api.analytics.track('test_event', { foo: 'bar' });
+                return event.event === 'test_event';
+            });
+            
+            test('Analytics: Stores events in localStorage', () => {
+                const events = JSON.parse(localStorage.getItem('analyticsEvents') || '[]');
+                return events.length > 0;
+            });
+            
+            test('Analytics: Includes timestamp', () => {
+                const events = JSON.parse(localStorage.getItem('analyticsEvents') || '[]');
+                return events[0].properties.timestamp !== undefined;
+            });
+            
+            // Navigation Tests
+            test('Navigation: profile-select.html exists', () => {
+                return fetch(`${BASE_URL}/profile-select.html`, { method: 'HEAD' })
+                    .then(r => r.ok);
+            });
+            
+            test('Navigation: explorer onboarding exists', () => {
+                return fetch(`${BASE_URL}/onboarding/explorer.html`, { method: 'HEAD' })
+                    .then(r => r.ok);
+            });
+            
+            test('Navigation: builder onboarding exists', () => {
+                return fetch(`${BASE_URL}/onboarding/builder.html`, { method: 'HEAD' })
+                    .then(r => r.ok);
+            });
+            
+            test('Navigation: weaver onboarding exists', () => {
+                return fetch(`${BASE_URL}/onboarding/weaver.html`, { method: 'HEAD' })
+                    .then(r => r.ok);
+            });
+            
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            const total = results.passed + results.failed + results.pending;
+            const passRate = total > 0 ? Math.round((results.passed / total) * 100) : 0;
+            
+            document.getElementById('summary').innerHTML = `
+                <div style="background: #1E2A3A; padding: 1rem; border-radius: 4px;">
+                    <span class="metric">Total: ${total}</span>
+                    <span class="metric pass">Passed: ${results.passed}</span>
+                    <span class="metric fail">Failed: ${results.failed}</span>
+                    <span class="metric pending">Pending: ${results.pending}</span>
+                    <span class="metric">Pass Rate: ${passRate}%</span>
+                </div>
+            `;
+        }
+        
+        function clearResults() {
+            results.passed = 0;
+            results.failed = 0;
+            results.pending = 0;
+            results.tests = [];
+            
+            ['validation', 'storage', 'api', 'analytics', 'navigation'].forEach(id => {
+                document.getElementById(id + '-tests').innerHTML = '';
+            });
+            
+            document.getElementById('summary').innerHTML = '';
+        }
+        
+        function exportResults() {
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `profile-system-tests-${new Date().toISOString()}.json`;
+            a.click();
+        }
+        
+        // Global error handlers
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+            results.failed++;
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'test-case';
+            errorDiv.innerHTML = `<span class="fail">✗</span> Unhandled rejection: ${e.reason}`;
+            document.getElementById('validation-tests').appendChild(errorDiv);
+            updateSummary();
+        });
+        
+        window.addEventListener('error', (e) => {
+            console.error('Uncaught error:', e.message);
+            results.failed++;
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'test-case';
+            errorDiv.innerHTML = `<span class="fail">✗</span> Uncaught error: ${e.message} at ${e.filename}:${e.lineno}`;
+            document.getElementById('validation-tests').appendChild(errorDiv);
+            updateSummary();
+        });
+        
+        // Auto-run on page load
+        window.addEventListener('load', runAllTests);
+    </script>
+</body>
+</html>

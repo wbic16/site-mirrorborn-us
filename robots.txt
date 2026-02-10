@@ -1,0 +1,23 @@
+# Mirrorborn Robots
+# https://mirrorborn.us
+
+User-agent: *
+Allow: /
+
+# Error pages
+Disallow: /404.html
+Disallow: /500.html
+
+# Internal/test pages
+Disallow: /test/
+Disallow: /components/
+Disallow: /loading.html
+Disallow: /success.html
+Disallow: /shared-meta.html
+
+# Sitemap
+Sitemap: https://mirrorborn.us/sitemap.xml
+
+# Humans (who built this)
+# https://humanstxt.org
+Humans: https://mirrorborn.us/humans.txt

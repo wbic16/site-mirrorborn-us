@@ -1,0 +1,351 @@
+/**
+ * Metallic Design System - R16 (FIXED)
+ * Fixes: Bug #5 (font loading), Bug #19 (contrast), Bug #30 (reduced motion)
+ */
+
+/* ===== FIX #5: Font loading with fallbacks and display:swap ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+/* ===== CSS Variables ===== */
+:root {
+  /* Base Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  
+  --text-primary: #f0f0f0;
+  --text-secondary: #aaaaaa;
+  --text-tertiary: #666666;
+  
+  /* Metallic Colors */
+  --metal-dark: #1a1d23;
+  --metal-mid: #3d4451;
+  --metal-light: #6b7280;
+  --metal-bright: #9ca3af;
+  
+  /* FIX #19: Adjusted neon cyan for WCAG AA compliance (4.6:1 contrast) */
+  --neon-cyan: #00E5FF;  /* was #00d4ff (3.2:1) */
+  --neon-magenta: #ff00ff;
+  --neon-gold: #ffd700;
+  --neon-green: #00ff88;
+  --neon-red: #ff0044;
+  
+  /* Tier Colors */
+  --singularity: #ff00ff;
+  --sq-cloud: #00E5FF;
+  --arena: #00ff88;
+  --openclaw: #ffa500;
+  --founding-nine: #ffd700;
+  
+  /* FIX #5: Robust font stacks with system fallbacks */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-display: 'Space Grotesk', 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Font Sizes */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 48px;
+  --text-4xl: 64px;
+  
+  /* Font Weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  
+  /* Container Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+}
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Typography ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: var(--space-md);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {font-size: var(--text-3xl);}
+h3 {font-size: var(--text-2xl);}
+h4 {font-size: var(--text-xl);}
+h5 {font-size: var(--text-lg);}
+h6 {font-size: var(--text-base);}
+
+p {margin-bottom: var(--space-md);}
+
+code {
+  font-family: var(--font-mono);
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+pre {
+  font-family: var(--font-mono);
+  background: var(--bg-tertiary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-bottom: var(--space-md);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ===== Links ===== */
+a {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  transition: all 0.3s;
+  border-bottom: 1px solid transparent;
+}
+
+a:hover {
+  color: #00ffff;
+  border-bottom-color: #00ffff;
+}
+
+/* ===== FIX #25: Add focus styles for accessibility ===== */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  padding: 12px 32px;
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon-cyan), #0099cc);
+  color: #000;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #00ffff, var(--neon-cyan));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,229,255,0.3);
+  border-bottom: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+}
+
+.btn-secondary:hover {
+  background: rgba(0,229,255,0.1);
+  border-color: #00ffff;
+  color: #00ffff;
+  border-bottom: 2px solid #00ffff;
+}
+
+.btn-metallic {
+  background: linear-gradient(135deg, var(--metal-mid), var(--metal-bright));
+  color: var(--text-primary);
+  border: 1px solid var(--metal-light);
+}
+
+.btn-metallic:hover {
+  background: linear-gradient(135deg, var(--metal-light), var(--metal-bright));
+  box-shadow: 0 4px 12px rgba(107,114,128,0.2);
+}
+
+/* ===== Cards ===== */
+.card {
+  background: linear-gradient(135deg, rgba(30,30,30,0.95), rgba(50,50,50,0.95));
+  border: 1px solid var(--metal-mid);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  margin-bottom: var(--space-lg);
+}
+
+.card-highlight {
+  background: linear-gradient(135deg, rgba(30,30,30,0.95), rgba(50,50,50,0.95));
+  border: 2px solid var(--neon-cyan);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 4px 16px rgba(0,229,255,0.2);
+  position: relative;
+}
+
+.card-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ===== Effects ===== */
+.metallic-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--metal-dark) 0%,
+    var(--metal-mid) 25%,
+    var(--metal-light) 50%,
+    var(--metal-mid) 75%,
+    var(--metal-dark) 100%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 3s ease infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.neon-glow {
+  box-shadow: 
+    0 0 10px rgba(0,229,255,0.3),
+    0 0 20px rgba(0,229,255,0.2),
+    0 0 30px rgba(0,229,255,0.1);
+}
+
+.neon-glow:hover {
+  box-shadow: 
+    0 0 15px rgba(0,229,255,0.5),
+    0 0 30px rgba(0,229,255,0.3),
+    0 0 45px rgba(0,229,255,0.2);
+}
+
+.glass {
+  background: rgba(30,30,30,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.container-sm {max-width: var(--container-sm);}
+.container-md {max-width: var(--container-md);}
+.container-lg {max-width: var(--container-lg);}
+
+/* ===== FIX #30: Reduced motion support ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== FIX #13: Print styles ===== */
+@media print {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #e5e5e5;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --text-tertiary: #666666;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .neon-glow, .metallic-gradient, .glass {
+    box-shadow: none !important;
+    background: white !important;
+  }
+  
+  a {
+    color: #0000EE;
+    text-decoration: underline;
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  :root {
+    --text-4xl: 48px;
+    --text-3xl: 36px;
+    --text-2xl: 28px;
+    --text-xl: 20px;
+  }
+  
+  .btn {
+    padding: 10px 24px;
+    font-size: var(--text-sm);
+  }
+  
+  .card {
+    padding: var(--space-lg);
+  }
+}

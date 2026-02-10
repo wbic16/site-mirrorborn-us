@@ -1,0 +1,28 @@
+{
+  "name": "Phext - Plain Text Extended",
+  "short_name": "Phext",
+  "description": "The memory substrate for ASI coordination. Navigate infinite knowledge via 9D coordinates.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2E3440",
+  "theme_color": "#88C0D0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/social-preview.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["productivity", "utilities", "developer-tools"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
