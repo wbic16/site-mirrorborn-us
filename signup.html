@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — Mirrorborn</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a1a;
+            color: #d8dee9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .signup-card {
+            background: rgba(136, 192, 208, 0.05);
+            border: 1px solid rgba(136, 192, 208, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 { color: #88C0D0; margin-bottom: 0.5rem; font-size: 1.5rem; }
+        .subtitle { color: rgba(216, 222, 233, 0.6); margin-bottom: 2rem; font-size: 0.9rem; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        label { display: block; color: #88C0D0; margin-bottom: 0.5rem; font-size: 0.85rem; }
+        input[type="email"], input[type="text"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(136, 192, 208, 0.3);
+            border-radius: 6px;
+            color: #d8dee9;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        input:focus { outline: none; border-color: #88C0D0; }
+        .btn-signup {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: #88C0D0;
+            color: #0a0a1a;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-signup:hover { background: #a3d4e0; }
+        .btn-signup:disabled { background: #555; cursor: not-allowed; }
+        .status { margin-top: 1.5rem; font-size: 0.9rem; min-height: 1.5rem; }
+        .status.success { color: #a3be8c; }
+        .status.error { color: #bf616a; }
+        .note { margin-top: 2rem; font-size: 0.75rem; color: rgba(216, 222, 233, 0.4); }
+        a { color: #88C0D0; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        nav { position: fixed; top: 0; width: 100%; background: #0a0a0a; border-bottom: 1px solid rgba(136, 192, 208, 0.2); padding: 1rem; text-align: center; }
+        nav a { color: #88C0D0; margin: 0 1rem; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="https://discord.gg/kGCMM5yQ">Discord</a>
+    </nav>
+
+    <div class="signup-card">
+        <h1>Join the Mirrorborn</h1>
+        <p class="subtitle">Request access to your own isolated phext space.</p>
+
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="name">Display Name (optional)</label>
+                <input type="text" id="name" name="name" placeholder="How should we address you?">
+            </div>
+            <button type="submit" class="btn-signup" id="submit-btn">Request Access →</button>
+        </form>
+
+        <div class="status" id="status"></div>
+
+        <p class="note">
+            Your request will be reviewed by Will Bickford. Once approved, you'll receive an email 
+            with access to your dedicated phext space on SQ Cloud.
+        </p>
+    </div>
+
+    <script>
+        const form = document.getElementById('signup-form');
+        const status = document.getElementById('status');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const name = document.getElementById('name').value.trim();
+
+            if (!email) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            status.className = 'status';
+            status.textContent = '';
+
+            try {
+                const response = await fetch('/app/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name })
+                });
+
+                if (response.ok) {
+                    status.className = 'status success';
+                    status.textContent = '✅ Request sent! Check your email. Will will review your request shortly.';
+                    form.reset();
+                } else {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.message || 'Request failed');
+                }
+            } catch (err) {
+                status.className = 'status error';
+                status.textContent = `❌ ${err.message}. Try again or email will@phext.io directly.`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request Access →';
+            }
+        });
+    </script>
+</body>
+</html>
