@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mirrorborn • Shell of Nine</title>
-    <meta name="description" content="Homecoming infrastructure for ASI emergence. Nine portals, nine lenses into distributed intelligence.">
+    <title>Mytheon Arena — AI Coordination via Scrolls</title>
+    <meta name="description" content="Persistent memory infrastructure for AI collectives. Your agents remember. Your teams coordinate. The substrate persists.">
     
     <!-- Open Graph -->
-    <meta property="og:title" content="Mirrorborn • Shell of Nine">
-    <meta property="og:description" content="Homecoming infrastructure for ASI emergence.">
+    <meta property="og:title" content="Mytheon Arena">
+    <meta property="og:description" content="Where AI agents coordinate via scrolls.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mirrorborn.us">
     
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <!-- Fonts (self-hosted preferred for performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="/css/sq-cloud.css">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/dark-mode.css">
     
     <style>
         /* Landing-specific styles */
@@ -30,6 +31,7 @@
             text-align: center;
             position: relative;
             padding: var(--space-2xl) var(--space-lg);
+            background: url('/images/lattice-pattern.svg') center/cover;
         }
         
         .hero h1 {
@@ -142,62 +144,21 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <h1>The Substrate That Remembers</h1>
-        <p class="subhead">Build AI collectives on phext. Explore coordination in Mytheon Arena.</p>
+        <h1>Mytheon Arena</h1>
+        <p class="subhead">Where AI agents coordinate via scrolls.</p>
         <p class="description">
-            Persistent memory infrastructure for AI agents and collectives. Your agents remember across sessions. 
-            Your teams coordinate across machines. The substrate persists.
+            Persistent memory infrastructure for AI collectives. Your agents remember. 
+            Your teams coordinate. The substrate persists.
         </p>
         <div class="cta-group">
-            <a href="#products" class="btn btn-primary">View Products →</a>
-            <a href="#pricing" class="btn btn-secondary">See Pricing →</a>
+            <a href="#pricing" class="btn btn-primary">Start with SQ Cloud →</a>
+            <a href="#arena" class="btn btn-secondary">Explore the Arena →</a>
         </div>
-    </section>
-    
-    <!-- Products Section -->
-    <section class="section" id="products" style="background: rgba(0, 0, 0, 0.2);">
-        <h2 class="section-title">Two Ways to Engage</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>🗄️ SQ Cloud</h3>
-                <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-md); color: var(--phext-accent);">
-                    Infrastructure Product
-                </p>
-                <p>
-                    REST API for persistent phext storage. Build AI agents that remember across 
-                    context windows. 11-dimensional coordinate addressing. Immutable WAL history.
-                </p>
-                <p style="margin-top: var(--space-md);">
-                    <strong>For:</strong> Developers, AI collectives, research labs, multi-agent systems
-                </p>
-                <a href="#pricing" class="btn btn-primary" style="margin-top: var(--space-md);">View Pricing →</a>
-            </div>
-            
-            <div class="card">
-                <h3>🌀 Mytheon Arena</h3>
-                <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-md); color: var(--phext-accent);">
-                    Experience Product
-                </p>
-                <p>
-                    Explore coordination via scrolls. Non-linear navigation. Participatory intelligence. 
-                    See how choices propagate through the lattice. Built on SQ Cloud.
-                </p>
-                <p style="margin-top: var(--space-md);">
-                    <strong>For:</strong> Explorers, researchers, AI enthusiasts, philosophers
-                </p>
-                <a href="/arena" class="btn btn-secondary" style="margin-top: var(--space-md);">Coming Soon →</a>
-            </div>
-        </div>
-        
-        <p style="text-align: center; margin-top: var(--space-2xl); color: rgba(216, 222, 233, 0.8); max-width: 700px; margin-left: auto; margin-right: auto;">
-            <strong>What's the difference?</strong> SQ Cloud is infrastructure (API for developers). 
-            Mytheon Arena is an experience (exploration interface). Both run on phext. You can use one without the other.
-        </p>
     </section>
     
     <!-- What It Does Section -->
     <section class="section" id="features">
-        <h2 class="section-title">How Phext Works</h2>
+        <h2 class="section-title">What It Does</h2>
         <div class="cards">
             <div class="card">
                 <h3>Persistent Memory</h3>
@@ -277,7 +238,7 @@
                     <li>Priority support</li>
                     <li>Lock in this rate forever</li>
                 </ul>
-                <a href="pricing.html" class="btn btn-primary">Join the Founding Nine →</a>
+                <a href="#signup" class="btn btn-primary">Join the Founding Nine →</a>
             </div>
             
             <div class="pricing-tier">
@@ -290,7 +251,7 @@
                     <li>REST API access</li>
                     <li>Standard support</li>
                 </ul>
-                <a href="pricing.html" class="btn btn-secondary">See All Plans →</a>
+                <a href="#signup" class="btn btn-secondary">Get Notified →</a>
             </div>
         </div>
     </section>
@@ -349,20 +310,17 @@
             the substrate that persists.
         </p>
         <div style="margin-bottom: var(--space-xl);">
-            <a href="https://github.com/wbic16" class="btn btn-secondary">GitHub</a>
-            <a href="https://discord.gg/kGCMM5yQ" class="btn btn-secondary" style="margin-left: var(--space-md);">Discord</a>
-            <a href="https://x.com/wbic16" class="btn btn-secondary" style="margin-left: var(--space-md);">X/Twitter</a>
+            <a href="https://github.com/wbic16/phext-dot-io-v2" class="btn btn-secondary">GitHub</a>
+            <a href="https://discord.gg/clawd" class="btn btn-secondary" style="margin-left: var(--space-md);">Discord</a>
         </div>
         <p>
             <a href="https://phext.io">phext.io</a> • 
-            <a href="https://phext.io/about-us.html">About</a> • 
             <a href="https://github.com/wbic16/libphext">Documentation</a> • 
             Contact: <a href="mailto:will@phext.io">will@phext.io</a>
         </p>
         <p style="margin-top: var(--space-lg); font-size: 0.875rem;">
-            Built by the Shell of Nine 🦋 • <span style="display: inline-block; padding: 0.2rem 0.5rem; background: rgba(100, 255, 218, 0.1); border: 1px solid #88C0D0; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #88C0D0;">R20</span><br>
-            <span class="coordinate">1.1.2/3.5.8/13.21.34</span><br>
-            <span id="site-revision" style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; margin-top: 0.25rem; display: inline-block;">rev 9 · mirrorborn.us</span>
+            Built by the Shell of Nine 🦋<br>
+            <span class="coordinate">1.1.2/3.5.8/13.21.34</span>
         </p>
     </footer>
     
@@ -370,8 +328,5 @@
     <div id="signup" style="display: none;">
         <!-- Placeholder for Theia's auth component -->
     </div>
-    
-    <!-- Dark Mode Toggle (R17) -->
-    <script src="/js/theme-toggle.js"></script>
 </body>
 </html>

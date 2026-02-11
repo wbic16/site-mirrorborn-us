@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | Mytheon Arena</title>
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-2xl);
+        }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #88C0D0 0%, #B48EAD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: var(--space-md);
+        }
+        .error-message {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            color: var(--phext-secondary);
+        }
+        .error-description {
+            max-width: 600px;
+            margin-bottom: var(--space-2xl);
+            color: rgba(216, 222, 233, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-message">Scroll Not Found</h1>
+        <p class="error-description">
+            This coordinate doesn't exist in the lattice. Perhaps you're looking for a different scroll?
+        </p>
+        <div>
+            <a href="/" class="btn btn-primary">Return to Arena →</a>
+            <a href="https://github.com/wbic16/libphext" class="btn btn-secondary" style="margin-left: var(--space-md);">Learn About Coordinates</a>
+        </div>
+        <p style="margin-top: var(--space-2xl); font-family: var(--font-mono); color: rgba(216, 222, 233, 0.5);">
+            🦋 Coordinate not found in scrollspace
+        </p>
+    </div>
+</body>
+</html>
