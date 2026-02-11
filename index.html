@@ -145,11 +145,11 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <h1>The Substrate That Remembers</h1>
-        <p class="subhead">REST API for 11-dimensional text. Early alpha.</p>
+        <h1>Give Your OpenClaw Agent Permanent Memory</h1>
+        <p class="subhead">Stop losing context between sessions. SQ Cloud remembers everything.</p>
         <p class="description">
-            Store and retrieve phext—plain text extended to 11 dimensions. Coordinate-addressed, immutable, persistent. 
-            The substrate for future AI coordination. See what early adopters are building.
+            OpenClaw agents forget everything when they restart. SQ Cloud gives them persistent 11D storage—
+            user preferences, conversation history, shared knowledge. One command: <code style="background: rgba(0,229,255,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--tech-cyan);">openclaw skill install sq-memory</code>
         </p>
         <div class="cta-group">
             <a href="#products" class="btn btn-primary metallic-border">View Products →</a>
@@ -158,9 +158,65 @@
         </div>
     </section>
     
+    <!-- OpenClaw Integration -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(0, 229, 255, 0.05), rgba(0, 0, 0, 0.3)); border: 2px solid var(--tech-cyan); border-left: none; border-right: none;">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--tech-cyan); margin-bottom: var(--space-sm);">
+                🔌 Primary Use Case
+            </div>
+            <h2 style="font-size: 2.5rem; margin-bottom: var(--space-md); color: var(--text-primary);">
+                OpenClaw Agents Need Memory
+            </h2>
+            <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: var(--space-xl); line-height: 1.6;">
+                Your agent forgets user preferences every restart. Conversation history vanishes when context fills. 
+                You've been copy-pasting the same info every session. <strong>Not anymore.</strong>
+            </p>
+            
+            <div style="background: rgba(0, 0, 0, 0.4); border: 2px solid var(--tech-cyan); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-xl);">
+                <h3 style="font-size: 1.5rem; margin-bottom: var(--space-md); color: var(--tech-cyan);">Install the SQ Memory Skill</h3>
+                <pre style="background: #000; color: #0f0; padding: 1rem; border-radius: var(--radius-md); font-family: 'JetBrains Mono', monospace; font-size: 1rem; margin-bottom: var(--space-md); overflow-x: auto;">openclaw skill install sq-memory</pre>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
+                    Your agent gains four new tools: <code style="color: var(--tech-cyan);">remember()</code>, 
+                    <code style="color: var(--tech-cyan);">recall()</code>, 
+                    <code style="color: var(--tech-cyan);">forget()</code>, 
+                    <code style="color: var(--tech-cyan);">list_memories()</code>
+                </p>
+                <a href="https://github.com/wbic16/openclaw-sq-skill" class="btn btn-primary" style="margin-top: var(--space-md);">
+                    View Skill Documentation →
+                </a>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg); text-align: left;">
+                <div style="background: rgba(0, 0, 0, 0.3); padding: var(--space-lg); border-radius: var(--radius-md); border: 1px solid rgba(0, 229, 255, 0.2);">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-sm);">💾</div>
+                    <h4 style="color: var(--tech-cyan); margin-bottom: var(--space-sm);">User Preferences</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        "I prefer dark mode" → Agent stores it. Next session: agent remembers without asking.
+                    </p>
+                </div>
+                
+                <div style="background: rgba(0, 0, 0, 0.3); padding: var(--space-lg); border-radius: var(--radius-md); border: 1px solid rgba(0, 229, 255, 0.2);">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-sm);">📜</div>
+                    <h4 style="color: var(--tech-cyan); margin-bottom: var(--space-sm);">Conversation History</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Context window full? Store summaries. Agent recalls what you discussed weeks ago.
+                    </p>
+                </div>
+                
+                <div style="background: rgba(0, 0, 0, 0.3); padding: var(--space-lg); border-radius: var(--radius-md); border: 1px solid rgba(0, 229, 255, 0.2);">
+                    <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🤝</div>
+                    <h4 style="color: var(--tech-cyan); margin-bottom: var(--space-sm);">Multi-Agent Coordination</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Agent A creates task. Agent B sees it. Shared memory at agreed coordinates.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Products Section -->
     <section class="section" id="products" style="background: rgba(0, 0, 0, 0.2);">
-        <h2 class="section-title">Two Ways to Engage</h2>
+        <h2 class="section-title">What You Get</h2>
         <div class="cards">
             <div class="card">
                 <h3>🗄️ SQ Cloud</h3>
@@ -333,8 +389,9 @@
             <div class="faq-item">
                 <div class="faq-question">What's phext?</div>
                 <div class="faq-answer">
-                    Plain text + 9 delimiter dimensions = 11D structured content. 
-                    No database. No schema. Just coordinates.
+                    Plain text structured by 9 hierarchical delimiters (Library→Shelf→Series→...→Line) 
+                    plus 2D text (columns & rows) = 11 dimensions. No database schemas. Just addressable text 
+                    your agent can read and write. <a href="/help.html#docs" style="color: var(--tech-cyan);">Technical details →</a>
                 </div>
             </div>
             
