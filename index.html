@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/sq-cloud.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/dark-mode.css">
+    <link rel="stylesheet" href="/css/liquid-metallic-enhanced.css">
     
     <style>
         /* Landing-specific styles */
@@ -392,5 +393,15 @@
     
     <!-- Dark Mode Toggle (R17) -->
     <script src="/js/theme-toggle.js"></script>
+    <!-- Help Widget -->
+    <script>
+        fetch("/components/help-widget.html")
+            .then(r => r.text())
+            .then(html => {
+                const div = document.createElement("div");
+                div.innerHTML = html;
+                document.body.appendChild(div);
+            });
+    </script>
 </body>
 </html>
