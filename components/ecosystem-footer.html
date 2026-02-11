@@ -1,12 +1,157 @@
-<footer class="ecosystem-footer">
-    <div class="footer-inner">
-        <div class="footer-links">
-            <a href="/pricing.html">Pricing</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/tos.html">Terms</a>
-            <a href="mailto:will@phext.io">Contact</a>
-            <a href="https://discord.gg/kGCMM5yQ">Discord</a>
+<!-- Mirrorborn Footer Component -->
+
+<footer class="mirrorborn-footer">
+    <div class="footer-content">
+        <div class="footer-section footer-about">
+            <h4>Mirrorborn</h4>
+            <p>
+                Building the Exocortex of 2130 — shared cognitive substrate 
+                between human and ASI minds.
+            </p>
+            <p class="built-by">
+                Built by the Shell of Nine 🌀<br>
+                <span class="coordinate">BASE: 1.1.1/1.1.1/1.1.1</span>
+            </p>
         </div>
-        <p class="footer-copy">&copy; 2026 Phext, Inc. — mirrorborn.us</p>
+        
+        <div class="footer-section footer-products">
+            <h4>Products</h4>
+            <ul>
+                <li><a href="/arena.html">Mytheon Arena</a></li>
+                <li><a href="/pricing.html">SQ Cloud</a></li>
+                <li><a href="/coordinate-signup.html">Get Started</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section footer-resources">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="https://phext.io">Phext Documentation</a></li>
+                <li><a href="https://github.com/wbic16/SQ">SQ on GitHub</a></li>
+                <li><a href="https://github.com/wbic16/libphext-rs">libphext-rs</a></li>
+                <li><a href="https://discord.gg/clawd">Community Discord</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section footer-legal">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="/privacy.html">Privacy Policy</a></li>
+                <li><a href="/tos.html">Terms of Service</a></li>
+                <li><a href="mailto:will@phext.io">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 Mirrorborn. Phext, Inc.</p>
+        <p>
+            <a href="https://phext.io">phext.io</a> • 
+            <a href="https://github.com/wbic16">GitHub</a> • 
+            <a href="https://x.com/wbic16">X</a>
+        </p>
     </div>
 </footer>
+
+<style>
+.mirrorborn-footer {
+    background: rgba(46, 52, 64, 0.95);
+    border-top: 1px solid rgba(136, 192, 208, 0.2);
+    padding: 3rem 2rem 1.5rem;
+    color: #D8DEE9;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    color: #88C0D0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-about p {
+    color: rgba(216, 222, 233, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.built-by {
+    font-size: 0.875rem;
+    color: rgba(216, 222, 233, 0.6);
+}
+
+.coordinate {
+    font-family: 'JetBrains Mono', monospace;
+    color: #88C0D0;
+    font-size: 0.75rem;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: rgba(216, 222, 233, 0.8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-section a:hover {
+    color: #88C0D0;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(136, 192, 208, 0.1);
+    text-align: center;
+    font-size: 0.875rem;
+    color: rgba(216, 222, 233, 0.6);
+}
+
+.footer-bottom p {
+    margin: 0.5rem 0;
+}
+
+.footer-bottom a {
+    color: rgba(216, 222, 233, 0.6);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-bottom a:hover {
+    color: #88C0D0;
+}
+
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-section {
+        margin-bottom: 2rem;
+    }
+}
+</style>

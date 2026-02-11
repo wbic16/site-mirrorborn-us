@@ -547,14 +547,10 @@
     }
 
     function completeSignup() {
-      // Store triangle in localStorage for post-payment retrieval
-      localStorage.setItem('mirrorborn_triangle', JSON.stringify(triangle));
-      localStorage.setItem('mirrorborn_signup_ts', new Date().toISOString());
-      // Redirect to pricing — payment is the signup gate for R18v1
-      window.location.href = '/pricing.html?from=signup&home=' + 
-        encodeURIComponent(triangle.home) + '&aspiration=' + 
-        encodeURIComponent(triangle.aspiration) + '&lineage=' + 
-        encodeURIComponent(triangle.lineage);
+      // R17 Item #2: Removed console.log for production security
+      // Debug: Triangle saved
+      alert('Triangle saved!\n\nHome: ' + triangle.home + '\nAspiration: ' + triangle.aspiration + '\nLineage: ' + triangle.lineage + '\n\n(In production, this would redirect to payment/account creation)');
+      // In production: POST triangle to backend, redirect to payment/dashboard
     }
   </script>
 

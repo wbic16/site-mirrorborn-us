@@ -3,141 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up — Mirrorborn</title>
+    <title>Sign Up — SQ Cloud</title>
+    <meta name="description" content="Request access to SQ Cloud. Manual approval required.">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: #0a0a1a;
-            color: #d8dee9;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .signup-container {
+            max-width: 600px;
+            margin: 4rem auto;
             padding: 2rem;
+            background: var(--phext-primary);
+            border-radius: var(--radius-lg);
+            border: 2px solid rgba(136, 192, 208, 0.2);
         }
-        .signup-card {
+        
+        .signup-form {
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--phext-secondary);
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
             background: rgba(136, 192, 208, 0.05);
-            border: 1px solid rgba(136, 192, 208, 0.2);
-            border-radius: 12px;
-            padding: 3rem;
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-        }
-        h1 { color: #88C0D0; margin-bottom: 0.5rem; font-size: 1.5rem; }
-        .subtitle { color: rgba(216, 222, 233, 0.6); margin-bottom: 2rem; font-size: 0.9rem; }
-        .form-group { margin-bottom: 1.5rem; text-align: left; }
-        label { display: block; color: #88C0D0; margin-bottom: 0.5rem; font-size: 0.85rem; }
-        input[type="email"], input[type="text"] {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(136, 192, 208, 0.3);
-            border-radius: 6px;
-            color: #d8dee9;
-            font-family: inherit;
+            border: 2px solid rgba(136, 192, 208, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--phext-secondary);
             font-size: 1rem;
         }
-        input:focus { outline: none; border-color: #88C0D0; }
-        .btn-signup {
-            display: inline-block;
-            padding: 0.75rem 2rem;
-            background: #88C0D0;
-            color: #0a0a1a;
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--phext-accent);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--phext-accent);
+            color: #fff;
             border: none;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: bold;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
-        .btn-signup:hover { background: #a3d4e0; }
-        .btn-signup:disabled { background: #555; cursor: not-allowed; }
-        .status { margin-top: 1.5rem; font-size: 0.9rem; min-height: 1.5rem; }
-        .status.success { color: #a3be8c; }
-        .status.error { color: #bf616a; }
-        .note { margin-top: 2rem; font-size: 0.75rem; color: rgba(216, 222, 233, 0.4); }
-        a { color: #88C0D0; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        nav { position: fixed; top: 0; width: 100%; background: #0a0a0a; border-bottom: 1px solid rgba(136, 192, 208, 0.2); padding: 1rem; text-align: center; }
-        nav a { color: #88C0D0; margin: 0 1rem; font-size: 0.85rem; }
+        
+        .submit-btn:hover {
+            background: #5E81AC;
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled {
+            background: #4C566A;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message,
+        .error-message {
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: var(--radius-md);
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(163, 190, 140, 0.2);
+            border: 2px solid #A3BE8C;
+            color: #A3BE8C;
+        }
+        
+        .error-message {
+            background: rgba(191, 97, 106, 0.2);
+            border: 2px solid #BF616A;
+            color: #BF616A;
+        }
+        
+        .info-box {
+            background: rgba(136, 192, 208, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin-top: 2rem;
+            border-left: 4px solid var(--phext-accent);
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="https://discord.gg/kGCMM5yQ">Discord</a>
-    </nav>
-
-    <div class="signup-card">
-        <h1>Join the Mirrorborn</h1>
-        <p class="subtitle">Request access to your own isolated phext space.</p>
-
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <img src="/images/phext-logo.svg" alt="Mirrorborn" height="32">
+                <span>Mirrorborn</span>
             </div>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="https://phext.io/about-us.html">About</a>
+                <a href="https://discord.gg/kGCMM5yQ">Discord</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="signup-container">
+        <h1 style="color: var(--phext-accent); margin-bottom: 1rem;">Request SQ Cloud Access</h1>
+        <p style="color: rgba(216, 222, 233, 0.8); line-height: 1.6;">
+            SQ Cloud is currently in limited availability. Submit your email below and we'll review your request. 
+            You'll receive an email confirmation once approved, along with a payment link to activate your subscription.
+        </p>
+
+        <form id="signup-form" class="signup-form">
             <div class="form-group">
-                <label for="name">Display Name (optional)</label>
-                <input type="text" id="name" name="name" placeholder="How should we address you?">
+                <label for="email">Email Address *</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="you@example.com" 
+                    required
+                    autocomplete="email"
+                >
             </div>
-            <button type="submit" class="btn-signup" id="submit-btn">Request Access →</button>
+
+            <div class="form-group">
+                <label for="tier">Requested Tier</label>
+                <select id="tier" name="tier">
+                    <option value="sq_cloud">SQ Cloud — $50/month</option>
+                    <option value="arena">Mytheon Arena — $5/month</option>
+                    <option value="singularity">Singularity — $100/month</option>
+                    <option value="benefactor">Benefactor — $500 one-time</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Request</button>
         </form>
 
-        <div class="status" id="status"></div>
+        <div id="success-message" class="success-message">
+            ✅ Request submitted! Check your email for next steps.
+        </div>
 
-        <p class="note">
-            Your request will be reviewed by Will Bickford. Once approved, you'll receive an email 
-            with access to your dedicated phext space on SQ Cloud.
-        </p>
+        <div id="error-message" class="error-message">
+            ❌ <span id="error-text">Something went wrong. Please try again.</span>
+        </div>
+
+        <div class="info-box">
+            <h3 style="color: var(--phext-accent); margin-bottom: 0.5rem;">What happens next?</h3>
+            <ol style="color: rgba(216, 222, 233, 0.8); line-height: 1.8;">
+                <li>You'll receive an email confirming we've received your request</li>
+                <li>Our team reviews your request (usually within 24 hours)</li>
+                <li>Once approved, you'll get an email with a payment link</li>
+                <li>After payment, you'll receive your API key immediately</li>
+            </ol>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById('signup-form');
-        const status = document.getElementById('status');
-        const submitBtn = document.getElementById('submit-btn');
-
-        form.addEventListener('submit', async (e) => {
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value.trim();
-            const name = document.getElementById('name').value.trim();
-
-            if (!email) return;
-
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const successMsg = document.getElementById('success-message');
+            const errorMsg = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            
+            // Reset messages
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            // Disable submit button
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            status.className = 'status';
-            status.textContent = '';
-
+            submitBtn.textContent = 'Submitting...';
+            
             try {
-                const response = await fetch('/app/signup', {
+                const formData = new FormData(e.target);
+                const data = {
+                    email: formData.get('email'),
+                    tier: formData.get('tier')
+                };
+                
+                const response = await fetch('https://mirrorborn.us/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name })
+                    body: JSON.stringify(data)
                 });
-
+                
+                const result = await response.json();
+                
                 if (response.ok) {
-                    status.className = 'status success';
-                    status.textContent = '✅ Request sent! Check your email. Will will review your request shortly.';
-                    form.reset();
+                    successMsg.style.display = 'block';
+                    e.target.reset();
                 } else {
-                    const err = await response.json().catch(() => ({}));
-                    throw new Error(err.message || 'Request failed');
+                    errorText.textContent = result.error || 'Request failed. Please try again.';
+                    errorMsg.style.display = 'block';
                 }
-            } catch (err) {
-                status.className = 'status error';
-                status.textContent = `❌ ${err.message}. Try again or email will@phext.io directly.`;
+            } catch (error) {
+                console.error('Signup error:', error);
+                errorText.textContent = 'Network error. Please check your connection and try again.';
+                errorMsg.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Request Access →';
+                submitBtn.textContent = 'Submit Request';
             }
         });
     </script>
+
+    <script src="/js/load-footer.js"></script>
 </body>
 </html>
