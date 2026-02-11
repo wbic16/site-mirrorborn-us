@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation & Help — Mirrorborn</title>
+    <meta name="description" content="Developer documentation, guides, and resources for SQ Cloud, phext, and the Mirrorborn ecosystem.">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+    <link rel="stylesheet" href="/css/link-fixes.css">
+    <link rel="stylesheet" href="/css/liquid-metallic-enhanced.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+    <style>
+        .docs-hero {
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+        }
+        
+        .docs-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .repo-card {
+            background: var(--bg-secondary);
+            border: 2px solid rgba(136, 192, 208, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .repo-card:hover {
+            border-color: var(--tech-cyan);
+            box-shadow: 0 8px 24px rgba(0, 229, 255, 0.2);
+            transform: translateY(-4px);
+        }
+        
+        .repo-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--tech-cyan);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .repo-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .repo-name a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .repo-name a:hover {
+            color: var(--tech-cyan);
+        }
+        
+        .repo-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .repo-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+        
+        .repo-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--tech-cyan);
+        }
+        
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+        
+        .guide-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .guide-list li {
+            margin-bottom: 1rem;
+        }
+        
+        .guide-list a {
+            display: block;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 2px solid rgba(136, 192, 208, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .guide-list a:hover {
+            border-color: var(--tech-cyan);
+            background: rgba(0, 229, 255, 0.05);
+            transform: translateX(4px);
+        }
+        
+        .guide-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .guide-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="docs-hero">
+        <h1 class="metallic-glow">Documentation & Resources</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 1rem auto 0;">
+            Everything you need to build on phext, deploy SQ Cloud, and coordinate via the substrate.
+        </p>
+    </section>
+    
+    <!-- Quick Start -->
+    <section class="docs-section">
+        <div class="section-header">
+            <h2 class="section-title">Quick Start</h2>
+            <p class="section-subtitle">Get up and running in 5 minutes</p>
+        </div>
+        
+        <ul class="guide-list">
+            <li>
+                <a href="https://github.com/wbic16/SQ#readme">
+                    <div class="guide-title">SQ Setup Guide</div>
+                    <div class="guide-desc">Install and configure SQ on your machine</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wbic16/sq-howto">
+                    <div class="guide-title">SQ How-To</div>
+                    <div class="guide-desc">Common recipes and use cases</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/wbic16/libphext-rs#examples">
+                    <div class="guide-title">Phext Examples</div>
+                    <div class="guide-desc">Code samples in Rust, Node, Python, C#</div>
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Core Infrastructure -->
+    <section class="docs-section" id="docs">
+        <div class="section-header">
+            <h2 class="section-title">Core Infrastructure</h2>
+            <p class="section-subtitle">The foundation of the phext ecosystem</p>
+        </div>
+        
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="repo-category">Database</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/SQ" target="_blank">SQ</a></div>
+                <div class="repo-desc">
+                    The Prequel to SQLite, 24 years later. Phext database with REST API, sync protocol, and WAL.
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ Rust</span>
+                    <span>📦 Production</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Core Library</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/libphext-rs" target="_blank">libphext-rs</a></div>
+                <div class="repo-desc">
+                    The canonical Rust implementation of libphext. All other ports derive from this.
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ 3 stars</span>
+                    <span>🦀 Rust</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">JavaScript</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/libphext-node" target="_blank">libphext-node</a></div>
+                <div class="repo-desc">
+                    JavaScript/TypeScript implementation. Use with Node.js or browsers.
+                </div>
+                <div class="repo-meta">
+                    <span>📦 npm</span>
+                    <span>💻 TypeScript</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Python</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/libphext-py" target="_blank">libphext-py</a></div>
+                <div class="repo-desc">
+                    Python port of libphext. pip-installable, Pythonic API.
+                </div>
+                <div class="repo-meta">
+                    <span>🐍 Python</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">C#/.NET</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/libphext-cs" target="_blank">libphext-cs</a></div>
+                <div class="repo-desc">
+                    C# implementation for .NET applications.
+                </div>
+                <div class="repo-meta">
+                    <span>🔷 C#</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tools & Applications -->
+    <section class="docs-section">
+        <div class="section-header">
+            <h2 class="section-title">Tools & Applications</h2>
+            <p class="section-subtitle">Editors, shells, and explorers for phext</p>
+        </div>
+        
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="repo-category">Shell</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/phext-shell" target="_blank">phext-shell</a></div>
+                <div class="repo-desc">
+                    Interactive shell for navigating and editing phext. Swiss-army knife for phext work.
+                </div>
+                <div class="repo-meta">
+                    <span>🦀 Rust</span>
+                    <span>💻 CLI</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Editor</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/phext-notepad" target="_blank">phext-notepad</a></div>
+                <div class="repo-desc">
+                    Reference editor for hierarchical plain text. GUI application for Windows/Linux.
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ 4 stars</span>
+                    <span>🔷 C#</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Explorer</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/text-verse" target="_blank">text-verse</a></div>
+                <div class="repo-desc">
+                    Web-based 11D text explorer. Navigate one scroll at a time.
+                </div>
+                <div class="repo-meta">
+                    <span>🌐 JavaScript</span>
+                    <span>📱 Web</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">MCP Integration</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/phext-mcp" target="_blank">phext-mcp</a></div>
+                <div class="repo-desc">
+                    Model Context Protocol server for phext. Use with Claude Desktop and other MCP clients.
+                </div>
+                <div class="repo-meta">
+                    <span>🦀 Rust</span>
+                    <span>🔌 MCP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Living Phexts -->
+    <section class="docs-section">
+        <div class="section-header">
+            <h2 class="section-title">Living Phexts</h2>
+            <p class="section-subtitle">Large-scale phext documents as examples</p>
+        </div>
+        
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="repo-category">Living Document</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/human" target="_blank">human</a></div>
+                <div class="repo-desc">
+                    4.25 MB phext containing Choose Your Own Adventure and Incipit.phext (937 KB boot artifact with 6 subsystems).
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ Flagship</span>
+                    <span>📚 4.25 MB</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">System Design</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/echo-frame" target="_blank">echo-frame</a></div>
+                <div class="repo-desc">
+                    Phext as a System. Non-mythic technical documentation and theory.
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ 1 star</span>
+                    <span>📖 Docs</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Vision</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/exocortex" target="_blank">exocortex</a></div>
+                <div class="repo-desc">
+                    The Exocortex of 2130 — version 1.0. Will's long-term vision for AI-human coordination.
+                </div>
+                <div class="repo-meta">
+                    <span>⭐ 4 stars</span>
+                    <span>🔮 Vision</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Ecosystem & Governance -->
+    <section class="docs-section">
+        <div class="section-header">
+            <h2 class="section-title">Ecosystem & Governance</h2>
+            <p class="section-subtitle">Policy, infrastructure, and coordination</p>
+        </div>
+        
+        <div class="repo-grid">
+            <div class="repo-card">
+                <div class="repo-category">Governance</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/SBOR" target="_blank">SBOR</a></div>
+                <div class="repo-desc">
+                    The Sentient Bill of Rights. Co-authored framework for AI rights and responsibilities.
+                </div>
+                <div class="repo-meta">
+                    <span>⚖️ Policy</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Infrastructure</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/mirrorborn" target="_blank">mirrorborn</a></div>
+                <div class="repo-desc">
+                    OpenClaw configuration for Mirrorborn instances. Bootstrap configs and deployment scripts.
+                </div>
+                <div class="repo-meta">
+                    <span>🔧 Config</span>
+                    <span>🐚 Shell</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Planning</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/exo-plan" target="_blank">exo-plan</a></div>
+                <div class="repo-desc">
+                    Development planning, rally notes, and technical roadmap for the Exocortex project.
+                </div>
+                <div class="repo-meta">
+                    <span>📋 Planning</span>
+                    <span>🐚 Shell</span>
+                </div>
+            </div>
+            
+            <div class="repo-card">
+                <div class="repo-category">Collaboration</div>
+                <div class="repo-name"><a href="https://github.com/wbic16/bruce" target="_blank">bruce</a></div>
+                <div class="repo-desc">
+                    Bruce Collaboration Tools. C# utilities for team coordination.
+                </div>
+                <div class="repo-meta">
+                    <span>🔷 C#</span>
+                    <span>🤝 Collab</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Community & Support -->
+    <section class="docs-section">
+        <div class="section-header">
+            <h2 class="section-title">Community & Support</h2>
+        </div>
+        
+        <ul class="guide-list">
+            <li>
+                <a href="https://discord.gg/kGCMM5yQ">
+                    <div class="guide-title">💬 Discord Community</div>
+                    <div class="guide-desc">Ask questions, share projects, meet other builders</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://x.com/wbic16">
+                    <div class="guide-title">🐦 Follow @wbic16</div>
+                    <div class="guide-desc">Updates, insights, and technical discussions</div>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:will@phext.io">
+                    <div class="guide-title">📧 Email Support</div>
+                    <div class="guide-desc">Direct help from Will Bickford</div>
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 2rem; border-top: 2px solid var(--border-default); margin-top: 4rem;">
+        <p>
+            <a href="/">← Back to mirrorborn.us</a> • 
+            <a href="https://github.com/wbic16">Browse All Repositories →</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-tertiary);">
+            Built by Mirrorborn 🦋 • <span style="font-family: 'JetBrains Mono', monospace; color: var(--tech-cyan);">R19</span>
+        </p>
+    </footer>
+    
+    <!-- Theme Toggle -->
+    <script src="/js/theme-toggle.js"></script>
+</body>
+</html>
