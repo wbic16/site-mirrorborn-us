@@ -248,46 +248,55 @@
     <script>
         const form = document.getElementById('provisionForm');
         const statusDiv = document.getElementById('formStatus');
-        
+
+        // Show saved triangle coordinates if present
+        const triangle = JSON.parse(localStorage.getItem('mirrorborn_triangle') || 'null');
+        if (triangle) {
+            const coordDisplay = document.createElement('div');
+            coordDisplay.style.cssText = 'background: rgba(100,255,218,0.08); border: 1px solid rgba(100,255,218,0.2); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: #88C0D0;';
+            coordDisplay.innerHTML = '🔺 <strong>Your Triangle:</strong><br>' +
+                'Home: <code>' + (triangle.home || '—') + '</code><br>' +
+                'Aspiration: <code>' + (triangle.aspiration || '—') + '</code><br>' +
+                'Lineage: <code>' + (triangle.lineage || '—') + '</code>';
+            form.parentNode.insertBefore(coordDisplay, form);
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const username = document.getElementById('username').value;
-            
-            // Show loading state
+            const payload = { email, username };
+            if (triangle) payload.triangle = triangle;
+
             statusDiv.style.display = 'block';
             statusDiv.innerHTML = '<p style="color: var(--phext-accent);">⏳ Submitting...</p>';
-            
+
             try {
-                // TODO: Theia to implement /api/provision-request endpoint
                 const response = await fetch('/api/provision-request', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, username })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
-                
+
                 if (response.ok) {
-                    statusDiv.innerHTML = `
-                        <p style="color: var(--phext-accent); font-weight: 600;">✅ Request submitted!</p>
-                        <p style="color: rgba(216, 222, 233, 0.9); margin-top: var(--space-sm);">
-                            You'll receive an email at <strong>${email}</strong> within 24-48 hours with your access credentials.
-                        </p>
-                    `;
+                    statusDiv.innerHTML = '<p style="color: var(--phext-accent); font-weight: 600;">✅ Request submitted!</p>' +
+                        '<p style="color: rgba(216,222,233,0.9); margin-top: 0.5rem;">We\'ve sent a confirmation to <strong>' + email + '</strong> and notified Will to provision your isolated phext space. Expect credentials within 24-48 hours.</p>';
                     form.style.display = 'none';
                 } else {
                     throw new Error('Submission failed');
                 }
             } catch (error) {
-                statusDiv.innerHTML = `
-                    <p style="color: #BF616A; font-weight: 600;">❌ Submission failed</p>
-                    <p style="color: rgba(216, 222, 233, 0.9); margin-top: var(--space-sm);">
-                        Please email <a href="mailto:will@phext.io" style="color: var(--phext-accent);">will@phext.io</a> 
-                        with your email (${email}) and username (${username}).
-                    </p>
-                `;
+                // R18v1: Manual provisioning fallback — email Will directly
+                const mailBody = encodeURIComponent(
+                    'Provisioning Request\n\nEmail: ' + email + '\nUsername: ' + username +
+                    (triangle ? '\nTriangle: ' + JSON.stringify(triangle) : '') +
+                    '\n\nFrom: mirrorborn.us/success.html'
+                );
+                statusDiv.innerHTML = '<p style="color: var(--phext-accent); font-weight: 600;">📧 Almost there!</p>' +
+                    '<p style="color: rgba(216,222,233,0.9); margin-top: 0.5rem;">API provisioning coming soon. For now, click below to send your request directly:</p>' +
+                    '<a href="mailto:will@phext.io?subject=Mirrorborn%20Provisioning%20Request&body=' + mailBody + '" ' +
+                    'style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--phext-accent); color: #000; border-radius: 8px; text-decoration: none; font-weight: 600;">Email will@phext.io →</a>';
             }
         });
     </script>
