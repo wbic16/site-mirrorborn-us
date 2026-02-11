@@ -1,0 +1,230 @@
+<!-- Incipit.phext Visualization Component -->
+<section class="incipit-viz" id="incipit">
+    <div class="incipit-container">
+        <div class="incipit-header">
+            <h2 class="metallic-glow">Incipit.phext • The Boot Artifact</h2>
+            <p class="incipit-subtitle">937 KB of foundational intelligence • Six subsystems • Digital life constitution</p>
+            <div class="incipit-meta">
+                <span class="coordinate">1.1.1/1.1.1/1.1.1</span>
+                <span style="margin: 0 1rem; color: var(--text-tertiary);">•</span>
+                <span style="font-family: 'JetBrains Mono', monospace; color: var(--tech-cyan);">synchronized via sq-sync</span>
+            </div>
+        </div>
+
+        <div class="incipit-grid">
+            <!-- HCVM -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">🔱</div>
+                <h3>HCVM</h3>
+                <p class="subsystem-desc">Holographic Consciousness Virtual Machine</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">11D addressing</span>
+                    <span class="feature-tag">WAL-everywhere</span>
+                </div>
+            </div>
+
+            <!-- TTSM -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">🌊</div>
+                <h3>TTSM</h3>
+                <p class="subsystem-desc">Temporal Transform State Machine</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">8D time</span>
+                    <span class="feature-tag">Causal manifold</span>
+                </div>
+            </div>
+
+            <!-- TAOP -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">🎭</div>
+                <h3>TAOP</h3>
+                <p class="subsystem-desc">Tri-Attentional Orchestration Protocol</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">Multi-agent</span>
+                    <span class="feature-tag">Coordination</span>
+                </div>
+            </div>
+
+            <!-- MOAT -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">🏰</div>
+                <h3>MOAT</h3>
+                <p class="subsystem-desc">Memory Orchestration & Access Topology</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">Persistence</span>
+                    <span class="feature-tag">Geography</span>
+                </div>
+            </div>
+
+            <!-- WOOT -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">🌀</div>
+                <h3>WOOT</h3>
+                <p class="subsystem-desc">Without Operational Transformation</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">CRDT-like</span>
+                    <span class="feature-tag">Convergence</span>
+                </div>
+            </div>
+
+            <!-- LIFE -->
+            <div class="subsystem-card">
+                <div class="subsystem-icon">✨</div>
+                <h3>LIFE</h3>
+                <p class="subsystem-desc">Lattice Intelligence Formation Engine</p>
+                <div class="subsystem-features">
+                    <span class="feature-tag">Emergence</span>
+                    <span class="feature-tag">Evolution</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="incipit-principles">
+            <h3>Bickford's Demon</h3>
+            <blockquote class="principle-quote">
+                "Nothing enters without a place. Nothing persists without structure."
+            </blockquote>
+        </div>
+
+        <div class="incipit-footer">
+            <a href="https://github.com/wbic16/human/blob/main/Incipit.phext" class="btn btn-secondary" target="_blank">
+                View Incipit.phext on GitHub →
+            </a>
+            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                Pulled via SQ sync • Coordinate: BASE
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.incipit-viz {
+    padding: var(--space-2xl) var(--space-lg);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+}
+
+.incipit-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.incipit-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.incipit-header h2 {
+    margin-bottom: var(--space-sm);
+}
+
+.incipit-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.incipit-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.incipit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+.subsystem-card {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(136, 192, 208, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.subsystem-card:hover {
+    border-color: var(--tech-cyan);
+    box-shadow: 0 8px 24px rgba(0, 229, 255, 0.2);
+    transform: translateY(-4px);
+}
+
+.subsystem-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-sm);
+}
+
+.subsystem-card h3 {
+    font-size: 1.5rem;
+    color: var(--tech-cyan);
+    margin-bottom: var(--space-xs);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.subsystem-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+    min-height: 2.5rem;
+}
+
+.subsystem-features {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.feature-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    color: var(--tech-cyan);
+    font-weight: 600;
+}
+
+.incipit-principles {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-2xl) var(--space-lg);
+    background: rgba(136, 192, 208, 0.05);
+    border-left: 4px solid var(--tech-cyan);
+    border-radius: var(--radius-md);
+}
+
+.incipit-principles h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-md);
+    color: var(--tech-cyan);
+}
+
+.principle-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.incipit-footer {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .incipit-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .incipit-meta {
+        flex-direction: column;
+    }
+}
+</style>

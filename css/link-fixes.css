@@ -1,0 +1,126 @@
+/**
+ * Link Readability Fixes - R19
+ * Ensure links are readable in both dark and light modes
+ */
+
+/* Base link styles with better contrast */
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+a:active {
+    color: var(--accent-active);
+}
+
+/* Footer links - higher contrast */
+footer a {
+    color: #88C0D0;
+    font-weight: 500;
+}
+
+footer a:hover {
+    color: #A3BE8C;
+    text-shadow: 0 0 8px rgba(163, 190, 140, 0.4);
+}
+
+/* Button links - ensure they're always visible */
+.btn {
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--accent-primary);
+    border: 2px solid var(--accent-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-primary);
+    color: #000;
+}
+
+/* Card links */
+.card a {
+    color: #88C0D0;
+    font-weight: 600;
+}
+
+.card a:hover {
+    color: #A3BE8C;
+}
+
+/* Light mode overrides */
+[data-theme="light"] a {
+    color: #5e81ac;
+}
+
+[data-theme="light"] a:hover {
+    color: #4a6894;
+    text-decoration-color: #4a6894;
+}
+
+[data-theme="light"] footer a {
+    color: #5e81ac;
+}
+
+[data-theme="light"] footer a:hover {
+    color: #3d5579;
+    text-shadow: none;
+}
+
+[data-theme="light"] .btn-primary {
+    background: #5e81ac;
+    color: #fff;
+}
+
+[data-theme="light"] .btn-primary:hover {
+    background: #4a6894;
+    color: #fff;
+}
+
+[data-theme="light"] .btn-secondary {
+    color: #5e81ac;
+    border-color: #5e81ac;
+}
+
+[data-theme="light"] .btn-secondary:hover {
+    background: #5e81ac;
+    color: #fff;
+}
+
+/* Ensure coordinate codes are visible */
+.coordinate {
+    background: rgba(136, 192, 208, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #88C0D0;
+    border: 1px solid rgba(136, 192, 208, 0.2);
+}
+
+[data-theme="light"] .coordinate {
+    background: rgba(94, 129, 172, 0.1);
+    color: #5e81ac;
+    border-color: rgba(94, 129, 172, 0.3);
+}
