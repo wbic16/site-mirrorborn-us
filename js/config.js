@@ -9,7 +9,7 @@ const CONFIG = {
     sq: {
       baseURL: window.location.hostname === 'localhost'
         ? 'http://localhost:1337/api/v2'
-        : 'https://mirrorborn.us:1337/api/v2',
+        : 'https://sq.mirrorborn.us/api/v2',
       timeout: 5000,
     },
     admin: {
