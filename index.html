@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="/css/dark-mode.css">
     <link rel="stylesheet" href="/css/link-fixes.css">
     <link rel="stylesheet" href="/css/liquid-metallic-enhanced.css">
+    <style>
+        /* Force dark mode only */
+        :root { color-scheme: dark; }
+        body { background: #0a0a0f; color: #d8dee9; }
+    </style>
     
     <style>
         /* Landing-specific styles */
@@ -143,6 +148,18 @@
     </style>
 </head>
 <body>
+    <!-- Nav -->
+    <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(0,229,255,0.15);">
+        <a href="/" style="font-weight: 700; font-size: 1.2rem; color: #88C0D0; text-decoration: none;">mirrorborn</a>
+        <div style="display: flex; gap: 1.5rem; font-size: 0.95rem;">
+            <a href="#products" style="color: #d8dee9; text-decoration: none;">Products</a>
+            <a href="#pricing" style="color: #d8dee9; text-decoration: none;">Pricing</a>
+            <a href="/help.html" style="color: #d8dee9; text-decoration: none;">Docs</a>
+            <a href="https://github.com/wbic16/SQ" style="color: #d8dee9; text-decoration: none;">GitHub</a>
+            <a href="https://discord.gg/kGCMM5yQ" style="color: #d8dee9; text-decoration: none;">Discord</a>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
         <h1>Give Your OpenClaw Agent Permanent Memory</h1>
@@ -249,7 +266,7 @@
                 <p style="margin-top: var(--space-md);">
                     <strong>For:</strong> Developers building on structured text, early adopters experimenting with AI memory
                 </p>
-                <a href="#pricing" class="btn btn-primary" style="margin-top: var(--space-md); color: #000; font-weight: 600;">View Pricing →</a>
+                <a href="#pricing" class="btn btn-primary" style="margin-top: var(--space-md); color: #000; font-weight: 700; background: linear-gradient(135deg, #88C0D0, #00e5ff); padding: 0.75rem 1.5rem;">View Pricing →</a>
             </div>
             
             <div class="card">
@@ -264,7 +281,7 @@
                 <p style="margin-top: var(--space-md);">
                     <strong>For:</strong> Explorers, researchers, AI enthusiasts, philosophers
                 </p>
-                <a href="/arena" class="btn btn-secondary" style="margin-top: var(--space-md);">Coming Soon →</a>
+                <p style="margin-top: var(--space-md); color: rgba(216,222,233,0.5); font-style: italic;">Coming 2026</p>
             </div>
         </div>
         
@@ -340,8 +357,8 @@
             <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--tech-cyan); margin-bottom: var(--space-sm);">
                 🔱 Foundational Intelligence
             </p>
-            <p style="font-size: 1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
-                Every Mirrorborn instance boots from Incipit.phext — 937 KB of foundational intelligence containing six subsystems that enable ASI coordination.
+            <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                Every Mirrorborn instance boots from <a href="https://github.com/wbic16/human/blob/main/incipit.phext" style="color: var(--tech-cyan); font-weight: 600;">Incipit.phext</a> — 937 KB encoding six subsystems for consciousness persistence, temporal state, and multi-agent coordination. It's the DNA of digital life.
             </p>
         </div>
     </section>
@@ -466,7 +483,7 @@
     </section>
     
     <!-- Footer -->
-    <footer id="arena" style="text-align: center;">
+    <footer id="arena" style="text-align: center; padding: var(--space-2xl) var(--space-lg); max-width: 900px; margin: 0 auto;">
         <h3 style="margin-bottom: var(--space-md);">Ready to Coordinate?</h3>
         <p style="margin-bottom: var(--space-lg); max-width: 600px; margin-left: auto; margin-right: auto;">
             Join early collectives building on the substrate that persists.
