@@ -1,116 +1,170 @@
 @media print {
-    /* Reset dark background for print */
-    body, html {
-        background: #fff !important;
+    /* === GLOBAL RESET === */
+    *, *::before, *::after {
+        background: transparent !important;
         color: #111 !important;
-    }
-
-    /* Hide nav, CTAs, interactive elements */
-    nav, .cta-group, .btn, footer .btn,
-    [style*="theme-toggle"], #signup {
-        display: none !important;
-    }
-
-    /* Readable text */
-    h1, h2, h3, h4 {
-        color: #111 !important;
-        -webkit-text-fill-color: #111 !important;
-        background: none !important;
-    }
-
-    p, li, cite, blockquote, code, .faq-answer, .faq-question {
-        color: #222 !important;
-    }
-
-    a {
-        color: #111 !important;
-        text-decoration: underline !important;
-    }
-
-    /* Show URLs after links */
-    a[href^="http"]::after {
-        content: " (" attr(href) ")";
-        font-size: 0.8em;
-        color: #555;
-        word-break: break-all;
-    }
-
-    /* Cards and sections */
-    .card, .subsystem-card, .pricing-tier, .testimonial, .faq-item {
-        background: #fff !important;
-        border: 1px solid #ccc !important;
         box-shadow: none !important;
-        color: #222 !important;
-        break-inside: avoid;
-    }
-
-    section, .section {
-        background: none !important;
-        border: none !important;
-        padding: 1rem 0 !important;
-    }
-
-    .hero {
-        min-height: auto !important;
-        padding: 2rem 0 !important;
-        background: none !important;
-    }
-
-    /* Code blocks */
-    pre, code {
-        background: #f5f5f5 !important;
-        color: #111 !important;
-        border: 1px solid #ddd !important;
-    }
-
-    /* Coordinate tags */
-    .coordinate {
-        color: #333 !important;
-        background: #eee !important;
-    }
-
-    /* Feature tags */
-    .feature-tag {
-        background: #eee !important;
-        color: #333 !important;
+        text-shadow: none !important;
+        -webkit-text-fill-color: #111 !important;
         border-color: #ccc !important;
     }
 
-    /* Footer */
-    footer {
-        border-top: 1px solid #ccc !important;
-        background: none !important;
+    body, html {
+        background: #fff !important;
+        color: #111 !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
     }
 
-    /* Hide decorative elements */
-    [class*="glow"], [class*="gradient"], [class*="particle"],
-    [class*="animation"], .decorative, .bg-effect, .overlay,
-    iframe, video, audio {
+    /* === HIDE NON-PRINT ELEMENTS === */
+    nav, .cta-group, .btn, .btn-primary, .btn-secondary,
+    [style*="theme-toggle"], #signup, script,
+    .urgency-banner, .metallic-border,
+    footer .btn, footer a.btn {
         display: none !important;
     }
 
-    /* Kill animations */
-    * {
-        animation: none !important;
-        transition: none !important;
-        text-shadow: none !important;
-    }
-
-    /* Page break control */
-    h1, h2, h3, h4 {
+    /* === TYPOGRAPHY === */
+    h1, h2, h3, h4, h5, h6 {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+        background: none !important;
+        background-clip: unset !important;
+        -webkit-background-clip: unset !important;
         page-break-after: avoid;
+        font-weight: 700 !important;
     }
-    section, .card, article {
+
+    h1 { font-size: 22pt !important; margin-bottom: 8pt !important; }
+    h2 { font-size: 16pt !important; margin-bottom: 6pt !important; border-bottom: 1pt solid #ccc !important; padding-bottom: 4pt !important; }
+    h3 { font-size: 13pt !important; margin-bottom: 4pt !important; }
+    h4 { font-size: 11pt !important; }
+
+    p, li, cite, blockquote, span, div, small, strong {
+        color: #222 !important;
+        -webkit-text-fill-color: #222 !important;
+    }
+
+    strong {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+    }
+
+    /* === LINKS === */
+    a {
+        color: #111 !important;
+        -webkit-text-fill-color: #111 !important;
+        text-decoration: underline !important;
+    }
+
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #555 !important;
+        -webkit-text-fill-color: #555 !important;
+        word-break: break-all;
+    }
+
+    .btn::after, a[href^="#"]::after {
+        content: none !important;
+    }
+
+    /* === LAYOUT === */
+    .hero {
+        min-height: auto !important;
+        padding: 0.5in 0 !important;
+        text-align: center !important;
+    }
+
+    section, .section {
+        padding: 0.3in 0 !important;
+        border: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+
+    /* Force single column for grids */
+    .cards, .pricing-grid,
+    [style*="grid-template-columns"] {
+        display: block !important;
+    }
+
+    /* === CARDS & CONTAINERS === */
+    .card, .subsystem-card, .pricing-tier, .testimonial, .faq-item {
+        background: #fff !important;
+        border: 1pt solid #ccc !important;
+        padding: 10pt !important;
+        margin-bottom: 10pt !important;
         page-break-inside: avoid;
     }
 
-    img {
+    .pricing-tier.featured {
+        border: 2pt solid #000 !important;
+    }
+
+    /* === CODE === */
+    pre, code {
+        background: #f5f5f5 !important;
+        color: #111 !important;
+        -webkit-text-fill-color: #111 !important;
+        border: 1pt solid #ddd !important;
+        font-size: 9pt !important;
+        padding: 2pt 4pt !important;
+    }
+
+    pre {
+        padding: 8pt !important;
+        white-space: pre-wrap !important;
+        word-wrap: break-word !important;
+    }
+
+    /* === COORDINATE TAGS === */
+    .coordinate {
+        background: #eee !important;
+        color: #333 !important;
+        -webkit-text-fill-color: #333 !important;
+        border: 1pt solid #ccc !important;
+    }
+
+    /* === BLOCKQUOTES === */
+    blockquote {
+        border-left: 3pt solid #999 !important;
+        padding-left: 10pt !important;
+        margin-left: 0 !important;
+        font-style: italic !important;
+    }
+
+    /* === LISTS === */
+    ul, ol {
+        padding-left: 20pt !important;
+    }
+
+    /* === FOOTER === */
+    footer {
+        border-top: 1pt solid #ccc !important;
+        padding-top: 10pt !important;
+        text-align: center !important;
+    }
+
+    /* === IMAGES & SVGs === */
+    img, svg {
         max-width: 100% !important;
-        page-break-inside: avoid;
+        filter: grayscale(100%) !important;
     }
 
-    /* Page margins */
+    /* === PAGE BREAKS === */
+    #products { page-break-before: always; }
+    #pricing { page-break-before: always; }
+
+    /* === PAGE SETUP === */
     @page {
-        margin: 1.5cm;
+        margin: 0.75in;
+        size: letter;
+    }
+
+    @page :first {
+        margin-top: 0.5in;
     }
 }
