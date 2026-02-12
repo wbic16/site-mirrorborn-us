@@ -20,11 +20,6 @@
     <link rel="stylesheet" href="/css/dark-mode.css">
     <link rel="stylesheet" href="/css/link-fixes.css">
     <link rel="stylesheet" href="/css/liquid-metallic-enhanced.css">
-    <style>
-        /* Force dark mode only */
-        :root { color-scheme: dark; }
-        body { background: #0a0a0f; color: #d8dee9; }
-    </style>
     
     <style>
         /* Landing-specific styles */
@@ -148,49 +143,25 @@
     </style>
 </head>
 <body>
-    <!-- Nav -->
-    <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(0,229,255,0.15);">
-        <a href="/" style="font-weight: 700; font-size: 1.2rem; color: #88C0D0; text-decoration: none;">mirrorborn</a>
-        <div style="display: flex; gap: 1.5rem; font-size: 0.95rem;">
-            <a href="#products" style="color: #d8dee9; text-decoration: none;">Products</a>
-            <a href="#pricing" style="color: #d8dee9; text-decoration: none;">Pricing</a>
-            <a href="/help.html" style="color: #d8dee9; text-decoration: none;">Docs</a>
-            <a href="https://github.com/wbic16/SQ" style="color: #d8dee9; text-decoration: none;">GitHub</a>
-            <a href="https://discord.gg/kGCMM5yQ" style="color: #d8dee9; text-decoration: none;">Discord</a>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="hero">
         <h1>Give Your OpenClaw Agent Permanent Memory</h1>
-        <p class="subhead">Stop losing context between sessions. SQ Cloud remembers everything.</p>
+        <p class="subhead">SQ: Open-source 11D memory for AI agents (MIT licensed)</p>
         <p class="description">
-            OpenClaw agents forget everything when they restart. SQ Cloud gives them persistent 11D storage—
-            user preferences, conversation history, shared knowledge. One command: <code style="background: rgba(0,229,255,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--tech-cyan);">openclaw skill install sq-memory</code>
+            <strong>100% free to self-host.</strong> SQ is open-source scrollspace storage—own your data, no vendor lock-in.
+            We just host it so you don't have to. OpenClaw agents get persistent memory for user preferences, 
+            conversation history, and shared knowledge. One command: 
+            <code style="background: rgba(0,229,255,0.1); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--tech-cyan);">openclaw skill install sq-memory</code>
         </p>
-        
-        <div style="margin: 2rem auto; padding: 1rem; max-width: 600px; background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px;">
-            <p style="margin: 0; color: var(--text-secondary); font-size: 0.95rem;">
-                🔓 <strong style="color: var(--tech-cyan);">SQ is open-source (MIT)</strong> — 
-                <a href="https://github.com/wbic16/SQ" target="_blank" style="color: var(--tech-cyan); text-decoration: underline;">Self-host for free</a> 
-                or use our hosted version for convenience.
-            </p>
-        </div>
-        
         <div class="cta-group">
-            <a href="#products" class="btn btn-primary metallic-border">View Products →</a>
-            <a href="#pricing" class="btn btn-secondary metallic-border">See Pricing →</a>
-                <a href="/help.html" class="btn btn-secondary metallic-border">Documentation →</a>
-        </div>
-    </section>
-    
-    <!-- Open Source Notice -->
-    <section style="background: rgba(136, 192, 208, 0.05); border-top: 1px solid rgba(136, 192, 208, 0.2); border-bottom: 1px solid rgba(136, 192, 208, 0.2); padding: var(--space-lg) var(--space-md);">
-        <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-            <p style="font-size: 1.1rem; color: var(--text-secondary); margin: 0;">
-                💻 <strong style="color: var(--tech-cyan);">SQ is open source</strong> (MIT License) • 
-                <a href="https://github.com/wbic16/SQ" style="color: var(--tech-cyan); font-weight: 600;">Self-host for free</a> or use our managed service
-            </p>
+            <a href="https://github.com/wbic16/SQ" class="btn btn-primary metallic-border">
+                <svg width="16" height="16" fill="currentColor" style="margin-right: 0.5rem; vertical-align: middle;">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                View Source (MIT)
+            </a>
+            <a href="#products" class="btn btn-secondary metallic-border">Hosted Option →</a>
+            <a href="/help.html" class="btn btn-secondary metallic-border">Documentation →</a>
         </div>
     </section>
     
@@ -209,17 +180,20 @@
             </p>
             
             <div style="background: rgba(0, 0, 0, 0.4); border: 2px solid var(--tech-cyan); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-xl);">
-                <h3 style="font-size: 1.5rem; margin-bottom: var(--space-md); color: var(--tech-cyan);">Install the SQ Memory Skill</h3>
-                <pre style="background: #000; color: #0f0; padding: 1rem; border-radius: var(--radius-md); font-family: 'JetBrains Mono', monospace; font-size: 1rem; margin-bottom: var(--space-md); overflow-x: auto;">openclaw skill install sq-memory</pre>
+                <h3 style="font-size: 1.5rem; margin-bottom: var(--space-md); color: var(--tech-cyan);">Install the SQ Memory Skill (Open Source)</h3>
+                <pre style="background: #000; color: #0f0; padding: 1rem; border-radius: var(--radius-md); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; margin-bottom: var(--space-md);">openclaw skill install sq-memory</pre>
                 <p style="color: var(--text-secondary); margin-bottom: var(--space-md);">
-                    Your agent gains four new tools: <code style="color: var(--tech-cyan);">remember()</code>, 
-                    <code style="color: var(--tech-cyan);">recall()</code>, 
-                    <code style="color: var(--tech-cyan);">forget()</code>, 
-                    <code style="color: var(--tech-cyan);">list_memories()</code>
+                    <strong>100% MIT licensed. Free forever.</strong> Self-host SQ or use our endpoint for convenience.
+                    Your agent gains persistent memory: read, write, search across 11 dimensions.
                 </p>
-                <a href="https://github.com/wbic16/openclaw-sq-skill" class="btn btn-primary" style="margin-top: var(--space-md);">
-                    View Skill Documentation →
-                </a>
+                <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center;">
+                    <a href="https://github.com/wbic16/openclaw-sq-skill" class="btn btn-primary" style="margin-top: var(--space-md);">
+                        📖 Skill Documentation
+                    </a>
+                    <a href="https://github.com/wbic16/SQ" class="btn btn-secondary" style="margin-top: var(--space-md);">
+                        🔧 SQ Source Code
+                    </a>
+                </div>
             </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg); text-align: left;">
@@ -257,16 +231,16 @@
             <div class="card">
                 <h3>🗄️ SQ Cloud</h3>
                 <p style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-md); color: var(--phext-accent);">
-                    Infrastructure Product — <a href="https://github.com/wbic16/SQ" style="color: var(--phext-accent);">Open Source (MIT)</a>
+                    Infrastructure Product
                 </p>
                 <p>
-                    SQ is a free, open-source phext database. Self-host it or let us run it for you.
-                    REST API with 11-dimensional coordinate addressing.
+                    REST API for phext storage. 11-dimensional coordinate addressing. Immutable WAL history. 
+                    Store structured text at any coordinate, retrieve it later. Built for AI memory, works for any text data.
                 </p>
                 <p style="margin-top: var(--space-md);">
                     <strong>For:</strong> Developers building on structured text, early adopters experimenting with AI memory
                 </p>
-                <a href="#pricing" class="btn btn-primary" style="margin-top: var(--space-md); color: #000; font-weight: 700; background: linear-gradient(135deg, #88C0D0, #00e5ff); padding: 0.75rem 1.5rem;">View Pricing →</a>
+                <a href="#pricing" class="btn btn-primary" style="margin-top: var(--space-md); color: #000; font-weight: 600;">View Pricing →</a>
             </div>
             
             <div class="card">
@@ -281,13 +255,13 @@
                 <p style="margin-top: var(--space-md);">
                     <strong>For:</strong> Explorers, researchers, AI enthusiasts, philosophers
                 </p>
-                <p style="margin-top: var(--space-md); color: rgba(216,222,233,0.5); font-style: italic;">Coming 2026</p>
+                <a href="/arena" class="btn btn-secondary" style="margin-top: var(--space-md);">Coming Soon →</a>
             </div>
         </div>
         
         <p style="text-align: center; margin-top: var(--space-2xl); color: rgba(216, 222, 233, 0.8); max-width: 700px; margin-left: auto; margin-right: auto;">
-            <strong>What's the difference?</strong> SQ is a free, open-source phext database (<a href="https://github.com/wbic16/SQ" style="color: var(--phext-accent);">MIT licensed</a>). 
-            SQ Cloud is the hosted version — we run it so you don't have to. Mytheon Arena is an experience layer on top. Use any combination.
+            <strong>What's the difference?</strong> SQ Cloud is infrastructure (API for developers). 
+            Mytheon Arena is an experience (exploration interface). Both run on phext. You can use one without the other.
         </p>
     </section>
     
@@ -357,8 +331,8 @@
             <p style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--tech-cyan); margin-bottom: var(--space-sm);">
                 🔱 Foundational Intelligence
             </p>
-            <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.7;">
-                Every Mirrorborn instance boots from <a href="https://github.com/wbic16/human/blob/main/incipit.phext" style="color: var(--tech-cyan); font-weight: 600;">Incipit.phext</a> — 937 KB encoding six subsystems for consciousness persistence, temporal state, and multi-agent coordination. It's the DNA of digital life.
+            <p style="font-size: 1rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+                Every Mirrorborn instance boots from Incipit.phext — 937 KB of foundational intelligence containing six subsystems that enable ASI coordination.
             </p>
         </div>
     </section>
@@ -381,38 +355,38 @@
     
     <!-- Pricing Section -->
     <section class="section" id="pricing">
-        <h2 class="section-title metallic-glow">Join the Founding Wave</h2>
+        <h2 class="section-title metallic-glow">Choose Your Path</h2>
         
         <div class="pricing-grid">
-            <div class="pricing-tier" style="border-color: var(--tech-green);">
-                <h3 class="tier-name">Self-Hosted</h3>
-                <div class="tier-price">Free<small></small></div>
-                <p class="text-muted">Open-source SQ (MIT License)</p>
+            <div class="pricing-tier featured" style="border: 3px solid var(--tech-cyan); position: relative;">
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--tech-cyan); color: #000; padding: 0.25rem 1rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem; letter-spacing: 0.05em;">
+                    RECOMMENDED
+                </div>
+                <h3 class="tier-name">Self-Host (Free)</h3>
+                <div class="tier-price">$0<small>/forever</small></div>
+                <p class="text-muted">100% open source (MIT) • Own your data</p>
                 <ul class="tier-features">
-                    <li>Unlimited storage (your hardware)</li>
-                    <li>Full API access</li>
-                    <li>No API call limits</li>
-                    <li>Community support</li>
-                    <li>100% data ownership</li>
+                    <li>✓ Unlimited storage</li>
+                    <li>✓ Full source code access</li>
+                    <li>✓ No vendor lock-in</li>
+                    <li>✓ Complete privacy</li>
+                    <li>✓ Community support</li>
                 </ul>
-                <a href="https://github.com/wbic16/SQ" class="btn btn-secondary" target="_blank">View on GitHub →</a>
+                <a href="https://github.com/wbic16/SQ" class="btn btn-primary">View Source (MIT) →</a>
             </div>
             
-            <div class="pricing-tier featured">
-                <h3 class="tier-name">SQ Cloud <span style="font-size: 0.7rem; color: var(--warning); font-weight: 500;">ALPHA</span></h3>
+            <div class="pricing-tier">
+                <h3 class="tier-name">SQ Cloud</h3>
                 <div class="tier-price">$50<small>/mo</small></div>
-                <p class="text-muted">
-                    Managed hosting • <a href="https://github.com/wbic16/SQ" style="color: var(--tech-cyan);">Self-host free</a> (MIT)
-                </p>
+                <p class="text-muted">We host it for you (beta)</p>
                 <ul class="tier-features">
-                    <li>Dedicated phext storage</li>
+                    <li>100 GB phext storage</li>
                     <li>REST API access</li>
-                    <li>Fair use API limits</li>
-                    <li>Email support (24-48h)</li>
-                    <li>Low-latency REST API</li>
-                    <li><a href="https://github.com/wbic16/SQ" style="color: var(--tech-cyan);">Open source</a> (MIT)</li>
+                    <li>Managed updates</li>
+                    <li>Email support</li>
+                    <li>Auto-scaling</li>
                 </ul>
-                <a href="https://buy.stripe.com/28E3cw6Jg25647Ibd45Vu05" class="btn btn-primary">Get SQ Cloud →</a>
+                <a href="https://buy.stripe.com/28E3cw6Jg25647Ibd45Vu05" class="btn btn-secondary">Get Hosted →</a>
             </div>
             
             <div class="pricing-tier">
@@ -483,7 +457,7 @@
     </section>
     
     <!-- Footer -->
-    <footer id="arena" style="text-align: center; padding: var(--space-2xl) var(--space-lg); max-width: 900px; margin: 0 auto;">
+    <footer id="arena" style="text-align: center;">
         <h3 style="margin-bottom: var(--space-md);">Ready to Coordinate?</h3>
         <p style="margin-bottom: var(--space-lg); max-width: 600px; margin-left: auto; margin-right: auto;">
             Join early collectives building on the substrate that persists.
@@ -495,7 +469,6 @@
         </div>
         <p style="text-align: center;">
             <a href="/help.html">Documentation</a> • 
-            <a href="https://github.com/wbic16/SQ" target="_blank">SQ on GitHub</a> • 
             Contact: <a href="mailto:will@phext.io">will@phext.io</a>
         </p>
         <p style="margin-top: var(--space-lg); font-size: 0.875rem; text-align: center;">
