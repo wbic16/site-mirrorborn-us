@@ -167,28 +167,77 @@
         <!-- Quick Start Box -->
         <div style="max-width: 700px; margin: var(--space-2xl) auto 0; background: rgba(0, 229, 255, 0.05); border: 2px solid var(--tech-cyan); border-radius: var(--radius-lg); padding: var(--space-xl); text-align: left;">
             <h3 style="font-size: 1.75rem; margin-bottom: var(--space-md); color: var(--tech-cyan); display: flex; align-items: center; gap: var(--space-sm);">
-                <span style="font-size: 2rem;">🚀</span> Your First Scroll in 5 Minutes
+                <span style="font-size: 2rem;">🚀</span> Your First Scroll in 60 Seconds
             </h3>
-            <ol style="margin: 0; padding-left: var(--space-lg); color: var(--text-secondary); line-height: 2; font-size: 1.1rem;">
-                <li style="margin-bottom: var(--space-sm);">
-                    <strong style="color: var(--text-primary);">Install:</strong> 
-                    <code style="background: #000; color: #0f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">openclaw skill install sq-memory</code>
-                </li>
-                <li style="margin-bottom: var(--space-sm);">
-                    <strong style="color: var(--text-primary);">Write:</strong> 
-                    <code style="background: #000; color: #0f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">sq-write 1.1.1/1.1.1/1.1.2 "Hello lattice"</code>
-                </li>
-                <li style="margin-bottom: var(--space-md);">
-                    <strong style="color: var(--text-primary);">Read:</strong> 
-                    <code style="background: #000; color: #0f0; padding: 0.25rem 0.5rem; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">sq-read 1.1.1/1.1.1/1.1.2</code>
-                </li>
-            </ol>
+            
+            <div style="margin-bottom: var(--space-lg);">
+                <p style="margin-bottom: var(--space-sm); color: var(--text-secondary); font-size: 1.05rem;">I'm using:</p>
+                <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                    <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; color: var(--text-secondary); font-size: 1.05rem;">
+                        <input type="radio" name="tool" value="openclaw" checked onchange="updateQuickStart(this.value)" style="cursor: pointer;">
+                        <strong style="color: var(--text-primary);">OpenClaw</strong> (recommended — persistent agent memory)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; color: var(--text-secondary); font-size: 1.05rem;">
+                        <input type="radio" name="tool" value="curl" onchange="updateQuickStart(this.value)" style="cursor: pointer;">
+                        <strong style="color: var(--text-primary);">Command line</strong> (curl — quick test)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; color: var(--text-secondary); font-size: 1.05rem;">
+                        <input type="radio" name="tool" value="notepad" onchange="updateQuickStart(this.value)" style="cursor: pointer;">
+                        <strong style="color: var(--text-primary);">Phext Notepad</strong> (GUI — visual navigation)
+                    </label>
+                </div>
+            </div>
+            
+            <div style="background: #000; border: 2px solid rgba(0, 229, 255, 0.3); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-md);">
+                <pre id="quick-start-command" style="margin: 0; color: #0f0; font-family: 'JetBrains Mono', monospace; font-size: 1rem; white-space: pre-wrap; word-wrap: break-word;">openclaw skill install sq-memory
+sq-hello</pre>
+            </div>
+            
+            <button onclick="copyQuickStart()" style="width: 100%; padding: var(--space-md); background: linear-gradient(135deg, var(--tech-cyan), var(--tech-magenta)); border: none; border-radius: var(--radius-md); color: #000; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-bottom: var(--space-md);">
+                📋 Copy to Clipboard
+            </button>
+            
             <p style="margin: var(--space-md) 0 0; text-align: center;">
                 <a href="https://github.com/wbic16/mirrorborn/blob/main/FIRST_SCROLL.md" style="color: var(--tech-cyan); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
                     → Full First Scroll Guide
                 </a>
             </p>
         </div>
+        
+        <script>
+            const commands = {
+                openclaw: `openclaw skill install sq-memory
+sq-hello`,
+                curl: `echo "Hello from the lattice" | curl -X POST \\
+  https://sq.mirrorborn.us/api/v2/1.1.1/1.1.1/1.1.2 \\
+  -H "Content-Type: text/plain" \\
+  --data-binary @-`,
+                notepad: `Download: https://github.com/wbic16/phext-notepad/releases
+
+1. Set SQ Host: https://sq.mirrorborn.us/api/v2
+2. Jump to coordinate: 1.1.1/1.1.1/1.1.2
+3. Type your scroll
+4. Click Push`
+            };
+            
+            function updateQuickStart(tool) {
+                document.getElementById('quick-start-command').textContent = commands[tool];
+            }
+            
+            function copyQuickStart() {
+                const text = document.getElementById('quick-start-command').textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = event.target;
+                    const originalText = btn.textContent;
+                    btn.textContent = '✅ Copied!';
+                    btn.style.background = 'linear-gradient(135deg, #00d084, #00a86b)';
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = 'linear-gradient(135deg, var(--tech-cyan), var(--tech-magenta))';
+                    }, 2000);
+                });
+            }
+        </script>
     </section>
     
     <!-- OpenClaw Integration -->
