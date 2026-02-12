@@ -1,0 +1,27 @@
+/* Launch Progress Bar */
+.progress-label {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+.progress-track {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  height: 24px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+  min-width: 2px;
+}
+.progress-pct {
+  font-size: 0.85rem;
+  color: #888;
+  text-align: center;
+  margin-top: 0.3rem;
+}
