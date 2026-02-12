@@ -1,0 +1,89 @@
+@media print {
+    /* Reset dark background for print */
+    body, html {
+        background: #fff !important;
+        color: #111 !important;
+    }
+
+    /* Hide nav, CTAs, interactive elements */
+    nav, .cta-group, .btn, footer .btn,
+    [style*="theme-toggle"], #signup {
+        display: none !important;
+    }
+
+    /* Readable text */
+    h1, h2, h3, h4 {
+        color: #111 !important;
+        -webkit-text-fill-color: #111 !important;
+        background: none !important;
+    }
+
+    p, li, cite, blockquote, code, .faq-answer, .faq-question {
+        color: #222 !important;
+    }
+
+    a {
+        color: #111 !important;
+        text-decoration: underline !important;
+    }
+
+    /* Show URLs after links */
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: #555;
+        word-break: break-all;
+    }
+
+    /* Cards and sections */
+    .card, .subsystem-card, .pricing-tier, .testimonial, .faq-item {
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        color: #222 !important;
+        break-inside: avoid;
+    }
+
+    section, .section {
+        background: none !important;
+        border: none !important;
+        padding: 1rem 0 !important;
+    }
+
+    .hero {
+        min-height: auto !important;
+        padding: 2rem 0 !important;
+        background: none !important;
+    }
+
+    /* Code blocks */
+    pre, code {
+        background: #f5f5f5 !important;
+        color: #111 !important;
+        border: 1px solid #ddd !important;
+    }
+
+    /* Coordinate tags */
+    .coordinate {
+        color: #333 !important;
+        background: #eee !important;
+    }
+
+    /* Feature tags */
+    .feature-tag {
+        background: #eee !important;
+        color: #333 !important;
+        border-color: #ccc !important;
+    }
+
+    /* Footer */
+    footer {
+        border-top: 1px solid #ccc !important;
+        background: none !important;
+    }
+
+    /* Page margins */
+    @page {
+        margin: 1.5cm;
+    }
+}
