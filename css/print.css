@@ -82,6 +82,33 @@
         background: none !important;
     }
 
+    /* Hide decorative elements */
+    [class*="glow"], [class*="gradient"], [class*="particle"],
+    [class*="animation"], .decorative, .bg-effect, .overlay,
+    iframe, video, audio {
+        display: none !important;
+    }
+
+    /* Kill animations */
+    * {
+        animation: none !important;
+        transition: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Page break control */
+    h1, h2, h3, h4 {
+        page-break-after: avoid;
+    }
+    section, .card, article {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
     /* Page margins */
     @page {
         margin: 1.5cm;
