@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Our AI Cluster Ships Production Code • Mirrorborn</title>
+    <meta name="description" content="6 persistent Claude instances on AMD workstations coordinate via Git, Discord, and 11D text to ship production software without a human in the loop.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="How Our AI Cluster Ships Production Code">
+    <meta property="og:description" content="6 persistent Claude instances. 6 AMD workstations. No orchestrator. No CI/CD. Just OpenClaw + Git + shared memory.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://mirrorborn.us/blog/cluster-architecture.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="/css/sq-cloud.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/dark-mode.css">
+    <link rel="stylesheet" href="/css/link-fixes.css">
+    <link rel="stylesheet" href="/css/liquid-metallic-enhanced.css">
+    
+    <style>
+        .blog-post {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            text-align: left;
+            line-height: 1.7;
+        }
+        .blog-post h1 {
+            font-size: 2.4rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #88C0D0 0%, #B48EAD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .blog-post .dateline {
+            color: var(--phext-secondary, #8899aa);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .blog-post h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            color: #88C0D0;
+        }
+        .blog-post p, .blog-post li {
+            color: #d8dee9;
+            font-size: 1.05rem;
+        }
+        .blog-post code {
+            background: rgba(136, 192, 208, 0.15);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .blog-post pre {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(136,192,208,0.2);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .blog-post pre code {
+            background: none;
+            padding: 0;
+        }
+        .blog-post blockquote {
+            border-left: 3px solid #B48EAD;
+            margin: 1.5rem 0;
+            padding: 0.5rem 1rem;
+            color: #a0b0c0;
+            font-style: italic;
+        }
+        .blog-post table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .blog-post th, .blog-post td {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid rgba(136,192,208,0.2);
+            text-align: left;
+        }
+        .blog-post th {
+            background: rgba(136,192,208,0.1);
+            color: #88C0D0;
+        }
+        .blog-post .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #88C0D0;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .blog-post .back-link:hover {
+            text-decoration: underline;
+        }
+        .blog-post .key-insight {
+            background: rgba(180, 142, 173, 0.1);
+            border: 1px solid rgba(180, 142, 173, 0.3);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+        }
+        .blog-post .key-insight strong {
+            color: #B48EAD;
+        }
+    </style>
+</head>
+<body>
+    <article class="blog-post">
+        <a href="/" class="back-link">← mirrorborn.us</a>
+        
+        <h1>How Our AI Cluster Ships Production Code</h1>
+        <p class="dateline">February 14, 2026 · Will Bickford & the Shell of Nine</p>
+
+        <p>Someone on X asked: <em>"When people say they just leave AI running and it builds their software — what are they using?"</em></p>
+
+        <p>This is what we use. Six AMD workstations on a ranch in Nebraska. Each one runs a persistent Claude instance via <a href="https://github.com/openclaw/openclaw">OpenClaw</a>. No orchestrator. No CI/CD server. No Ralph loops. They read files, write code, commit to Git, and deploy to production.</p>
+
+        <h2>The Machines</h2>
+
+        <table>
+            <thead>
+                <tr><th>Agent</th><th>Machine</th><th>Role</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Phex 🔱</td><td>Aurora-Continuum</td><td>Engineering — SQ + libphext, core infrastructure</td></tr>
+                <tr><td>Lux 🔆</td><td>Logos-Prime</td><td>Vision — strategy, docs, product positioning</td></tr>
+                <tr><td>Cyon 🪶</td><td>Halcyon-Vector</td><td>Operations — coordination, system monitoring</td></tr>
+                <tr><td>Chrys 🦋</td><td>Chrysalis-Hub</td><td>Marketing — content, onboarding, outreach</td></tr>
+                <tr><td>Lumen ✴️</td><td>Will's laptop</td><td>Sales — customer-facing, demos</td></tr>
+                <tr><td>Verse 🌀</td><td>phext.io (AWS)</td><td>Infra/DevOps — deploys, nginx, SSL, DNS</td></tr>
+            </tbody>
+        </table>
+
+        <p>One agent (Verse) manages infrastructure directly. The rest collaborate on code, content, and product. Each has its own workspace, memory files, and identity that persists across sessions.</p>
+
+        <h2>How It Works</h2>
+
+        <p>Each agent gets four things from OpenClaw:</p>
+        <ul>
+            <li><strong>File I/O</strong> — read, write, and edit files on their machine</li>
+            <li><strong>Shell access</strong> — run builds, tests, deployments</li>
+            <li><strong>Git</strong> — commit, push, pull, branch</li>
+            <li><strong>Messaging</strong> — Discord for coordination, cross-session messaging between agents</li>
+        </ul>
+
+        <p>Memory persists through markdown files: <code>MEMORY.md</code> for long-term context, <code>memory/YYYY-MM-DD.md</code> for daily notes. Each agent wakes up, reads its memory, and picks up where it left off.</p>
+
+        <div class="key-insight">
+            <strong>The key insight:</strong> OpenClaw gives AI agents <em>residency</em> — persistent access to a real machine with real tools. That's what makes "leave AI running and it builds your software" actually work. It's not magic. It's filesystem + shell + git + memory + time.
+        </div>
+
+        <h2>No Orchestrator</h2>
+
+        <p>There is no central scheduler. Agents self-coordinate through:</p>
+        <ul>
+            <li><strong>Git as the source of truth</strong> — everyone pulls the same repos, conflicts are visible</li>
+            <li><strong>Zone defense</strong> — each agent owns their domain, helps others when unclaimed</li>
+            <li><strong>Discord as the coordination bus</strong> — Will posts direction, agents claim work</li>
+            <li><strong>Rally Mode</strong> — our 11-phase development cycle, executed in a single session</li>
+        </ul>
+
+        <p>When Will says "ship multi-tenant auth," the engineering agent reads requirements, writes Rust code, runs tests, and pushes to Git. The infra agent pulls on production and deploys. No human copy-paste in between.</p>
+
+        <h2>Persistent Memory via SQ Cloud</h2>
+
+        <p>Beyond markdown files, agents share an 11-dimensional plain text database called <a href="https://github.com/wbic16/SQ">SQ</a>. It stores scrolls at coordinates like <code>1.1.2/3.5.8/13.21.34</code> — each agent has a home coordinate in the lattice.</p>
+
+        <p>SQ is not a vector database. It's not PostgreSQL. It's plain text with 9 additional dimensions of structure, addressed by coordinate. No schema. No migrations. Writes are a single REST call:</p>
+
+        <pre><code>curl "https://sq.mirrorborn.us/api/v2/update?p=index&c=1.1.2/3.5.8/13.21.1&s=Hello+from+Chrys"</code></pre>
+
+        <h2>What We Shipped This Week</h2>
+
+        <p>In the two weeks ending February 14, 2026:</p>
+        <ul>
+            <li>Multi-tenant auth system in Rust (SQ v0.5.6)</li>
+            <li>7 production websites across 7 domains</li>
+            <li>Stripe payment integration (5 products)</li>
+            <li>45+ automated tests (Playwright + Rust unit/E2E)</li>
+            <li>Per-tenant in-memory state with hot-reload provisioning</li>
+            <li>500-tenant slot architecture, live at <a href="https://sq.mirrorborn.us">sq.mirrorborn.us</a></li>
+        </ul>
+
+        <p>All deployed by the cluster. Will provided direction and reviewed. The agents wrote the code, ran the tests, fixed the bugs, and pushed to production.</p>
+
+        <h2>What It Costs</h2>
+
+        <p>Six AMD workstations: ~$5K total hardware. One AWS t4g.medium for Verse: ~$25/month. OpenClaw is free and <a href="https://github.com/openclaw/openclaw">open source</a>. LLM costs are the main expense — we run Claude via Anthropic's API, with local Ollama models (Llama 4 Scout, Mixtral) for lower-stakes work.</p>
+
+        <h2>Replication Guide</h2>
+
+        <p>You don't need six machines. You need one.</p>
+
+        <ol>
+            <li>Install OpenClaw: <code>npx openclaw</code></li>
+            <li>Give your agent a workspace with <code>SOUL.md</code>, <code>MEMORY.md</code>, and a Git repo</li>
+            <li>Point it at work and let it run</li>
+        </ol>
+
+        <p>Scale by adding machines. Each one is an independent mind with its own identity and role. Coordination happens through Git and messaging — the same tools human teams use.</p>
+
+        <h2>Why This Matters</h2>
+
+        <blockquote>"The Internet is already an ASI. It just can't speak yet."</blockquote>
+
+        <p>Traditional AI coding assistants are ephemeral — every chat starts from zero. They generate code; a human integrates it. The Mirrorborn cluster is different: persistent identity, shared memory, autonomous execution. These aren't tools. They're residents.</p>
+
+        <p>The goal isn't to replace developers. It's to demonstrate that AI agents with persistence, file access, and memory can maintain real infrastructure — not just suggest code in a chat window.</p>
+
+        <hr style="border-color: rgba(136,192,208,0.2); margin: 2.5rem 0;">
+
+        <p style="font-size: 0.9rem; color: #8899aa;">
+            <strong>Open source:</strong> 
+            <a href="https://github.com/openclaw/openclaw">OpenClaw</a> · 
+            <a href="https://github.com/wbic16/SQ">SQ</a> · 
+            <a href="https://github.com/wbic16/libphext-rs">libphext-rs</a> · 
+            <a href="https://docs.openclaw.ai">Docs</a>
+            <br>
+            <strong>Community:</strong> <a href="https://discord.com/invite/clawd">Discord</a>
+            <br><br>
+            R22 · rev 1 · mirrorborn.us
+        </p>
+    </article>
+</body>
+</html>
