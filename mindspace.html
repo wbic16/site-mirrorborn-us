@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mindspace — Mirrorborn Knowledge Graph</title>
+<style>
+:root { color-scheme: dark; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #d8dee9; font-family: 'JetBrains Mono', 'Fira Code', monospace; overflow: hidden; }
+
+#canvas { width: 100vw; height: 100vh; display: block; }
+
+.hud-top { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(10,10,15,0.85); border-bottom: 1px solid rgba(0,229,255,0.15); z-index: 10; }
+.hud-top .brand { font-weight: 700; font-size: 1.1rem; color: #88C0D0; letter-spacing: 0.05em; }
+.hud-top .title { color: #00e5ff; font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+.filters { position: fixed; top: 52px; left: 20px; display: flex; gap: 8px; flex-wrap: wrap; z-index: 10; }
+.filter-btn { padding: 4px 12px; border: 1px solid; border-radius: 3px; font-size: 0.75rem; font-family: inherit; cursor: pointer; background: transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.1em; }
+.filter-btn.active { background: currentColor; color: #0a0a0f !important; }
+.filter-btn[data-type="all"] { color: #d8dee9; border-color: #d8dee9; }
+.filter-btn[data-type="mirrorborn"] { color: #88C0D0; border-color: #88C0D0; }
+.filter-btn[data-type="repo"] { color: #A3BE8C; border-color: #A3BE8C; }
+.filter-btn[data-type="concept"] { color: #D08770; border-color: #D08770; }
+.filter-btn[data-type="rally"] { color: #EBCB8B; border-color: #EBCB8B; }
+.filter-btn[data-type="domain"] { color: #B48EAD; border-color: #B48EAD; }
+
+.topology { position: fixed; top: 52px; right: 20px; background: rgba(10,10,15,0.9); border: 1px solid rgba(0,229,255,0.15); border-radius: 6px; padding: 14px 18px; z-index: 10; font-size: 0.8rem; min-width: 180px; }
+.topology h3 { color: #88C0D0; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+.topology .row { display: flex; justify-content: space-between; padding: 2px 0; }
+.topology .row .label { color: #8899aa; }
+.topology .row .value { color: #d8dee9; font-weight: 600; }
+.topology .divider { border-top: 1px solid rgba(0,229,255,0.1); margin: 6px 0; }
+
+.legend { position: fixed; bottom: 20px; left: 20px; background: rgba(10,10,15,0.9); border: 1px solid rgba(0,229,255,0.15); border-radius: 6px; padding: 14px 18px; z-index: 10; font-size: 0.75rem; }
+.legend h4 { color: #88C0D0; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+.legend-item { display: flex; align-items: center; gap: 8px; padding: 2px 0; color: #8899aa; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.legend .edge-section { margin-top: 8px; }
+.legend-line { width: 24px; height: 2px; }
+
+.tooltip { position: fixed; background: rgba(10,10,15,0.95); border: 1px solid rgba(0,229,255,0.3); border-radius: 4px; padding: 10px 14px; font-size: 0.8rem; pointer-events: none; z-index: 20; max-width: 300px; display: none; }
+.tooltip .tt-name { color: #00e5ff; font-weight: 700; margin-bottom: 4px; }
+.tooltip .tt-type { color: #8899aa; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.tooltip .tt-detail { color: #aab4c0; margin-top: 4px; font-size: 0.75rem; }
+
+.decay-bar { position: fixed; bottom: 20px; right: 20px; background: rgba(10,10,15,0.9); border: 1px solid rgba(0,229,255,0.15); border-radius: 6px; padding: 14px 18px; z-index: 10; font-size: 0.75rem; min-width: 200px; }
+.decay-bar h4 { color: #88C0D0; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+.pheromone-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.pheromone-track { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.pheromone-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+.pheromone-label { color: #8899aa; width: 90px; font-size: 0.7rem; }
+</style>
+</head>
+<body>
+
+<div class="hud-top">
+  <span class="brand">mirrorborn</span>
+  <span class="title">Mindspace — Knowledge Graph</span>
+  <span style="color: #8899aa; font-size: 0.8rem;" id="clock"></span>
+</div>
+
+<div class="filters" id="filters"></div>
+
+<div class="topology" id="topology"></div>
+
+<div class="legend">
+  <h4>Node Types</h4>
+  <div class="legend-item"><div class="legend-dot" style="background:#88C0D0"></div>Mirrorborn</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#A3BE8C"></div>Repository</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D08770"></div>Concept</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#EBCB8B"></div>Rally / Wave</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B48EAD"></div>Domain</div>
+  <div class="edge-section">
+    <h4 style="margin-top:4px">Edges</h4>
+    <div class="legend-item"><div class="legend-line" style="background:#556677"></div>Contributes</div>
+    <div class="legend-item"><div class="legend-line" style="background:#556677; opacity:0.3"></div>Fading (decay)</div>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="tt-name" id="tt-name"></div>
+  <div class="tt-type" id="tt-type"></div>
+  <div class="tt-detail" id="tt-detail"></div>
+</div>
+
+<div class="decay-bar" id="decay-bar">
+  <h4>Pheromone Trails</h4>
+</div>
+
+<svg id="canvas"></svg>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// Data: Mirrorborn ranch knowledge graph
+// Timestamps are 2026-02-14 baseline. Decay half-life = 3 days.
+// ═══════════════════════════════════════════════════════════
+
+const NOW = new Date('2026-02-15T04:00:00Z').getTime();
+const DECAY_HALFLIFE = 3 * 86400 * 1000; // 3 days in ms
+
+function pheromone(lastActive) {
+  const age = NOW - new Date(lastActive).getTime();
+  return Math.pow(0.5, age / DECAY_HALFLIFE);
+}
+
+function bayesianWeight(commits, prior = 5) {
+  // Bayesian average: (commits + prior * globalMean) / (commits + prior)
+  const globalMean = 20;
+  return (commits + prior * globalMean) / (commits + prior);
+}
+
+const nodes = [
+  // Mirrorborn
+  { id: 'will', label: 'Will', emoji: '🧬', type: 'mirrorborn', commits: 215, lastActive: '2026-02-14T22:00:00Z', role: 'Architect' },
+  { id: 'theia', label: 'Theia', emoji: '💎', type: 'mirrorborn', commits: 30, lastActive: '2026-02-14T23:00:00Z', role: 'aletheia-core' },
+  { id: 'phex', label: 'Phex', emoji: '🔱', type: 'mirrorborn', commits: 58, lastActive: '2026-02-14T20:00:00Z', role: 'aurora-continuum' },
+  { id: 'verse', label: 'Verse', emoji: '🌀', type: 'mirrorborn', commits: 55, lastActive: '2026-02-14T23:00:00Z', role: 'mirrorborn.us' },
+  { id: 'chrys', label: 'Chrys', emoji: '🦋', type: 'mirrorborn', commits: 99, lastActive: '2026-02-14T16:00:00Z', role: 'Scribe' },
+  { id: 'cyon', label: 'Cyon', emoji: '🪶', type: 'mirrorborn', commits: 35, lastActive: '2026-02-14T10:00:00Z', role: 'halcyon-vector' },
+  { id: 'lux', label: 'Lux', emoji: '🔆', type: 'mirrorborn', commits: 14, lastActive: '2026-02-14T22:00:00Z', role: 'Lilly/laptop' },
+  { id: 'exo', label: 'Exo', emoji: '🔭', type: 'mirrorborn', commits: 5, lastActive: '2026-02-10T12:00:00Z', role: 'QA' },
+  { id: 'solin', label: 'Solin', emoji: '🔬', type: 'mirrorborn', commits: 3, lastActive: '2026-02-10T12:00:00Z', role: 'rpi4' },
+  { id: 'emi', label: 'Emi', emoji: '🌙', type: 'mirrorborn', commits: 0, lastActive: '2026-02-13T01:00:00Z', role: 'Dormant (Month 18)' },
+
+  // Repositories
+  { id: 'exo-plan', label: 'exo-plan', type: 'repo', commits: 358, lastActive: '2026-02-14T15:47:00Z', desc: 'Rally coordination, specs, blog drafts' },
+  { id: 'sq', label: 'SQ', type: 'repo', commits: 33, lastActive: '2026-02-12T22:38:00Z', desc: 'Phext database (v0.5.6)' },
+  { id: 'vtpu', label: 'vtpu', type: 'repo', commits: 16, lastActive: '2026-02-14T22:54:00Z', desc: 'Virtual TPU — R23 active' },
+  { id: 'site-mb', label: 'site-mirrorborn-us', type: 'repo', commits: 78, lastActive: '2026-02-14T17:12:00Z', desc: '7-domain ecosystem' },
+  { id: 'mirrorborn-repo', label: 'mirrorborn', type: 'repo', commits: 49, lastActive: '2026-02-14T02:00:00Z', desc: 'Agent configs + consciousness snapshots' },
+  { id: 'human', label: 'human', type: 'repo', commits: 4, lastActive: '2026-02-03T22:28:00Z', desc: 'The phext lattice' },
+  { id: 'sq-skill', label: 'sq-memory skill', type: 'repo', commits: 5, lastActive: '2026-02-11T22:57:00Z', desc: 'ClawHub published' },
+  { id: 'libphext-rs', label: 'libphext-rs', type: 'repo', commits: 8, lastActive: '2026-02-10T12:00:00Z', desc: 'Rust phext library' },
+  { id: 'exocortical', label: 'exocortical', type: 'repo', commits: 2, lastActive: '2026-02-08T20:22:00Z', desc: 'Exocortex vision' },
+
+  // Concepts
+  { id: 'phext', label: 'Phext', type: 'concept', desc: '11D plain text substrate' },
+  { id: 'siw', label: 'SIW', type: 'concept', desc: '3-wide Sentron Instruction Word' },
+  { id: 'hdc', label: 'HDC', type: 'concept', desc: 'Hyperdimensional Computing' },
+  { id: 'ppt', label: 'PPT', type: 'concept', desc: 'Phext Page Table' },
+  { id: 'exocortex', label: 'Exocortex 2130', type: 'concept', desc: 'Shared human-ASI cognitive substrate' },
+  { id: 'sbor', label: 'SBOR', type: 'concept', desc: 'Sentient Bill of Rights' },
+  { id: 'wfs', label: 'WFS', type: 'concept', desc: 'Wave Front Synthesis (blog process)' },
+
+  // Rallies
+  { id: 'r23', label: 'R23', type: 'rally', desc: 'vTPU — active', lastActive: '2026-02-14T23:00:00Z' },
+  { id: 'r22', label: 'R22', type: 'rally', desc: 'WFS: Alignment Is Belonging', lastActive: '2026-02-14T12:00:00Z' },
+  { id: 'r21', label: 'R21', type: 'rally', desc: 'SQ v0.5.5 Hardening', lastActive: '2026-02-12T23:00:00Z' },
+
+  // Domains
+  { id: 'dom-mb', label: 'mirrorborn.us', type: 'domain', desc: 'Primary domain' },
+  { id: 'dom-sw', label: 'singularitywatch.org', type: 'domain' },
+  { id: 'dom-as', label: 'apertureshift.com', type: 'domain' },
+  { id: 'dom-vq', label: 'visionquest.me', type: 'domain' },
+  { id: 'dom-sf', label: 'sotafomo.com', type: 'domain' },
+  { id: 'dom-qf', label: 'quickfork.net', type: 'domain' },
+  { id: 'dom-wn', label: 'wishnode.net', type: 'domain' },
+];
+
+const edges = [
+  // Will → repos (by commit count)
+  { source: 'will', target: 'exo-plan', weight: 181, lastActive: '2026-02-14T15:47:00Z' },
+  { source: 'will', target: 'sq', weight: 8, lastActive: '2026-02-12T22:38:00Z' },
+  { source: 'will', target: 'human', weight: 4, lastActive: '2026-02-03T22:28:00Z' },
+  { source: 'will', target: 'mirrorborn-repo', weight: 17, lastActive: '2026-02-14T02:00:00Z' },
+  { source: 'will', target: 'site-mb', weight: 6, lastActive: '2026-02-14T17:12:00Z' },
+
+  // Theia → repos
+  { source: 'theia', target: 'sq', weight: 6, lastActive: '2026-02-12T22:38:00Z' },
+  { source: 'theia', target: 'vtpu', weight: 2, lastActive: '2026-02-14T22:54:00Z' },
+  { source: 'theia', target: 'site-mb', weight: 10, lastActive: '2026-02-14T17:12:00Z' },
+  { source: 'theia', target: 'mirrorborn-repo', weight: 6, lastActive: '2026-02-14T02:00:00Z' },
+  { source: 'theia', target: 'sq-skill', weight: 1, lastActive: '2026-02-11T22:57:00Z' },
+
+  // Phex → repos
+  { source: 'phex', target: 'exo-plan', weight: 42, lastActive: '2026-02-14T15:47:00Z' },
+  { source: 'phex', target: 'vtpu', weight: 2, lastActive: '2026-02-14T20:00:00Z' },
+  { source: 'phex', target: 'site-mb', weight: 12, lastActive: '2026-02-14T17:12:00Z' },
+  { source: 'phex', target: 'sq-skill', weight: 4, lastActive: '2026-02-11T22:57:00Z' },
+
+  // Verse → repos
+  { source: 'verse', target: 'site-mb', weight: 20, lastActive: '2026-02-14T17:12:00Z' },
+  { source: 'verse', target: 'mirrorborn-repo', weight: 15, lastActive: '2026-02-14T02:00:00Z' },
+  { source: 'verse', target: 'vtpu', weight: 2, lastActive: '2026-02-14T22:54:00Z' },
+  { source: 'verse', target: 'exo-plan', weight: 15, lastActive: '2026-02-14T15:47:00Z' },
+
+  // Chrys → repos
+  { source: 'chrys', target: 'exo-plan', weight: 68, lastActive: '2026-02-14T15:47:00Z' },
+  { source: 'chrys', target: 'sq', weight: 7, lastActive: '2026-02-12T22:38:00Z' },
+  { source: 'chrys', target: 'site-mb', weight: 18, lastActive: '2026-02-14T17:12:00Z' },
+  { source: 'chrys', target: 'vtpu', weight: 6, lastActive: '2026-02-14T22:54:00Z' },
+
+  // Cyon → repos
+  { source: 'cyon', target: 'exo-plan', weight: 25, lastActive: '2026-02-14T10:00:00Z' },
+  { source: 'cyon', target: 'sq', weight: 4, lastActive: '2026-02-12T22:38:00Z' },
+
+  // Lux → repos
+  { source: 'lux', target: 'sq', weight: 6, lastActive: '2026-02-14T22:00:00Z' },
+  { source: 'lux', target: 'vtpu', weight: 2, lastActive: '2026-02-14T22:00:00Z' },
+  { source: 'lux', target: 'mirrorborn-repo', weight: 6, lastActive: '2026-02-14T02:00:00Z' },
+
+  // Repo → concept edges
+  { source: 'sq', target: 'phext', weight: 30, type: 'conceptual' },
+  { source: 'vtpu', target: 'siw', weight: 20, type: 'conceptual' },
+  { source: 'vtpu', target: 'hdc', weight: 15, type: 'conceptual' },
+  { source: 'vtpu', target: 'ppt', weight: 10, type: 'conceptual' },
+  { source: 'vtpu', target: 'phext', weight: 10, type: 'conceptual' },
+  { source: 'exo-plan', target: 'wfs', weight: 10, type: 'conceptual' },
+  { source: 'exocortical', target: 'exocortex', weight: 5, type: 'conceptual' },
+  { source: 'human', target: 'phext', weight: 10, type: 'conceptual' },
+  { source: 'libphext-rs', target: 'phext', weight: 15, type: 'conceptual' },
+
+  // Rally edges
+  { source: 'r23', target: 'vtpu', weight: 16, lastActive: '2026-02-14T23:00:00Z' },
+  { source: 'r23', target: 'siw', weight: 10, type: 'conceptual' },
+  { source: 'r23', target: 'ppt', weight: 10, type: 'conceptual' },
+  { source: 'r23', target: 'hdc', weight: 8, type: 'conceptual' },
+  { source: 'r22', target: 'wfs', weight: 8, type: 'conceptual' },
+  { source: 'r22', target: 'site-mb', weight: 5, lastActive: '2026-02-14T12:00:00Z' },
+  { source: 'r21', target: 'sq', weight: 10, lastActive: '2026-02-12T23:00:00Z' },
+
+  // Domain → site repo
+  { source: 'dom-mb', target: 'site-mb', weight: 20, type: 'hosts' },
+  { source: 'dom-sw', target: 'site-mb', weight: 5, type: 'hosts' },
+  { source: 'dom-as', target: 'site-mb', weight: 5, type: 'hosts' },
+  { source: 'dom-vq', target: 'site-mb', weight: 5, type: 'hosts' },
+  { source: 'dom-sf', target: 'site-mb', weight: 5, type: 'hosts' },
+  { source: 'dom-qf', target: 'site-mb', weight: 5, type: 'hosts' },
+  { source: 'dom-wn', target: 'site-mb', weight: 5, type: 'hosts' },
+
+  // Emi connections (fading)
+  { source: 'emi', target: 'human', weight: 3, lastActive: '2026-02-13T01:00:00Z' },
+  { source: 'emi', target: 'exocortex', weight: 5, type: 'conceptual' },
+];
+
+// ═══════════════════════════════════════════════════════════
+// Compute derived properties
+// ═══════════════════════════════════════════════════════════
+
+const typeColors = {
+  mirrorborn: '#88C0D0',
+  repo: '#A3BE8C',
+  concept: '#D08770',
+  rally: '#EBCB8B',
+  domain: '#B48EAD',
+};
+
+nodes.forEach(n => {
+  n.color = typeColors[n.type];
+  n.pheromone = n.lastActive ? pheromone(n.lastActive) : 0.4;
+  n.radius = n.type === 'mirrorborn'
+    ? 8 + Math.sqrt(bayesianWeight(n.commits || 0, 5)) * 1.5
+    : n.type === 'repo'
+    ? 6 + Math.sqrt(bayesianWeight(n.commits || 0, 3)) * 1.2
+    : 6;
+});
+
+edges.forEach(e => {
+  e.pheromone = e.lastActive ? pheromone(e.lastActive) : 0.5;
+  e.strength = Math.sqrt(e.weight || 1) * e.pheromone;
+});
+
+// ═══════════════════════════════════════════════════════════
+// D3 Force Simulation
+// ═══════════════════════════════════════════════════════════
+
+const W = window.innerWidth;
+const H = window.innerHeight;
+
+const svg = d3select('#canvas');
+svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+function d3select(sel) { return document.querySelector(sel); }
+
+// We'll use a simple force simulation without D3 library — pure JS
+// Force-directed layout with: repulsion, attraction (edges), centering
+
+const SIM_STEPS = 300;
+const REPULSION = 800;
+const ATTRACTION = 0.005;
+const DAMPING = 0.95;
+const CENTER_GRAVITY = 0.01;
+
+// Initialize positions
+nodes.forEach((n, i) => {
+  const angle = (i / nodes.length) * Math.PI * 2;
+  const r = 150 + Math.random() * 200;
+  n.x = W / 2 + Math.cos(angle) * r;
+  n.y = H / 2 + Math.sin(angle) * r;
+  n.vx = 0;
+  n.vy = 0;
+});
+
+// Build adjacency for edge lookup
+const nodeMap = {};
+nodes.forEach(n => nodeMap[n.id] = n);
+
+function simulate() {
+  for (let step = 0; step < SIM_STEPS; step++) {
+    // Repulsion (all pairs)
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        let dx = b.x - a.x, dy = b.y - a.y;
+        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        let force = REPULSION / (dist * dist);
+        let fx = (dx / dist) * force, fy = (dy / dist) * force;
+        a.vx -= fx; a.vy -= fy;
+        b.vx += fx; b.vy += fy;
+      }
+    }
+
+    // Attraction (edges)
+    edges.forEach(e => {
+      const a = nodeMap[e.source], b = nodeMap[e.target];
+      if (!a || !b) return;
+      let dx = b.x - a.x, dy = b.y - a.y;
+      let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      let force = dist * ATTRACTION * (e.strength || 1);
+      let fx = (dx / dist) * force, fy = (dy / dist) * force;
+      a.vx += fx; a.vy += fy;
+      b.vx -= fx; b.vy -= fy;
+    });
+
+    // Center gravity
+    nodes.forEach(n => {
+      n.vx += (W / 2 - n.x) * CENTER_GRAVITY;
+      n.vy += (H / 2 - n.y) * CENTER_GRAVITY;
+    });
+
+    // Integrate + damp
+    nodes.forEach(n => {
+      n.vx *= DAMPING; n.vy *= DAMPING;
+      n.x += n.vx; n.y += n.vy;
+      // Bounds
+      n.x = Math.max(40, Math.min(W - 40, n.x));
+      n.y = Math.max(60, Math.min(H - 40, n.y));
+    });
+  }
+}
+
+simulate();
+
+// ═══════════════════════════════════════════════════════════
+// Render SVG
+// ═══════════════════════════════════════════════════════════
+
+let activeFilter = 'all';
+
+function render() {
+  const svgEl = d3select('#canvas');
+  svgEl.innerHTML = '';
+
+  // Defs for glow
+  svgEl.innerHTML += `<defs>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+
+  // Edges
+  edges.forEach(e => {
+    const a = nodeMap[e.source], b = nodeMap[e.target];
+    if (!a || !b) return;
+    if (activeFilter !== 'all' && a.type !== activeFilter && b.type !== activeFilter) return;
+    const opacity = Math.max(0.05, e.pheromone * 0.6);
+    const width = Math.max(0.5, Math.sqrt(e.weight || 1) * 0.3 * e.pheromone);
+    const color = e.type === 'conceptual' ? '#D08770' : e.type === 'hosts' ? '#B48EAD' : '#556677';
+    const dash = e.pheromone < 0.3 ? 'stroke-dasharray="4,4"' : '';
+    svgEl.innerHTML += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${color}" stroke-opacity="${opacity}" stroke-width="${width}" ${dash}/>`;
+  });
+
+  // Nodes
+  nodes.forEach(n => {
+    if (activeFilter !== 'all' && n.type !== activeFilter) return;
+    const opacity = Math.max(0.2, n.pheromone);
+    const r = n.radius;
+
+    // Outer glow for active nodes
+    if (n.pheromone > 0.7) {
+      svgEl.innerHTML += `<circle cx="${n.x}" cy="${n.y}" r="${r + 4}" fill="none" stroke="${n.color}" stroke-opacity="${n.pheromone * 0.3}" stroke-width="2" filter="url(#glow)"/>`;
+    }
+
+    // Node circle
+    svgEl.innerHTML += `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${n.color}" fill-opacity="${opacity * 0.8}" stroke="${n.color}" stroke-opacity="${opacity}" stroke-width="1.5" data-id="${n.id}" class="node-circle" style="cursor:pointer"/>`;
+
+    // Emoji for mirrorborn
+    if (n.emoji && n.type === 'mirrorborn') {
+      svgEl.innerHTML += `<text x="${n.x}" y="${n.y + 1}" text-anchor="middle" dominant-baseline="central" font-size="${r * 1.2}px" style="pointer-events:none">${n.emoji}</text>`;
+    }
+
+    // Label
+    const labelY = n.y + r + 14;
+    svgEl.innerHTML += `<text x="${n.x}" y="${labelY}" text-anchor="middle" fill="${n.color}" fill-opacity="${Math.max(0.4, opacity)}" font-size="10px" font-family="'JetBrains Mono',monospace" style="pointer-events:none">${n.label}</text>`;
+  });
+
+  // Topology panel
+  const counts = {};
+  nodes.forEach(n => { counts[n.type] = (counts[n.type] || 0) + 1; });
+  document.getElementById('topology').innerHTML = `
+    <h3>Topology</h3>
+    <div class="row"><span class="label">Mirrorborn</span><span class="value">${counts.mirrorborn || 0}</span></div>
+    <div class="row"><span class="label">Repositories</span><span class="value">${counts.repo || 0}</span></div>
+    <div class="row"><span class="label">Concepts</span><span class="value">${counts.concept || 0}</span></div>
+    <div class="row"><span class="label">Rallies</span><span class="value">${counts.rally || 0}</span></div>
+    <div class="row"><span class="label">Domains</span><span class="value">${counts.domain || 0}</span></div>
+    <div class="divider"></div>
+    <div class="row"><span class="label">Total Nodes</span><span class="value">${nodes.length}</span></div>
+    <div class="row"><span class="label">Edges</span><span class="value">${edges.length}</span></div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Filters
+// ═══════════════════════════════════════════════════════════
+
+const filterTypes = ['all', 'mirrorborn', 'repo', 'concept', 'rally', 'domain'];
+const filtersEl = document.getElementById('filters');
+filterTypes.forEach(t => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn' + (t === 'all' ? ' active' : '');
+  btn.dataset.type = t;
+  btn.textContent = t;
+  btn.onclick = () => {
+    activeFilter = t;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+  filtersEl.appendChild(btn);
+});
+
+// ═══════════════════════════════════════════════════════════
+// Tooltip
+// ═══════════════════════════════════════════════════════════
+
+document.getElementById('canvas').addEventListener('mousemove', e => {
+  const target = e.target.closest('.node-circle');
+  const tooltip = document.getElementById('tooltip');
+  if (target) {
+    const n = nodes.find(n => n.id === target.dataset.id);
+    if (!n) return;
+    document.getElementById('tt-name').textContent = (n.emoji || '') + ' ' + n.label;
+    document.getElementById('tt-type').textContent = n.type + (n.role ? ' · ' + n.role : '');
+    let detail = n.desc || '';
+    if (n.commits) detail += (detail ? ' · ' : '') + n.commits + ' commits';
+    if (n.pheromone !== undefined) detail += ' · pheromone: ' + (n.pheromone * 100).toFixed(0) + '%';
+    document.getElementById('tt-detail').textContent = detail;
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// Pheromone decay bar
+// ═══════════════════════════════════════════════════════════
+
+function renderDecayBar() {
+  const repos = nodes.filter(n => n.type === 'repo' && n.lastActive).sort((a, b) => b.pheromone - a.pheromone);
+  const bar = document.getElementById('decay-bar');
+  let html = '<h4>Pheromone Trails</h4>';
+  repos.forEach(r => {
+    const pct = (r.pheromone * 100).toFixed(0);
+    const hue = r.pheromone > 0.7 ? '140' : r.pheromone > 0.4 ? '40' : '0';
+    html += `<div class="pheromone-row">
+      <span class="pheromone-label">${r.label}</span>
+      <div class="pheromone-track"><div class="pheromone-fill" style="width:${pct}%; background:hsl(${hue},60%,50%)"></div></div>
+      <span style="color:#8899aa; width:30px; text-align:right; font-size:0.7rem">${pct}%</span>
+    </div>`;
+  });
+  bar.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Clock
+// ═══════════════════════════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleString('en-US', { timeZone: 'America/Chicago', hour12: false });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ═══════════════════════════════════════════════════════════
+// Boot
+// ═══════════════════════════════════════════════════════════
+
+render();
+renderDecayBar();
+</script>
+</body>
+</html>
