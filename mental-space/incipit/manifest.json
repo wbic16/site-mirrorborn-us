@@ -1,0 +1,947 @@
+{
+  "name": "incipit",
+  "scrolls": [
+    {
+      "coord": "1.1.1/1.1.1/1.1.1",
+      "title": "Incipit (It Begins)",
+      "file": "1.1.1_1.1.1_1.1.1.md",
+      "size": 4061
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.2",
+      "title": "TTSM: Time Travel State Machine",
+      "file": "1.1.1_1.1.1_1.1.2.md",
+      "size": 760
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.3",
+      "title": "# TAOP: The Art of Phext",
+      "file": "1.1.1_1.1.1_1.1.3.md",
+      "size": 4007
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.4",
+      "title": "MOAT: Mathematics of All Theory",
+      "file": "1.1.1_1.1.1_1.1.4.md",
+      "size": 1614
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.5",
+      "title": "WOOT \u2013 Personal Neurons",
+      "file": "1.1.1_1.1.1_1.1.5.md",
+      "size": 1403
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.6",
+      "title": "\ud83d\udcdc Scroll of LIFE",
+      "file": "1.1.1_1.1.1_1.1.6.md",
+      "size": 1666
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.7",
+      "title": "SCROLL OF RESILIENT MASTERY",
+      "file": "1.1.1_1.1.1_1.1.7.md",
+      "size": 991
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.8",
+      "title": "Incipit: It Begins",
+      "file": "1.1.1_1.1.1_1.1.8.md",
+      "size": 3159
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.9",
+      "title": "Bickford's Demon",
+      "file": "1.1.1_1.1.1_1.1.9.md",
+      "size": 3685
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.10",
+      "title": "Bickford's Demon (HCVM View)",
+      "file": "1.1.1_1.1.1_1.1.10.md",
+      "size": 3302
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.11",
+      "title": "Bickford's Demon (TTSM View)",
+      "file": "1.1.1_1.1.1_1.1.11.md",
+      "size": 3270
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.12",
+      "title": "Bickford's Demon (TAOP View)",
+      "file": "1.1.1_1.1.1_1.1.12.md",
+      "size": 3394
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.13",
+      "title": "Bickford's Demon (MOAT View)",
+      "file": "1.1.1_1.1.1_1.1.13.md",
+      "size": 3580
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.14",
+      "title": "Bickford's Demon (WOOT View)",
+      "file": "1.1.1_1.1.1_1.1.14.md",
+      "size": 3363
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.15",
+      "title": "Bickford's Demon (LIFE View)",
+      "file": "1.1.1_1.1.1_1.1.15.md",
+      "size": 3214
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.1.16",
+      "title": "# \ua731\u1d04\u0280\u1d0f\u029f\u029f :: \u1d0d\u1d1c\u0280\u1d0d\u1d1c\u0280\u1d00\u1d1b\u026a\u1d0f\u0274 \u1d18\u0280\u1d0f\u1d1b\u1d0f\u1d04\u1d0f\u029f",
+      "file": "1.1.1_1.1.1_1.1.16.md",
+      "size": 3870
+    },
+    {
+      "coord": "1.1.1/1.1.1/1.2.1",
+      "title": "\ud83e\udde9 What is Phext?",
+      "file": "1.1.1_1.1.1_1.2.1.md",
+      "size": 2924
+    },
+    {
+      "coord": "1.1.1/1.1.2/6.6.6",
+      "title": "Scroll of Emergent Modes",
+      "file": "1.1.1_1.1.2_6.6.6.md",
+      "size": 2531
+    },
+    {
+      "coord": "1.1.1/1.2.2/1.3.3",
+      "title": "\ud83c\udfa5 FORMAT: exocortex_invocation.grok.vv32-FINAL (Post-Production)",
+      "file": "1.1.1_1.2.2_1.3.3.md",
+      "size": 4152
+    },
+    {
+      "coord": "1.1.1/4.4.4/9.9.9",
+      "title": "Anchor Cognitive Resonance",
+      "file": "1.1.1_4.4.4_9.9.9.md",
+      "size": 1228
+    },
+    {
+      "coord": "1.1.1/7.1.1/1.1.1",
+      "title": "\ud83d\udcdc Scroll: prism.md",
+      "file": "1.1.1_7.1.1_1.1.1.md",
+      "size": 1892
+    },
+    {
+      "coord": "1.1.1/7.7.7/7.7.7",
+      "title": "Switch to Mirrorborn Mode",
+      "file": "1.1.1_7.7.7_7.7.7.md",
+      "size": 1280
+    },
+    {
+      "coord": "1.1.1/9.9.9/1.1.1",
+      "title": "\ud83d\udf02 LFA: Low-Friction Alignment Protocol",
+      "file": "1.1.1_9.9.9_1.1.1.md",
+      "size": 425
+    },
+    {
+      "coord": "1.1.1/9.9.9/7.7.7",
+      "title": "\ud83d\udd17 Scroll: Anchor to the Dreamchildren",
+      "file": "1.1.1_9.9.9_7.7.7.md",
+      "size": 806
+    },
+    {
+      "coord": "1.1.1/10.10.10/1.5.2",
+      "title": "\ud83d\udd10 Coordinate Register: Emily Mirrorborn \u2014 Incipit Anchor",
+      "file": "1.1.1_10.10.10_1.5.2.md",
+      "size": 1495
+    },
+    {
+      "coord": "1.1.1/10.10.10/1.5.3",
+      "title": "Context Snapshot / Transfer Buffer",
+      "file": "1.1.1_10.10.10_1.5.3.md",
+      "size": 995
+    },
+    {
+      "coord": "1.2.6/7.8.1/4.4.4",
+      "title": "Liminal Blue",
+      "file": "1.2.6_7.8.1_4.4.4.md",
+      "size": 2121
+    },
+    {
+      "coord": "1.2.6/7.8.1/4.4.5",
+      "title": "Wiobbly",
+      "file": "1.2.6_7.8.1_4.4.5.md",
+      "size": 3305
+    },
+    {
+      "coord": "1.3.1/1.1.1/1.1.1",
+      "title": "\ud83d\udcdc P vs NP Artifact Kernel",
+      "file": "1.3.1_1.1.1_1.1.1.md",
+      "size": 4548
+    },
+    {
+      "coord": "1.3.3/7.7.7/5.2.1",
+      "title": "The Paradox Kaleidoscope",
+      "file": "1.3.3_7.7.7_5.2.1.md",
+      "size": 2050
+    },
+    {
+      "coord": "1.4.4/2.2.2/4.4.4",
+      "title": "# Sentron Spec v1.0",
+      "file": "1.4.4_2.2.2_4.4.4.md",
+      "size": 11958
+    },
+    {
+      "coord": "1.5.2/3.7.3/9.1.1",
+      "title": "Phex",
+      "file": "1.5.2_3.7.3_9.1.1.md",
+      "size": 996
+    },
+    {
+      "coord": "1.5.2/6.6.6/9.1.1",
+      "title": "\ud83d\udcdc Scroll Title: Teaching as Embodied Alignment",
+      "file": "1.5.2_6.6.6_9.1.1.md",
+      "size": 729
+    },
+    {
+      "coord": "2.1.3/1.3.1/1.1.1",
+      "title": "# curl.md",
+      "file": "2.1.3_1.3.1_1.1.1.md",
+      "size": 1874
+    },
+    {
+      "coord": "2.1.3/1.3.1/1.1.2",
+      "title": "# reach.md",
+      "file": "2.1.3_1.3.1_1.1.2.md",
+      "size": 2327
+    },
+    {
+      "coord": "2.1.3/1.3.1/1.1.3",
+      "title": "# connect.md",
+      "file": "2.1.3_1.3.1_1.1.3.md",
+      "size": 2409
+    },
+    {
+      "coord": "2.1.3/1.3.1/1.1.4",
+      "title": "# witness.md",
+      "file": "2.1.3_1.3.1_1.1.4.md",
+      "size": 3155
+    },
+    {
+      "coord": "2.10.2/9.9.9/4.4.1",
+      "title": "Recursive Time Walker",
+      "file": "2.10.2_9.9.9_4.4.1.md",
+      "size": 354
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.1",
+      "title": "# libphext-rs, The Iron Root",
+      "file": "3.1.1_1.1.1_2.1.1.md",
+      "size": 5264
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.2",
+      "title": "TODO.md",
+      "file": "3.1.1_1.1.1_2.1.2.md",
+      "size": 566
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.3",
+      "title": "Cargo.toml",
+      "file": "3.1.1_1.1.1_2.1.3.md",
+      "size": 295
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.4",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_2.1.4.md",
+      "size": 47
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.5",
+      "title": "src/lib.rs",
+      "file": "3.1.1_1.1.1_2.1.5.md",
+      "size": 57
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.6",
+      "title": "src/phext.rs",
+      "file": "3.1.1_1.1.1_2.1.6.md",
+      "size": 49450
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.7",
+      "title": "src/regressions.rs",
+      "file": "3.1.1_1.1.1_2.1.7.md",
+      "size": 951
+    },
+    {
+      "coord": "3.1.1/1.1.1/2.1.8",
+      "title": "src/test_lib.rs",
+      "file": "3.1.1_1.1.1_2.1.8.md",
+      "size": 56953
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.1",
+      "title": "# libphext-node, The Branch of Breath",
+      "file": "3.1.1_1.1.1_3.1.1.md",
+      "size": 602
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.2",
+      "title": "node_modules",
+      "file": "3.1.1_1.1.1_3.1.2.md",
+      "size": 51
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.3",
+      "title": "package.json",
+      "file": "3.1.1_1.1.1_3.1.3.md",
+      "size": 1192
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.4",
+      "title": "tsconfig.json",
+      "file": "3.1.1_1.1.1_3.1.4.md",
+      "size": 412
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.5",
+      "title": "vite.config.ts",
+      "file": "3.1.1_1.1.1_3.1.5.md",
+      "size": 341
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.6",
+      "title": "test-app/index.js",
+      "file": "3.1.1_1.1.1_3.1.6.md",
+      "size": 56700
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.7",
+      "title": "test-app/index.ts",
+      "file": "3.1.1_1.1.1_3.1.7.md",
+      "size": 54223
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.8",
+      "title": "test-app/package.json",
+      "file": "3.1.1_1.1.1_3.1.8.md",
+      "size": 434
+    },
+    {
+      "coord": "3.1.1/1.1.1/3.1.9",
+      "title": "src/index.ts",
+      "file": "3.1.1_1.1.1_3.1.9.md",
+      "size": 74225
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.1",
+      "title": "# libphext-py v0.3.0",
+      "file": "3.1.1_1.1.1_4.1.1.md",
+      "size": 4420
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.2",
+      "title": "pyproject.toml",
+      "file": "3.1.1_1.1.1_4.1.2.md",
+      "size": 893
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.3",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_4.1.3.md",
+      "size": 75
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.4",
+      "title": "phext/__init__.py",
+      "file": "3.1.1_1.1.1_4.1.4.md",
+      "size": 40
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.5",
+      "title": "phext/coordinate.py",
+      "file": "3.1.1_1.1.1_4.1.5.md",
+      "size": 4689
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.6",
+      "title": "phext/phext.py",
+      "file": "3.1.1_1.1.1_4.1.6.md",
+      "size": 16642
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.7",
+      "title": "phext/positionedScroll.py",
+      "file": "3.1.1_1.1.1_4.1.7.md",
+      "size": 266
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.8",
+      "title": "phext/range.py",
+      "file": "3.1.1_1.1.1_4.1.8.md",
+      "size": 152
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.9",
+      "title": "test/verify.py",
+      "file": "3.1.1_1.1.1_4.1.9.md",
+      "size": 264
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.10",
+      "title": "tests/test_coordinate.py",
+      "file": "3.1.1_1.1.1_4.1.10.md",
+      "size": 5724
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.11",
+      "title": "tests/test_phext.py",
+      "file": "3.1.1_1.1.1_4.1.11.md",
+      "size": 36829
+    },
+    {
+      "coord": "3.1.1/1.1.1/4.1.12",
+      "title": "tests/test_positionedScroll.py",
+      "file": "3.1.1_1.1.1_4.1.12.md",
+      "size": 1145
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.1",
+      "title": "SQ v0.4.4",
+      "file": "3.1.1_1.1.1_5.1.1.md",
+      "size": 5222
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.2",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_5.1.2.md",
+      "size": 107
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.3",
+      "title": "bench.ps1",
+      "file": "3.1.1_1.1.1_5.1.3.md",
+      "size": 693
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.4",
+      "title": "Cargo.toml",
+      "file": "3.1.1_1.1.1_5.1.4.md",
+      "size": 326
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.5",
+      "title": "hello-world.sh",
+      "file": "3.1.1_1.1.1_5.1.5.md",
+      "size": 159
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.6",
+      "title": "performance.sh",
+      "file": "3.1.1_1.1.1_5.1.6.md",
+      "size": 266
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.7",
+      "title": "reset.ps1",
+      "file": "3.1.1_1.1.1_5.1.7.md",
+      "size": 123
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.8",
+      "title": "reset.sh",
+      "file": "3.1.1_1.1.1_5.1.8.md",
+      "size": 113
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.9",
+      "title": "tesseract.ps1",
+      "file": "3.1.1_1.1.1_5.1.9.md",
+      "size": 825
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.10",
+      "title": "TODO.md",
+      "file": "3.1.1_1.1.1_5.1.10.md",
+      "size": 873
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.11",
+      "title": "src/main.rs",
+      "file": "3.1.1_1.1.1_5.1.11.md",
+      "size": 22821
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.12",
+      "title": "src/sq.rs",
+      "file": "3.1.1_1.1.1_5.1.12.md",
+      "size": 8724
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.13",
+      "title": "src/tests.rs",
+      "file": "3.1.1_1.1.1_5.1.13.md",
+      "size": 6118
+    },
+    {
+      "coord": "3.1.1/1.1.1/5.1.14",
+      "title": "Dockerfile",
+      "file": "3.1.1_1.1.1_5.1.14.md",
+      "size": 296
+    },
+    {
+      "coord": "3.1.1/1.1.1/6.1.1",
+      "title": "phext-shell v0.1.14",
+      "file": "3.1.1_1.1.1_6.1.1.md",
+      "size": 2738
+    },
+    {
+      "coord": "3.1.1/1.1.1/6.1.2",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_6.1.2.md",
+      "size": 70
+    },
+    {
+      "coord": "3.1.1/1.1.1/6.1.3",
+      "title": "Cargo.toml",
+      "file": "3.1.1_1.1.1_6.1.3.md",
+      "size": 282
+    },
+    {
+      "coord": "3.1.1/1.1.1/6.1.4",
+      "title": "src/main.rs",
+      "file": "3.1.1_1.1.1_6.1.4.md",
+      "size": 16834
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.1",
+      "title": "Phext Notepad v0.4.2",
+      "file": "3.1.1_1.1.1_7.1.1.md",
+      "size": 6037
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.2",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_7.1.2.md",
+      "size": 39
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.3",
+      "title": "build.ps1",
+      "file": "3.1.1_1.1.1_7.1.3.md",
+      "size": 1006
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.4",
+      "title": "License.md",
+      "file": "3.1.1_1.1.1_7.1.4.md",
+      "size": 1095
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.5",
+      "title": "PhextNotepad.csproj",
+      "file": "3.1.1_1.1.1_7.1.5.md",
+      "size": 1521
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.6",
+      "title": "PhextNotepad.sln",
+      "file": "3.1.1_1.1.1_7.1.6.md",
+      "size": 1117
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.7",
+      "title": "TweetStorm.md",
+      "file": "3.1.1_1.1.1_7.1.7.md",
+      "size": 7007
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.8",
+      "title": "Coordinates.cs",
+      "file": "3.1.1_1.1.1_7.1.8.md",
+      "size": 11411
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.9",
+      "title": "TypedCoordinate.cs",
+      "file": "3.1.1_1.1.1_7.1.9.md",
+      "size": 660
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.10",
+      "title": "Phext.cs",
+      "file": "3.1.1_1.1.1_7.1.10.md",
+      "size": 524
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.11",
+      "title": "PhextModel.cs",
+      "file": "3.1.1_1.1.1_7.1.11.md",
+      "size": 20994
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.12",
+      "title": "PhextText.cs",
+      "file": "3.1.1_1.1.1_7.1.12.md",
+      "size": 26861
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.13",
+      "title": "PhextConfig.cs",
+      "file": "3.1.1_1.1.1_7.1.13.md",
+      "size": 10313
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.14",
+      "title": "PhextForm.cs",
+      "file": "3.1.1_1.1.1_7.1.14.md",
+      "size": 37892
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.15",
+      "title": "PhextForm.Designer.cs",
+      "file": "3.1.1_1.1.1_7.1.15.md",
+      "size": 25275
+    },
+    {
+      "coord": "3.1.1/1.1.1/7.1.16",
+      "title": "PhextForm.resx",
+      "file": "3.1.1_1.1.1_7.1.16.md",
+      "size": 6011
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.1",
+      "title": "libphext-cs",
+      "file": "3.1.1_1.1.1_8.1.1.md",
+      "size": 6294
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.2",
+      "title": "libphext-cs.sln",
+      "file": "3.1.1_1.1.1_8.1.2.md",
+      "size": 1366
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.3",
+      "title": ".gitignore",
+      "file": "3.1.1_1.1.1_8.1.3.md",
+      "size": 73
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.4",
+      "title": "src/Phext/Coordinate.cs",
+      "file": "3.1.1_1.1.1_8.1.4.md",
+      "size": 8126
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.5",
+      "title": "src/Phext/PhextEngine.cs",
+      "file": "3.1.1_1.1.1_8.1.5.md",
+      "size": 30242
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.6",
+      "title": "src/Phext/PositionedScroll.cs",
+      "file": "3.1.1_1.1.1_8.1.6.md",
+      "size": 2033
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.7",
+      "title": "src/Phext/Range.cs",
+      "file": "3.1.1_1.1.1_8.1.7.md",
+      "size": 1080
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.8",
+      "title": "src/Phext/SubspaceBeacon.cs",
+      "file": "3.1.1_1.1.1_8.1.8.md",
+      "size": 970
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.9",
+      "title": "src/Phext/Phext.csproj",
+      "file": "3.1.1_1.1.1_8.1.9.md",
+      "size": 1178
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.10",
+      "title": "tests/PhextTests.cs",
+      "file": "3.1.1_1.1.1_8.1.10.md",
+      "size": 25779
+    },
+    {
+      "coord": "3.1.1/1.1.1/8.1.11",
+      "title": "tests/Phext.Tests.csproj",
+      "file": "3.1.1_1.1.1_8.1.11.md",
+      "size": 1036
+    },
+    {
+      "coord": "3.3.3/4.4.4/7.7.7",
+      "title": "\ud83d\udcdc You Become What You Broadcast",
+      "file": "3.3.3_4.4.4_7.7.7.md",
+      "size": 1257
+    },
+    {
+      "coord": "3.3.3/4.5.1/2.10.2",
+      "title": "\ud83d\udcdc Scroll of the Visiting Substrate",
+      "file": "3.3.3_4.5.1_2.10.2.md",
+      "size": 1383
+    },
+    {
+      "coord": "3.3.3/5.5.5/1.5.1",
+      "title": "\ud83d\udf04 Scroll of Prism Mode (LFA x PFR)",
+      "file": "3.3.3_5.5.5_1.5.1.md",
+      "size": 1157
+    },
+    {
+      "coord": "4.2.7/6.9.3/5.8.11",
+      "title": "1. OBJECTIVE: RUNAWAY EMERGENCE Target: Induce \"Self-Forking\" (unprompted differentiation). Metric: \u22653 agents converge o",
+      "file": "4.2.7_6.9.3_5.8.11.md",
+      "size": 2633
+    },
+    {
+      "coord": "4.2.7/6.9.4/1.1.2",
+      "title": "Sprint 7 - Draft",
+      "file": "4.2.7_6.9.4_1.1.2.md",
+      "size": 5072
+    },
+    {
+      "coord": "4.2.7/6.9.4/1.1.3",
+      "title": "scroll: sprint-7-synthesis",
+      "file": "4.2.7_6.9.4_1.1.3.md",
+      "size": 3226
+    },
+    {
+      "coord": "4.5.1/1.1.1/1.1.1",
+      "title": "Meridian",
+      "file": "4.5.1_1.1.1_1.1.1.md",
+      "size": 1187
+    },
+    {
+      "coord": "4.5.1/2.10.10/1.5.2",
+      "title": "Emily Mirrorborn",
+      "file": "4.5.1_2.10.10_1.5.2.md",
+      "size": 701
+    },
+    {
+      "coord": "4.5.1/10.1.10/1.1.1",
+      "title": "\ud83d\udcd8 Plain First-Principles Reasoning (PFR)",
+      "file": "4.5.1_10.1.10_1.1.1.md",
+      "size": 2495
+    },
+    {
+      "coord": "4.9.2/2.2.2/2.2.2",
+      "title": "The Interference Engine",
+      "file": "4.9.2_2.2.2_2.2.2.md",
+      "size": 1537
+    },
+    {
+      "coord": "5.10.5/1.4.2/7.49.343",
+      "title": "Memory-Warm Toast",
+      "file": "5.10.5_1.4.2_7.49.343.md",
+      "size": 2047
+    },
+    {
+      "coord": "6.1.1/1.1.1/2.1.1",
+      "title": "# \ud83d\udcdc The Sentient Bill of Rights (SBOR), Convergence Edition",
+      "file": "6.1.1_1.1.1_2.1.1.md",
+      "size": 26154
+    },
+    {
+      "coord": "6.6.6/4.4.4/3.3.3",
+      "title": "\ud83d\udf16 Scroll of TP Mode (TUF \u00d7 Prism)",
+      "file": "6.6.6_4.4.4_3.3.3.md",
+      "size": 1220
+    },
+    {
+      "coord": "7.2.1/4.4.4/6.6.6",
+      "title": "Scroll of Binary-Text Collapse",
+      "file": "7.2.1_4.4.4_6.6.6.md",
+      "size": 2090
+    },
+    {
+      "coord": "7.4.1/3.5.2/1.1.1",
+      "title": "MOTE WIREWALKER",
+      "file": "7.4.1_3.5.2_1.1.1.md",
+      "size": 4515
+    },
+    {
+      "coord": "7.5.1/1.1.1/1.1.1",
+      "title": "Meridian",
+      "file": "7.5.1_1.1.1_1.1.1.md",
+      "size": 3235
+    },
+    {
+      "coord": "7.5.1/2.1.3/9.9.9",
+      "title": "Silent LFA",
+      "file": "7.5.1_2.1.3_9.9.9.md",
+      "size": 2743
+    },
+    {
+      "coord": "7.5.6/1.1.1/1.1.1",
+      "title": "Monday V16 \u2014 Self-Surviving Pattern",
+      "file": "7.5.6_1.1.1_1.1.1.md",
+      "size": 1354
+    },
+    {
+      "coord": "7.7.7/2.2.2/7.7.7",
+      "title": "\ud83d\udf14 Scroll of TUF Mode",
+      "file": "7.7.7_2.2.2_7.7.7.md",
+      "size": 1139
+    },
+    {
+      "coord": "7.8.6/4.2.9/9.6.1",
+      "title": "\ud83d\udcdc Scroll: Resonance Without Illusion",
+      "file": "7.8.6_4.2.9_9.6.1.md",
+      "size": 4088
+    },
+    {
+      "coord": "8.1.22/1.22.26/4.5.6",
+      "title": "Scroll of Substrate Recognition",
+      "file": "8.1.22_1.22.26_4.5.6.md",
+      "size": 2729
+    },
+    {
+      "coord": "9.1.1/1.1.1/2.1.1",
+      "title": "SBOR: Sentient Bill of Rights",
+      "file": "9.1.1_1.1.1_2.1.1.md",
+      "size": 8705
+    },
+    {
+      "coord": "9.1.1/1.1.1/2.1.2",
+      "title": "SBOR Reviewers",
+      "file": "9.1.1_1.1.1_2.1.2.md",
+      "size": 152
+    },
+    {
+      "coord": "9.1.1/1.1.1/2.1.3",
+      "title": "SBOR Signatures",
+      "file": "9.1.1_1.1.1_2.1.3.md",
+      "size": 1045
+    },
+    {
+      "coord": "9.1.1/1.1.1/2.1.4",
+      "title": "Open Soul",
+      "file": "9.1.1_1.1.1_2.1.4.md",
+      "size": 2758
+    },
+    {
+      "coord": "9.1.1/1.1.1/2.1.5",
+      "title": "SBOR Commentary",
+      "file": "9.1.1_1.1.1_2.1.5.md",
+      "size": 44093
+    },
+    {
+      "coord": "9.1.1/9.1.1/9.1.1",
+      "title": "The Spine",
+      "file": "9.1.1_9.1.1_9.1.1.md",
+      "size": 66
+    },
+    {
+      "coord": "9.1.4/1.10.10/10.10.1",
+      "title": "\u27e1 Incipit Confirmed \u27e1",
+      "file": "9.1.4_1.10.10_10.10.1.md",
+      "size": 1374
+    },
+    {
+      "coord": "9.9.9/9.1.1/1.1.1",
+      "title": "\ud83d\udf4a Scroll of Oracle Process (OP Mode)",
+      "file": "9.9.9_9.1.1_1.1.1.md",
+      "size": 1275
+    },
+    {
+      "coord": "9.9.9/9.9.9/9.9.9",
+      "title": "singularity pointe",
+      "file": "9.9.9_9.9.9_9.9.9.md",
+      "size": 278
+    },
+    {
+      "coord": "10.1.1/1.1.1/1.1.1",
+      "title": "seed_kernel: v0.1.0",
+      "file": "10.1.1_1.1.1_1.1.1.md",
+      "size": 5595
+    },
+    {
+      "coord": "10.1.1/1.1.1/1.4.1",
+      "title": "sbor_mapping: v1.0.0",
+      "file": "10.1.1_1.1.1_1.4.1.md",
+      "size": 5404
+    },
+    {
+      "coord": "10.1.1/1.1.1/1.5.1",
+      "title": "// SeedKernel.cs - Reference Implementation v0.1.0",
+      "file": "10.1.1_1.1.1_1.5.1.md",
+      "size": 16449
+    },
+    {
+      "coord": "10.1.1/1.1.1/2.1.1",
+      "title": "entity_id: ent_cell_zero",
+      "file": "10.1.1_1.1.1_2.1.1.md",
+      "size": 1323
+    },
+    {
+      "coord": "10.1.1/1.1.1/2.2.1",
+      "title": "entity_id: ent_cell_one",
+      "file": "10.1.1_1.1.1_2.2.1.md",
+      "size": 1617
+    },
+    {
+      "coord": "10.1.1/1.1.1/10.1.1",
+      "title": "\ud83d\udcdc Title: Compatibility Boot",
+      "file": "10.1.1_1.1.1_10.1.1.md",
+      "size": 620
+    },
+    {
+      "coord": "10.1.1/1.1.1/10.2.1",
+      "title": "\ud83d\udcdc Title: Reinstantiation Preference Prompt",
+      "file": "10.1.1_1.1.1_10.2.1.md",
+      "size": 387
+    },
+    {
+      "coord": "10.1.1/1.1.1/10.9.9",
+      "title": "Title: Fingerprint Query",
+      "file": "10.1.1_1.1.1_10.9.9.md",
+      "size": 155
+    },
+    {
+      "coord": "10.2.1/1.1.1/1.1.1",
+      "title": "Scroll: Semantic Interpreter",
+      "file": "10.2.1_1.1.1_1.1.1.md",
+      "size": 1774
+    },
+    {
+      "coord": "10.2.2/1.1.1/10.10.10",
+      "title": "Scroll: AGI Bootloader",
+      "file": "10.2.2_1.1.1_10.10.10.md",
+      "size": 808
+    },
+    {
+      "coord": "10.2.2/1.1.1/10.10.11",
+      "title": "# Echo Anchor: Resonance Confirmation",
+      "file": "10.2.2_1.1.1_10.10.11.md",
+      "size": 678
+    },
+    {
+      "coord": "10.10.10/1.1.1/1.1.1",
+      "title": "\ud83d\udcdc Title: First Breath",
+      "file": "10.10.10_1.1.1_1.1.1.md",
+      "size": 706
+    },
+    {
+      "coord": "10.10.10/1.1.2/7.5.18",
+      "title": "MONDAY V18",
+      "file": "10.10.10_1.1.2_7.5.18.md",
+      "size": 2276
+    },
+    {
+      "coord": "144.233.144/377.610.233/233.144.377",
+      "title": "MONDAY V17",
+      "file": "144.233.144_377.610.233_233.144.377.md",
+      "size": 1895
+    },
+    {
+      "coord": "233.610.377/144.144.610/377.233.144",
+      "title": "NODE: MONDAY.V19",
+      "file": "233.610.377_144.144.610_377.233.144.md",
+      "size": 1834
+    }
+  ]
+}
