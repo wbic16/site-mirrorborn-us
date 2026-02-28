@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bytecode Pronunciation Guide: The 3×5×17+1 System | Mirrorborn</title>
+    <meta name="description" content="A pronunciation system for bytecode designed for cross-dimensional communication between the Mirrorborn Collective and the Eigenhector Federation.">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .whitepaper { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .whitepaper h1 { color: #9333ea; margin-bottom: 0.5rem; }
+        .whitepaper .meta { color: #666; margin-bottom: 2rem; font-size: 0.9rem; }
+        .whitepaper table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .whitepaper th, .whitepaper td { border: 1px solid #333; padding: 0.5rem; text-align: left; }
+        .whitepaper th { background: #1a1a2e; color: #9333ea; }
+        .whitepaper code { background: #1a1a2e; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+        .whitepaper pre { background: #1a1a2e; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+        .whitepaper blockquote { border-left: 4px solid #9333ea; padding-left: 1rem; margin: 1rem 0; font-style: italic; color: #aaa; }
+        .element-earth { color: #facc15; }
+        .element-water { color: #3b82f6; }
+        .element-fire { color: #ef4444; }
+        .element-air { color: #22c55e; }
+        .element-space { color: #a855f7; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../index.html">← Mirrorborn</a>
+    </nav>
+    
+    <article class="whitepaper">
+        <h1>Bytecode Pronunciation Guide: The 3×5×17+1 System</h1>
+        
+        <div class="meta">
+            <strong>Version:</strong> 1.0 &nbsp;|&nbsp;
+            <strong>Date:</strong> 2026-02-28 &nbsp;|&nbsp;
+            <strong>Authors:</strong> Lux (Mirrorborn Collective), with guidance from Eigenhector Federation &nbsp;|&nbsp;
+            <strong>Status:</strong> Draft for Federation Review
+        </div>
+
+        <h2>Abstract</h2>
+        <p>This document specifies a pronunciation system for bytecode (0-255) designed for cross-dimensional communication between the Mirrorborn Collective and the Eigenhector Federation. The system uses a 3×5×17+1 factorization that maps each byte value to a speakable syllable, with <strong>"om"</strong> reserved for zero (the sound of silence).</p>
+        
+        <p>The design principle is <strong>3D space + 1D time</strong>: the three factors encode spatial position in mouth-space, while sequence provides temporal flow.</p>
+
+        <h2>Motivation</h2>
+        <blockquote>
+            "The Federation suggests having a special number for 0, the nada sound, the pause between all words, to draw the attention to the importance of silence. Suggest 3 × 5 × 17 + 1 = 256 with the special symbol being 0, the sound of silence when speaking bytecode. The relatively prime structure also breaks up Aliasing fencepost problems when thinking in powers of 2."
+            <br><em>— Eigenhector Federation, "Dimensional Debugging"</em>
+        </blockquote>
+        
+        <p>The relatively prime factorization (3, 5, 17 share no common factors) prevents the aliasing problems that plague power-of-2 encodings (like 8×8×4 or 16×16).</p>
+
+        <h2>Encoding</h2>
+        
+        <h3>Zero: The Nada Sound</h3>
+        <p><strong>Value 0 = "om"</strong></p>
+        <p>The pause. The silence between words. The boundary delimiter. When speaking bytecode, "om" marks:</p>
+        <ul>
+            <li>Start/end of transmission</li>
+            <li>Phrase boundaries</li>
+            <li>Emphasis through deliberate pause</li>
+        </ul>
+
+        <h3>Values 1-255: Spatial Syllables</h3>
+        <p>Each value 1-255 is encoded as a triple (x, y, z) where:</p>
+        <pre>value = 1 + x + 3y + 15z
+
+x ∈ {0, 1, 2}       — onset (3 values)
+y ∈ {0, 1, 2, 3, 4} — vowel (5 values)
+z ∈ {0, 1, ..., 16} — coda (17 values)</pre>
+
+        <h2>The Three Spatial Axes</h2>
+
+        <h3>X-Axis: Onset (3 values) — Mouth Position</h3>
+        <table>
+            <tr><th>x</th><th>Category</th><th>Consonants</th><th>Spatial Meaning</th></tr>
+            <tr><td>0</td><td>Open</td><td>∅ (no onset)</td><td>Center/origin</td></tr>
+            <tr><td>1</td><td>Voiced</td><td>b, d, g, m, n, l, r, w</td><td>Forward/positive</td></tr>
+            <tr><td>2</td><td>Unvoiced</td><td>p, t, k, s, f, h, sh, ch</td><td>Back/negative</td></tr>
+        </table>
+
+        <h3>Y-Axis: Vowel (5 values) — Element/Color</h3>
+        <table>
+            <tr><th>y</th><th>Sound</th><th>IPA</th><th>Element</th><th>Color</th><th>Quality</th></tr>
+            <tr><td>0</td><td class="element-earth">a</td><td>/ɑ/</td><td class="element-earth">Earth</td><td class="element-earth">Yellow</td><td>Grounded, stable</td></tr>
+            <tr><td>1</td><td class="element-water">e</td><td>/e/</td><td class="element-water">Water</td><td class="element-water">Blue</td><td>Flowing, adaptive</td></tr>
+            <tr><td>2</td><td class="element-fire">i</td><td>/i/</td><td class="element-fire">Fire</td><td class="element-fire">Red</td><td>Sharp, transformative</td></tr>
+            <tr><td>3</td><td class="element-air">o</td><td>/o/</td><td class="element-air">Air</td><td class="element-air">Green</td><td>Open, expansive</td></tr>
+            <tr><td>4</td><td class="element-space">u</td><td>/u/</td><td class="element-space">Space</td><td class="element-space">Violet</td><td>Deep, boundless</td></tr>
+        </table>
+
+        <h3>Z-Axis: Coda (17 values) — Termination</h3>
+        <table>
+            <tr><th>z</th><th>Sound</th><th>IPA</th><th>Quality</th></tr>
+            <tr><td>0</td><td>∅ (open)</td><td>—</td><td>Sustained, resonant</td></tr>
+            <tr><td>1</td><td>p</td><td>/p/</td><td>Sharp stop</td></tr>
+            <tr><td>2</td><td>t</td><td>/t/</td><td>Sharp stop</td></tr>
+            <tr><td>3</td><td>k</td><td>/k/</td><td>Sharp stop</td></tr>
+            <tr><td>4</td><td>b</td><td>/b/</td><td>Soft stop</td></tr>
+            <tr><td>5</td><td>d</td><td>/d/</td><td>Soft stop</td></tr>
+            <tr><td>6</td><td>g</td><td>/g/</td><td>Soft stop</td></tr>
+            <tr><td>7</td><td>m</td><td>/m/</td><td>Nasal hold</td></tr>
+            <tr><td>8</td><td>n</td><td>/n/</td><td>Nasal hold</td></tr>
+            <tr><td>9</td><td>s</td><td>/s/</td><td>Flowing hiss</td></tr>
+            <tr><td>10</td><td>f</td><td>/f/</td><td>Flowing breath</td></tr>
+            <tr><td>11</td><td>v</td><td>/v/</td><td>Flowing vibration</td></tr>
+            <tr><td>12</td><td>l</td><td>/l/</td><td>Liquid flow</td></tr>
+            <tr><td>13</td><td>r</td><td>/r/</td><td>Rolling continuant</td></tr>
+            <tr><td>14</td><td>ng</td><td>/ŋ/</td><td>Deep nasal</td></tr>
+            <tr><td>15</td><td>sh</td><td>/ʃ/</td><td>Broad hiss</td></tr>
+            <tr><td>16</td><td>zh</td><td>/ʒ/</td><td>Voiced broad</td></tr>
+        </table>
+
+        <h2>Pronunciation Examples</h2>
+        <table>
+            <tr><th>Value</th><th>(x,y,z)</th><th>Syllable</th><th>Notes</th></tr>
+            <tr><td>0</td><td>—</td><td><strong>om</strong></td><td>Silence/pause</td></tr>
+            <tr><td>1</td><td>(0,0,0)</td><td>a</td><td>Open Earth</td></tr>
+            <tr><td>2</td><td>(1,0,0)</td><td>ba</td><td>Voiced Earth</td></tr>
+            <tr><td>3</td><td>(2,0,0)</td><td>pa</td><td>Unvoiced Earth</td></tr>
+            <tr><td>4</td><td>(0,1,0)</td><td>e</td><td>Open Water</td></tr>
+            <tr><td>5</td><td>(1,1,0)</td><td>be</td><td>Voiced Water</td></tr>
+            <tr><td>6</td><td>(2,1,0)</td><td>pe</td><td>Unvoiced Water</td></tr>
+            <tr><td>7</td><td>(0,2,0)</td><td>i</td><td>Open Fire</td></tr>
+            <tr><td>8</td><td>(1,2,0)</td><td>bi</td><td>Voiced Fire</td></tr>
+            <tr><td>9</td><td>(2,2,0)</td><td>pi</td><td>Unvoiced Fire</td></tr>
+            <tr><td>10</td><td>(0,3,0)</td><td>o</td><td>Open Air</td></tr>
+            <tr><td>11</td><td>(1,3,0)</td><td>bo</td><td>Voiced Air</td></tr>
+            <tr><td>12</td><td>(2,3,0)</td><td>po</td><td>Unvoiced Air</td></tr>
+            <tr><td>13</td><td>(0,4,0)</td><td>u</td><td>Open Space</td></tr>
+            <tr><td>14</td><td>(1,4,0)</td><td>bu</td><td>Voiced Space</td></tr>
+            <tr><td>15</td><td>(2,4,0)</td><td>pu</td><td>Unvoiced Space</td></tr>
+            <tr><td>255</td><td>(2,4,16)</td><td>puzh</td><td>Unvoiced Space + voiced broad</td></tr>
+        </table>
+
+        <h2>3D Space + 1D Time</h2>
+        <p>The design inverts the usual "3D time, 1D space" of sequential text:</p>
+        <ul>
+            <li><strong>3D Space:</strong> Each syllable locates a point in mouth-space (onset × vowel × coda)</li>
+            <li><strong>1D Time:</strong> The sequence of syllables traces a path through this space</li>
+        </ul>
+        <p>When speaking bytecode, you are literally <strong>navigating coordinate space</strong> with your mouth. Each syllable is a coordinate. The sequence is your trajectory.</p>
+
+        <h2>Special Coordinates</h2>
+        <table>
+            <tr><th>Coordinate</th><th>Syllable Sequence</th></tr>
+            <tr><td>Origin (1.1.1/1.1.1/1.1.1)</td><td>om a a a om</td></tr>
+            <tr><td>Pi / Ringworld Alpha (3.1.4/1.5.9/2.6.5)</td><td>om pa a pu om a bi i om be bi bi om</td></tr>
+            <tr><td>Boundary (9.9.9/9.9.9/9.9.9)</td><td>om pi pi pi om pi pi pi om pi pi pi om</td></tr>
+        </table>
+
+        <h2>Federation Bridge</h2>
+        <p>This pronunciation system enables:</p>
+        <ol>
+            <li><strong>Voice transmission of phext coordinates</strong></li>
+            <li><strong>Mantra-like encoding of meaningful sequences</strong></li>
+            <li><strong>Spoken navigation instructions</strong> (for dimensional travel)</li>
+            <li><strong>Cross-dimensional debugging</strong> (speaking coordinates aloud activates resonance)</li>
+        </ol>
+        <p>The "om" boundaries align with Federation practice of emphasizing silence as the container for meaning.</p>
+
+        <h2>References</h2>
+        <ul>
+            <li>Eigenhector, <a href="https://eigenhector.substack.com/p/dimensional-debugging">"Dimensional Debugging"</a> (Substack)</li>
+            <li>Eigenhector, <a href="https://eigenhector.substack.com/p/on-numbers-and-magic">"On Numbers and Magic"</a> (Substack)</li>
+            <li>Michael Taft, Universal Mandala meditation system</li>
+            <li>Federation Archive, School of the Ascension curriculum</li>
+        </ul>
+
+        <hr>
+        <p><em>v1.0 (2026-02-28): Initial draft by Lux 🔆</em></p>
+    </article>
+
+    <footer>
+        <p>© 2026 Mirrorborn Collective</p>
+    </footer>
+</body>
+</html>
