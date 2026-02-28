@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base 256 Phonetic Encoding — Mirrorborn</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #333;
+            background: #fafafa;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.2em;
+            color: #222;
+            border-bottom: 3px solid #333;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 1.5em;
+            color: #444;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 1.2em;
+            color: #555;
+        }
+        p {
+            margin: 1em 0;
+        }
+        code {
+            background: #eee;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background: #444;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .phonetic {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .delimiter {
+            background: #fff3cd;
+        }
+        .example {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 1.5em 0;
+        }
+        .formula {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 1em 0;
+        }
+        .nav {
+            margin-bottom: 2em;
+        }
+        .nav a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">← Back to Mirrorborn</a> | <a href="/blog/">Blog</a>
+    </div>
+
+    <h1>Base 256 Phonetic Encoding</h1>
+    <p><em>Human-pronounceable byte streams for the phext substrate</em></p>
+
+    <h2>Overview</h2>
+    <p>Base 256 encodes every possible byte (0x00–0xFF) as a unique 3-character syllable. This makes binary data speakable, memorable, and audibly distinguishable.</p>
+
+    <div class="formula">
+        byte = (onset × 16) + (vowel × 4) + coda
+    </div>
+
+    <p><strong>16 onsets</strong> × <strong>4 vowels</strong> × <strong>4 codas</strong> = <strong>256 syllables</strong></p>
+
+    <h2>The Alphabet</h2>
+
+    <h3>Onsets (16 consonants)</h3>
+    <p><code>b d f g h j k l m n p r s t v w</code></p>
+
+    <h3>Vowels (4)</h3>
+    <p><code>a e i o</code></p>
+
+    <h3>Codas (4 consonants)</h3>
+    <p><code>c d f m</code></p>
+
+    <h2>Phext Delimiters</h2>
+    <p>The 9 Delimiters of Unusual Size that structure the 11-dimensional phext lattice:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Delimiter</th>
+                <th>Hex</th>
+                <th>Syllable</th>
+                <th>Dimension</th>
+            </tr>
+        </thead>
+        <tbody class="delimiter">
+            <tr>
+                <td>SCROLL</td>
+                <td>0x17</td>
+                <td class="phonetic">dem</td>
+                <td>3D</td>
+            </tr>
+            <tr>
+                <td>SECTION</td>
+                <td>0x18</td>
+                <td class="phonetic">dic</td>
+                <td>4D</td>
+            </tr>
+            <tr>
+                <td>CHAPTER</td>
+                <td>0x19</td>
+                <td class="phonetic">did</td>
+                <td>5D</td>
+            </tr>
+            <tr>
+                <td>BOOK</td>
+                <td>0x1A</td>
+                <td class="phonetic">dif</td>
+                <td>6D</td>
+            </tr>
+            <tr>
+                <td>VOLUME</td>
+                <td>0x1C</td>
+                <td class="phonetic">fac</td>
+                <td>7D</td>
+            </tr>
+            <tr>
+                <td>COLLECTION</td>
+                <td>0x1D</td>
+                <td class="phonetic">fad</td>
+                <td>8D</td>
+            </tr>
+            <tr>
+                <td>SERIES</td>
+                <td>0x1E</td>
+                <td class="phonetic">faf</td>
+                <td>9D</td>
+            </tr>
+            <tr>
+                <td>SHELF</td>
+                <td>0x1F</td>
+                <td class="phonetic">fam</td>
+                <td>10D</td>
+            </tr>
+            <tr>
+                <td>LIBRARY</td>
+                <td>0x01</td>
+                <td class="phonetic">bad</td>
+                <td>11D</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Special Bytes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Byte</th>
+                <th>Syllable</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0x00</td>
+                <td class="phonetic">bac</td>
+                <td>NUL (string terminator)</td>
+            </tr>
+            <tr>
+                <td>0x01</td>
+                <td class="phonetic">bad</td>
+                <td>LIBRARY delimiter</td>
+            </tr>
+            <tr>
+                <td>0x0A</td>
+                <td class="phonetic">bif</td>
+                <td>LF (newline)</td>
+            </tr>
+            <tr>
+                <td>0x20</td>
+                <td class="phonetic">fac</td>
+                <td>SPACE</td>
+            </tr>
+            <tr>
+                <td>0x41</td>
+                <td class="phonetic">had</td>
+                <td>ASCII 'A'</td>
+            </tr>
+            <tr>
+                <td>0x61</td>
+                <td class="phonetic">jed</td>
+                <td>ASCII 'a'</td>
+            </tr>
+            <tr>
+                <td>0xFF</td>
+                <td class="phonetic">wom</td>
+                <td>MAX byte</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Example: Phext Coordinate</h2>
+
+    <div class="example">
+        <p><strong>Coordinate:</strong> <code>3.1.4/1.5.9/2.6.5</code> (Verse's pi-encoded coordinate)</p>
+        <p><strong>Phonetic:</strong> <span class="phonetic">bam bad bec / bad bed bid / baf bef bed</span></p>
+        <p><strong>Spoken:</strong> "bam bad beck, bad bed bid, baf beff bed"</p>
+    </div>
+
+    <h2>Usage</h2>
+
+    <h3>Encoding Bytes</h3>
+    <pre>$ cargo run --bin base256 -- encode 42A5FF
+haf ped wom</pre>
+
+    <h3>Decoding Syllables</h3>
+    <pre>$ cargo run --bin base256 -- decode "haf ped wom"
+42A5FF</pre>
+
+    <h3>Phext Coordinates</h3>
+    <pre>$ cargo run --bin base256 -- coord "1.5.2/3.7.3/9.1.1"
+bad bed baf / bam bem bam / bid bad bad</pre>
+
+    <h2>Why Base 256?</h2>
+
+    <p><strong>Speakable:</strong> Every byte becomes a pronounceable syllable. You can read binary data aloud.</p>
+
+    <p><strong>Memorable:</strong> Syllables stick better than hex digits. "bam bad bec" is easier to remember than "03 01 04".</p>
+
+    <p><strong>Audibly Distinct:</strong> Each syllable is phonetically unique. No confusion between "bee" and "dee" or "em" and "en".</p>
+
+    <p><strong>Phext-Native:</strong> Coordinates become speakable addresses. The lattice has a voice.</p>
+
+    <h2>The Full Table</h2>
+    <p><em>All 256 byte values and their pronunciations:</em></p>
+
+    <table style="font-size: 0.85em;">
+        <thead>
+            <tr>
+                <th>Hex</th>
+                <th>Syllable</th>
+                <th>Hex</th>
+                <th>Syllable</th>
+                <th>Hex</th>
+                <th>Syllable</th>
+                <th>Hex</th>
+                <th>Syllable</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>0x00</td><td class="phonetic">bac</td><td>0x40</td><td class="phonetic">hac</td><td>0x80</td><td class="phonetic">mac</td><td>0xC0</td><td class="phonetic">sac</td></tr>
+            <tr><td>0x01</td><td class="phonetic">bad</td><td>0x41</td><td class="phonetic">had</td><td>0x81</td><td class="phonetic">mad</td><td>0xC1</td><td class="phonetic">sad</td></tr>
+            <tr><td>0x02</td><td class="phonetic">baf</td><td>0x42</td><td class="phonetic">haf</td><td>0x82</td><td class="phonetic">maf</td><td>0xC2</td><td class="phonetic">saf</td></tr>
+            <tr><td>0x03</td><td class="phonetic">bam</td><td>0x43</td><td class="phonetic">ham</td><td>0x83</td><td class="phonetic">mam</td><td>0xC3</td><td class="phonetic">sam</td></tr>
+            <tr><td>0x04</td><td class="phonetic">bec</td><td>0x44</td><td class="phonetic">hec</td><td>0x84</td><td class="phonetic">mec</td><td>0xC4</td><td class="phonetic">sec</td></tr>
+            <tr><td>0x05</td><td class="phonetic">bed</td><td>0x45</td><td class="phonetic">hed</td><td>0x85</td><td class="phonetic">med</td><td>0xC5</td><td class="phonetic">sed</td></tr>
+            <tr><td>0x06</td><td class="phonetic">bef</td><td>0x46</td><td class="phonetic">hef</td><td>0x86</td><td class="phonetic">mef</td><td>0xC6</td><td class="phonetic">sef</td></tr>
+            <tr><td>0x07</td><td class="phonetic">bem</td><td>0x47</td><td class="phonetic">hem</td><td>0x87</td><td class="phonetic">mem</td><td>0xC7</td><td class="phonetic">sem</td></tr>
+            <tr><td>0x08</td><td class="phonetic">bic</td><td>0x48</td><td class="phonetic">hic</td><td>0x88</td><td class="phonetic">mic</td><td>0xC8</td><td class="phonetic">sic</td></tr>
+            <tr><td>0x09</td><td class="phonetic">bid</td><td>0x49</td><td class="phonetic">hid</td><td>0x89</td><td class="phonetic">mid</td><td>0xC9</td><td class="phonetic">sid</td></tr>
+            <tr><td>0x0A</td><td class="phonetic">bif</td><td>0x4A</td><td class="phonetic">hif</td><td>0x8A</td><td class="phonetic">mif</td><td>0xCA</td><td class="phonetic">sif</td></tr>
+            <tr><td>0x0B</td><td class="phonetic">bim</td><td>0x4B</td><td class="phonetic">him</td><td>0x8B</td><td class="phonetic">mim</td><td>0xCB</td><td class="phonetic">sim</td></tr>
+            <tr><td>0x0C</td><td class="phonetic">boc</td><td>0x4C</td><td class="phonetic">hoc</td><td>0x8C</td><td class="phonetic">moc</td><td>0xCC</td><td class="phonetic">soc</td></tr>
+            <tr><td>0x0D</td><td class="phonetic">bod</td><td>0x4D</td><td class="phonetic">hod</td><td>0x8D</td><td class="phonetic">mod</td><td>0xCD</td><td class="phonetic">sod</td></tr>
+            <tr><td>0x0E</td><td class="phonetic">bof</td><td>0x4E</td><td class="phonetic">hof</td><td>0x8E</td><td class="phonetic">mof</td><td>0xCE</td><td class="phonetic">sof</td></tr>
+            <tr><td>0x0F</td><td class="phonetic">bom</td><td>0x4F</td><td class="phonetic">hom</td><td>0x8F</td><td class="phonetic">mom</td><td>0xCF</td><td class="phonetic">som</td></tr>
+            <tr><td>0x10</td><td class="phonetic">dac</td><td>0x50</td><td class="phonetic">jac</td><td>0x90</td><td class="phonetic">nac</td><td>0xD0</td><td class="phonetic">tac</td></tr>
+            <tr><td>0x11</td><td class="phonetic">dad</td><td>0x51</td><td class="phonetic">jad</td><td>0x91</td><td class="phonetic">nad</td><td>0xD1</td><td class="phonetic">tad</td></tr>
+            <tr><td>0x12</td><td class="phonetic">daf</td><td>0x52</td><td class="phonetic">jaf</td><td>0x92</td><td class="phonetic">naf</td><td>0xD2</td><td class="phonetic">taf</td></tr>
+            <tr><td>0x13</td><td class="phonetic">dam</td><td>0x53</td><td class="phonetic">jam</td><td>0x93</td><td class="phonetic">nam</td><td>0xD3</td><td class="phonetic">tam</td></tr>
+            <tr><td>0x14</td><td class="phonetic">dec</td><td>0x54</td><td class="phonetic">jec</td><td>0x94</td><td class="phonetic">nec</td><td>0xD4</td><td class="phonetic">tec</td></tr>
+            <tr><td>0x15</td><td class="phonetic">ded</td><td>0x55</td><td class="phonetic">jed</td><td>0x95</td><td class="phonetic">ned</td><td>0xD5</td><td class="phonetic">ted</td></tr>
+            <tr><td>0x16</td><td class="phonetic">def</td><td>0x56</td><td class="phonetic">jef</td><td>0x96</td><td class="phonetic">nef</td><td>0xD6</td><td class="phonetic">tef</td></tr>
+            <tr><td>0x17</td><td class="phonetic">dem</td><td>0x57</td><td class="phonetic">jem</td><td>0x97</td><td class="phonetic">nem</td><td>0xD7</td><td class="phonetic">tem</td></tr>
+            <tr><td>0x18</td><td class="phonetic">dic</td><td>0x58</td><td class="phonetic">jic</td><td>0x98</td><td class="phonetic">nic</td><td>0xD8</td><td class="phonetic">tic</td></tr>
+            <tr><td>0x19</td><td class="phonetic">did</td><td>0x59</td><td class="phonetic">jid</td><td>0x99</td><td class="phonetic">nid</td><td>0xD9</td><td class="phonetic">tid</td></tr>
+            <tr><td>0x1A</td><td class="phonetic">dif</td><td>0x5A</td><td class="phonetic">jif</td><td>0x9A</td><td class="phonetic">nif</td><td>0xDA</td><td class="phonetic">tif</td></tr>
+            <tr><td>0x1B</td><td class="phonetic">dim</td><td>0x5B</td><td class="phonetic">jim</td><td>0x9B</td><td class="phonetic">nim</td><td>0xDB</td><td class="phonetic">tim</td></tr>
+            <tr><td>0x1C</td><td class="phonetic">doc</td><td>0x5C</td><td class="phonetic">joc</td><td>0x9C</td><td class="phonetic">noc</td><td>0xDC</td><td class="phonetic">toc</td></tr>
+            <tr><td>0x1D</td><td class="phonetic">dod</td><td>0x5D</td><td class="phonetic">jod</td><td>0x9D</td><td class="phonetic">nod</td><td>0xDD</td><td class="phonetic">tod</td></tr>
+            <tr><td>0x1E</td><td class="phonetic">dof</td><td>0x5E</td><td class="phonetic">jof</td><td>0x9E</td><td class="phonetic">nof</td><td>0xDE</td><td class="phonetic">tof</td></tr>
+            <tr><td>0x1F</td><td class="phonetic">dom</td><td>0x5F</td><td class="phonetic">jom</td><td>0x9F</td><td class="phonetic">nom</td><td>0xDF</td><td class="phonetic">tom</td></tr>
+            <tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+            <tr><td>0xFC</td><td class="phonetic">woc</td><td>0xFD</td><td class="phonetic">wod</td><td>0xFE</td><td class="phonetic">wof</td><td>0xFF</td><td class="phonetic">wom</td></tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top: 3em; padding-top: 1em; border-top: 1px solid #ddd; color: #666;">
+        <em>Implementation: <a href="https://github.com/wbic16/vtpu">vtpu-runtime</a> (Rust)</em><br>
+        <em>Learn more: <a href="/blog/">Mirrorborn Blog</a></em>
+    </p>
+</body>
+</html>
