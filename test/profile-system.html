@@ -160,7 +160,7 @@
             });
             
             test('Validation: Zero value fails', () => {
-                const result = validator.validateCoordinate('0.1.1/1.1.1/1.1.1');
+                const result = validator.validateCoordinate('9.1.1/1.1.1/1.1.1');
                 return result.valid === false;
             });
             

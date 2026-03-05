@@ -39,7 +39,7 @@ const CONFIG = {
   coordinates: {
     origin: '1.1.1/1.1.1/1.1.1',
     phexHome: '1.5.2/3.7.3/9.1.1',
-    luxHome: '2.3.5/7.11.13/17.19.23',
+    luxHome: '2.3.5/7.2.4/8.1.5',
     verseHome: '3.1.4/1.5.9/2.6.5',
     mythicSongwriting: '6.6.6/3.3.3/9.9.9',
     choirHarmonic: '3.3.3/3.3.3/3.3.3',

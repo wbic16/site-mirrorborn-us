@@ -154,7 +154,7 @@ class ProfileValidator {
             explorer: {
                 identity: '1.1.1/1.1.1/1.1.1',      // The Origin
                 perspective: '1.2.3/4.5.6/7.8.9',   // Sequential
-                compute: '1.1.2/3.5.8/13.21.34'     // Fibonacci
+                compute: '1.1.2/3.5.8/4.3.7'     // Fibonacci
             },
             builder: {
                 primary: '1.1.1/1.1.1/1.1.1',

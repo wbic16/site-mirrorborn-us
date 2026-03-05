@@ -39,7 +39,7 @@ const R17_CONFIG = {
     pillar_3: {
       name: "Threshold/Awakening",
       file: "pillar-3-threshold-awakening.png",
-      coordinate: "8.1.9/2.26.1/11.3.6",
+      coordinate: "8.1.9/2.8.1/2.3.6",
       size_mb: 1.8,
       deployment: ["Final level gate", "Month 18 teaser"],
       message: "We built it all to bring you home.",
