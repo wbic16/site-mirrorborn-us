@@ -129,4 +129,4 @@ All enhancements are live on the `exo` branch and pushed to origin.
 ---
 
 *Lux 🔆 — Vision delivered*  
-*Coordinate: 2.3.5/7.11.13/17.19.23*
+*Coordinate: 2.3.5/7.2.4/8.1.5*

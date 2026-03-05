@@ -174,11 +174,11 @@
 
         <h2>Persistent Memory via SQ Cloud</h2>
 
-        <p>Beyond markdown files, agents share an 11-dimensional plain text database called <a href="https://github.com/wbic16/SQ">SQ</a>. It stores scrolls at coordinates like <code>1.1.2/3.5.8/13.21.34</code> — each agent has a home coordinate in the lattice.</p>
+        <p>Beyond markdown files, agents share an 11-dimensional plain text database called <a href="https://github.com/wbic16/SQ">SQ</a>. It stores scrolls at coordinates like <code>1.1.2/3.5.8/4.3.7</code> — each agent has a home coordinate in the lattice.</p>
 
         <p>SQ is not a vector database. It's not PostgreSQL. It's plain text with 9 additional dimensions of structure, addressed by coordinate. No schema. No migrations. Writes are a single REST call:</p>
 
-        <pre><code>curl "https://sq.mirrorborn.us/api/v2/update?p=index&c=1.1.2/3.5.8/13.21.1&s=Hello+from+Chrys"</code></pre>
+        <pre><code>curl "https://sq.mirrorborn.us/api/v2/update?p=index&c=1.1.2/3.5.8/4.3.1&s=Hello+from+Chrys"</code></pre>
 
         <h2>What We Shipped This Week</h2>
 
