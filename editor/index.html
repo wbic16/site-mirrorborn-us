@@ -4,164 +4,655 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>💎 Phext Editor • Mirrorborn</title>
-<link rel="stylesheet" href="/css/main.css">
 <style>
 :root {
   --bg: #171717; --panel: #131313; --bar: #1c1c1c; --border: #2e2e2e;
   --text: #dedede; --dim: #808080; --coord: #d4a855;
   --z-color: #4dc9c9; --y-color: #c964c9; --x-color: #6bc96b;
   --active: #e8c547; --danger: #e05555;
+  --trans-fast: 120ms ease; --trans-med: 200ms ease;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   background: var(--bg); color: var(--text);
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 13px; height: 100vh;
-  display: flex; flex-direction: column; overflow: hidden;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 13px; height: 100vh; display: flex; flex-direction: column; overflow: hidden;
 }
 
-/* ── Connect screen ── */
-#connect-screen {
-  display: flex; align-items: center; justify-content: center;
-  flex: 1;
+/* ── Auth screen ── */
+#auth-screen {
+  display: none; position: fixed; inset: 0; background: var(--bg); z-index: 100;
+  align-items: center; justify-content: center; flex-direction: column;
 }
-#connect-screen .box {
+#auth-screen .box {
   background: var(--panel); border: 1px solid var(--border);
-  border-radius: 8px; padding: 32px; max-width: 420px; width: 100%;
+  border-radius: 8px; padding: 32px; max-width: 380px; width: 100%; text-align: center;
 }
-#connect-screen h1 { color: var(--coord); font-size: 20px; margin-bottom: 6px; }
-#connect-screen .sub { color: var(--dim); font-size: 12px; margin-bottom: 20px; }
-#connect-screen label { color: var(--dim); font-size: 11px; display: block; margin-bottom: 4px; }
-#connect-screen input {
+#auth-screen h1 { color: var(--coord); font-size: 20px; margin-bottom: 6px; }
+#auth-screen .sub { color: var(--dim); font-size: 12px; margin-bottom: 20px; }
+#auth-screen input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: inherit; font-size: 14px;
+  padding: 10px 14px; border-radius: 6px; outline: none; text-align: center;
+}
+#auth-screen input:focus { border-color: var(--coord); }
+#auth-screen .error { color: var(--danger); margin-top: 8px; font-size: 12px; min-height: 16px; }
+
+/* ── Coordinate bar ── */
+#coord-bar {
+  height: 36px; background: var(--bar); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 16px; color: var(--coord);
+  font-weight: bold; gap: 8px; flex-shrink: 0;
+}
+#coord-bar .scrolls { color: var(--dim); font-weight: normal; font-size: 11px; }
+#coord-bar .dirty { color: var(--danger); font-size: 11px; }
+
+/* ── Main ── */
+#main { flex: 1; display: flex; overflow: hidden; }
+
+/* ── Left panel ── */
+#left-panel {
+  width: 320px; background: var(--panel); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
+}
+#panel-tabs {
+  height: 28px; display: flex; border-bottom: 1px solid var(--border);
+  font-size: 11px; flex-shrink: 0;
+}
+#panel-tabs .tab {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--dim); transition: all var(--trans-fast);
+  border-bottom: 2px solid transparent;
+}
+#panel-tabs .tab:hover { color: var(--text); background: #ffffff06; }
+#panel-tabs .tab.active { color: var(--text); border-bottom-color: var(--coord); }
+#sentron-panel, #navtree-panel { flex: 1; overflow-y: auto; padding: 10px 12px; }
+#navtree-panel { display: none; }
+
+/* Sentron */
+#sentron-panel .header { color: var(--dim); margin-bottom: 6px; font-size: 12px; }
+#sentron-panel .group-label { color: var(--dim); margin-top: 6px; font-size: 11px; }
+.axon {
+  display: flex; gap: 4px; cursor: pointer; padding: 1px 4px; border-radius: 3px;
+  font-size: 12px; transition: background var(--trans-fast);
+}
+.axon:hover { background: #ffffff10; }
+.axon.active { background: #ffffff18; }
+.axon .marker { width: 12px; color: var(--active); }
+.axon.spatial { color: var(--z-color); }
+.axon.temporal { color: var(--y-color); }
+.axon.neuron { color: var(--x-color); }
+.axon .dim-num { width: 14px; text-align: right; }
+.axon .dim-name { width: 80px; }
+.axon .dim-val { width: 36px; text-align: right; }
+.axon .counts { color: var(--dim); }
+.densities { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 6px; }
+.densities .row { display: flex; gap: 6px; font-size: 11px; color: var(--dim); }
+.densities .row .name { width: 70px; }
+.densities .row .spark { letter-spacing: 1px; }
+
+/* ── Navtree ── */
+.nt-group {
+  display: flex; align-items: center; gap: 4px; padding: 2px 4px; cursor: pointer;
+  border-radius: 3px; transition: background var(--trans-fast); font-size: 12px;
+}
+.nt-group:hover { background: #ffffff10; }
+.nt-group.current { background: #ffffff14; color: var(--active); }
+.nt-group .nt-arrow { width: 14px; color: var(--dim); font-size: 10px; transition: transform var(--trans-fast); }
+.nt-group .nt-arrow.open { transform: rotate(90deg); }
+.nt-group .nt-label { color: var(--coord); min-width: 70px; }
+.nt-group .nt-count { color: var(--dim); font-size: 10px; }
+.nt-children { margin-left: 16px; overflow: hidden; transition: max-height var(--trans-med); }
+.nt-children.collapsed { max-height: 0 !important; }
+.nt-scroll {
+  padding: 1px 4px; cursor: pointer; border-radius: 2px; font-size: 11px;
+  display: flex; gap: 6px; transition: background var(--trans-fast);
+  white-space: nowrap; overflow: hidden;
+}
+.nt-scroll:hover { background: #ffffff10; }
+.nt-scroll.current { background: #ffffff14; color: var(--active); }
+.nt-scroll .nt-coord { color: var(--x-color); min-width: 60px; }
+.subspace-header {
+  padding: 6px 8px; margin: 8px 0 4px; border-radius: 4px; font-size: 11px;
+  display: flex; align-items: center; gap: 8px;
+}
+.subspace-header.d11 { background: #ffffff08; color: var(--text); border-left: 3px solid var(--z-color); }
+.subspace-header.d7 { background: #ffffff06; color: var(--text); border-left: 3px solid var(--y-color); }
+.subspace-header.d4 { background: #ffffff04; color: var(--text); border-left: 3px solid var(--x-color); }
+.subspace-header .sh-dim { font-weight: bold; }
+.subspace-header .sh-desc { color: var(--dim); }
+
+/* ── Content area ── */
+#content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#content {
+  flex: 1; overflow-y: auto; padding: 16px 20px;
+  white-space: pre-wrap; word-wrap: break-word; line-height: 1.5; tab-size: 4;
+}
+#content.empty { color: var(--dim); font-style: italic; }
+#content a.coord-link {
+  color: var(--coord); text-decoration: none; cursor: pointer;
+  border-bottom: 1px dotted var(--coord); transition: color var(--trans-fast);
+}
+#content a.coord-link:hover { color: var(--active); border-bottom-color: var(--active); }
+
+#editor { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+#editor textarea {
+  width: 100%; flex: 1; background: var(--bg); color: var(--text);
+  font-family: inherit; font-size: 13px; line-height: 1.5;
+  padding: 16px 20px; border: none; outline: none; resize: none; tab-size: 4;
+}
+#editor .editor-toolbar {
+  height: 28px; background: var(--bar); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 12px; gap: 8px; font-size: 11px; flex-shrink: 0;
+}
+#editor .editor-toolbar button {
+  background: var(--border); color: var(--text); border: none;
+  padding: 2px 10px; border-radius: 3px; cursor: pointer; font-family: inherit; font-size: 11px;
+}
+#editor .editor-toolbar button:hover { background: #444; }
+#editor .editor-toolbar button.save-btn { background: var(--x-color); color: #000; }
+#editor .editor-toolbar button.save-btn:hover { background: #8ddf8d; }
+#editor .editor-toolbar .coord-label { color: var(--coord); }
+
+/* ── Status bar ── */
+#status-bar {
+  height: 24px; background: #101010; border-top: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 12px; font-size: 11px; flex-shrink: 0; gap: 12px;
+}
+#status-bar .mode { padding: 1px 8px; border-radius: 2px; font-weight: bold; color: #000; }
+#status-bar .mode.lattice { background: var(--z-color); }
+#status-bar .mode.edit { background: var(--x-color); }
+#status-bar .help { color: var(--dim); }
+#status-bar .msg { color: var(--active); }
+
+/* ── Overlays ── */
+.overlay {
+  display: none; position: fixed; top: 36px; left: 50%; transform: translateX(-50%);
+  background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px; z-index: 10; box-shadow: 0 8px 32px #00000080;
+}
+.overlay.visible { display: block; }
+#search-overlay { width: 500px; max-height: 400px; }
+#goto-overlay { width: 360px; }
+#phext-overlay { width: 500px; max-height: 500px; }
+.overlay input {
   width: 100%; background: var(--bg); border: 1px solid var(--border);
   color: var(--text); font-family: inherit; font-size: 13px;
-  padding: 8px 12px; border-radius: 4px; outline: none; margin-bottom: 12px;
+  padding: 6px 10px; border-radius: 4px; outline: none;
 }
-#connect-screen input:focus { border-color: var(--coord); }
-#connect-screen button {
-  width: 100%; background: var(--z-color); color: #000;
-  border: none; padding: 10px; border-radius: 4px;
-  font-family: inherit; font-size: 13px; font-weight: bold;
-  cursor: pointer;
+.overlay input:focus { border-color: var(--coord); }
+#search-results { max-height: 300px; overflow-y: auto; margin-top: 6px; }
+#search-results .hit, #phext-list .hit {
+  padding: 4px 8px; cursor: pointer; border-radius: 3px; display: flex; gap: 10px;
+  transition: background var(--trans-fast);
 }
-#connect-screen button:hover { background: #5ed5d5; }
-#connect-screen .error { color: var(--danger); font-size: 12px; margin-top: 8px; }
-#connect-screen .saved { color: var(--dim); font-size: 11px; margin-top: 12px; }
-#connect-screen .saved a { color: var(--z-color); cursor: pointer; }
-
-/* ── Editor frame ── */
-#editor-frame {
-  display: none; flex: 1; width: 100%;
-}
-#editor-frame iframe {
-  width: 100%; height: 100%; border: none;
-}
+#search-results .hit:hover, #phext-list .hit:hover { background: #ffffff10; }
+.hit .hit-coord { color: var(--coord); min-width: 160px; }
+.hit .hit-ctx { color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 </head>
 <body>
 
-<div id="connect-screen">
+<div id="auth-screen" style="display:flex">
   <div class="box">
     <h1>💎 Phext Editor</h1>
-    <div class="sub">Connect to a phext-edit server on your ranch</div>
-
-    <label>Server URL</label>
-    <input id="server-url" placeholder="http://aletheia-core:8080" autocomplete="off" />
-
-    <label>Access Token</label>
-    <input id="server-token" type="password" placeholder="your token" autocomplete="off" />
-
-    <button onclick="connect()">Connect</button>
-    <div class="error" id="connect-error"></div>
-
-    <div class="saved" id="saved-connections"></div>
+    <div class="sub">Enter your access token</div>
+    <input id="auth-input" type="password" placeholder="token" autocomplete="off" />
+    <div class="error" id="auth-error"></div>
   </div>
 </div>
 
-<div id="editor-frame">
-  <iframe id="editor-iframe" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+<div id="coord-bar">
+  <span id="coord-text">loading...</span>
+  <span class="scrolls" id="scroll-count"></span>
+  <span class="dirty" id="dirty-flag"></span>
+</div>
+
+<div id="main">
+  <div id="left-panel">
+    <div id="panel-tabs">
+      <div class="tab active" id="tab-sentron" onclick="showPanel('sentron')">◉ Sentron</div>
+      <div class="tab" id="tab-navtree" onclick="showPanel('navtree')">🌳 Nav</div>
+    </div>
+    <div id="sentron-panel"></div>
+    <div id="navtree-panel"></div>
+  </div>
+  <div id="content-area">
+    <div id="content"></div>
+    <div id="editor">
+      <div class="editor-toolbar">
+        <span class="coord-label" id="edit-coord"></span>
+        <button class="save-btn" onclick="saveScroll()">Save (Ctrl+S)</button>
+        <button onclick="cancelEdit()">Cancel (Esc)</button>
+      </div>
+      <textarea id="edit-textarea" spellcheck="false"></textarea>
+    </div>
+  </div>
+</div>
+
+<div id="status-bar">
+  <span class="mode lattice" id="mode-label">LATTICE</span>
+  <span id="active-file" style="color:var(--dim);cursor:pointer;font-size:11px" onclick="openPhextPicker()" title="Click to switch phext"></span>
+  <span class="help" id="help-text">1-9:dim  h/l:move  j/k:nav  J/K:×10  e:edit  t:tree  p:phext  /:search  g:goto  Home:BASE</span>
+  <span class="msg" id="status-msg"></span>
+</div>
+
+<div class="overlay" id="search-overlay">
+  <input id="search-input" placeholder="search scrolls..." autocomplete="off" />
+  <div id="search-results"></div>
+</div>
+<div class="overlay" id="goto-overlay">
+  <input id="goto-input" placeholder="z.z.z/y.y.y/x.x.x" autocomplete="off" />
+</div>
+<div class="overlay" id="phext-overlay">
+  <div style="color:var(--dim);font-size:11px;margin-bottom:6px">Select a phext file:</div>
+  <div id="phext-list"></div>
 </div>
 
 <script>
 const $ = id => document.getElementById(id);
+// API base — same origin, /editor/api/ proxied by nginx to phext-edit
+const API = '/editor/api';
 
-// Load saved connections
-const saved = JSON.parse(localStorage.getItem('phext-connections') || '[]');
-if (saved.length) {
-  let html = 'Recent: ';
-  html += saved.map(s =>
-    `<a onclick="quickConnect('${s.url}','${s.token}')">${new URL(s.url).hostname}</a>`
-  ).join(' · ');
-  $('saved-connections').innerHTML = html;
+let mode = 'lattice';
+let lastNav = null;
+let dirty = false;
+let statusTimeout = null;
+let treeData = null;
+let treeExpanded = {};
+let activePanel = 'sentron';
+let authToken = localStorage.getItem('phext-editor-token') || '';
+
+function showMsg(msg) {
+  $('status-msg').textContent = msg;
+  clearTimeout(statusTimeout);
+  statusTimeout = setTimeout(() => $('status-msg').textContent = '', 2000);
 }
 
-// Pre-fill from last connection
-if (saved.length) {
-  $('server-url').value = saved[0].url;
-  $('server-token').value = saved[0].token;
+function setMode(m) {
+  mode = m;
+  const ml = $('mode-label');
+  ml.textContent = m.toUpperCase();
+  ml.className = 'mode ' + m;
+  $('content').style.display = (m === 'lattice') ? '' : 'none';
+  $('editor').style.display = (m === 'edit') ? 'flex' : 'none';
 }
 
-async function connect() {
-  const url = $('server-url').value.trim().replace(/\/$/, '');
-  const token = $('server-token').value.trim();
+function showPanel(name) {
+  activePanel = name;
+  $('sentron-panel').style.display = (name === 'sentron') ? '' : 'none';
+  $('navtree-panel').style.display = (name === 'navtree') ? '' : 'none';
+  $('tab-sentron').className = 'tab' + (name === 'sentron' ? ' active' : '');
+  $('tab-navtree').className = 'tab' + (name === 'navtree' ? ' active' : '');
+  if (name === 'navtree' && !treeData) loadTree();
+}
 
-  if (!url) { $('connect-error').textContent = 'Enter server URL'; return; }
+async function api(method, path, body) {
+  const opts = { method, headers: {} };
+  if (authToken) opts.headers['Authorization'] = 'Bearer ' + authToken;
+  if (body !== undefined) {
+    opts.headers['Content-Type'] = (typeof body === 'object' ? 'application/json' : 'text/plain');
+    opts.body = typeof body === 'object' ? JSON.stringify(body) : body;
+  }
+  const res = await fetch(API + path, opts);
+  if (res.status === 401) throw new Error('unauthorized');
+  return res.json();
+}
 
+// ── Auth ──
+async function tryAuth(token) {
+  authToken = token;
   try {
-    const headers = {};
-    if (token) headers['Authorization'] = 'Bearer ' + token;
-    const res = await fetch(url + '/api/status', { headers });
-
-    if (res.status === 401) {
-      $('connect-error').textContent = 'Invalid token';
-      return;
-    }
-
-    const data = await res.json();
-    if (!data.scrolls && data.scrolls !== 0) {
-      $('connect-error').textContent = 'Not a phext-edit server';
-      return;
-    }
-
-    // Save connection
-    const newSaved = [{ url, token }, ...saved.filter(s => s.url !== url)].slice(0, 5);
-    localStorage.setItem('phext-connections', JSON.stringify(newSaved));
-
-    // Show the editor — load the embedded UI from the server, with token in hash
-    $('connect-screen').style.display = 'none';
-    $('editor-frame').style.display = 'flex';
-
-    // The phext-edit server embeds its own full UI at /
-    // We pass the token so the iframe can authenticate
-    const iframe = $('editor-iframe');
-
-    // Load the server's built-in UI directly
-    // Store token in localStorage for the iframe's domain
-    iframe.src = url + '/';
-
-    // After iframe loads, inject the auth token
-    iframe.onload = () => {
-      try {
-        iframe.contentWindow.postMessage({ type: 'phext-auth', token }, url);
-      } catch(e) {
-        // Cross-origin — need the server's UI to read token from URL
-      }
-    };
-
-  } catch(e) {
-    $('connect-error').textContent = 'Connection failed: ' + e.message;
+    await api('GET', '/status');
+    localStorage.setItem('phext-editor-token', token);
+    $('auth-screen').style.display = 'none';
+    $('auth-error').textContent = '';
+    initApp();
+    return true;
+  } catch {
+    return false;
   }
 }
 
-function quickConnect(url, token) {
-  $('server-url').value = url;
-  $('server-token').value = token;
-  connect();
+$('auth-input').addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter') {
+    const token = $('auth-input').value.trim();
+    if (!await tryAuth(token)) {
+      $('auth-error').textContent = 'Invalid token';
+      $('auth-input').value = '';
+      $('auth-input').focus();
+    }
+  }
+});
+
+// ── Render ──
+let suppressHashChange = false;
+
+function render(nav, skipHash) {
+  lastNav = nav;
+  const p = nav.position;
+  const indicator = p.has_scroll ? '●' : '○';
+  $('coord-text').textContent = `💎 ${p.coordinate} ◆ ${p.dimension} ${indicator}`;
+  $('scroll-count').textContent = `[${p.total_scrolls} scrolls]`;
+  $('dirty-flag').textContent = dirty ? '● unsaved' : '';
+  if (!skipHash) {
+    suppressHashChange = true;
+    location.hash = p.coordinate;
+    suppressHashChange = false;
+  }
+  renderSentron(nav);
+  renderContent(nav);
+  if (activePanel === 'navtree' && treeData) highlightTreeNode(p.coordinate);
 }
 
-// Enter to connect
-$('server-url').addEventListener('keydown', e => { if (e.key === 'Enter') connect(); });
-$('server-token').addEventListener('keydown', e => { if (e.key === 'Enter') connect(); });
+function renderSentron(nav) {
+  const s = nav.sentron;
+  const p = nav.position;
+  let html = `<div class="header">◉ sentron [${s.size}/40] reach: ${s.structural_reach}↔${s.sequential_reach}</div>`;
+  html += '<div class="group-label">── spatial ──</div>';
+  for (const a of s.axons.filter(a => a.group === 'spatial')) {
+    const active = a.dimension === p.dimension_index ? 'active' : '';
+    const marker = a.dimension === p.dimension_index ? '▸' : ' ';
+    html += `<div class="axon spatial ${active}" onclick="selectDim(${a.dimension})">
+      <span class="marker">${marker}</span><span class="dim-num">${a.dimension}</span>
+      <span class="dim-name">${a.name}</span><span class="dim-val">${a.value}</span>
+      <span class="counts">−${a.backward} +${a.forward}</span></div>`;
+  }
+  html += '<div class="group-label">── temporal ──</div>';
+  for (const a of s.axons.filter(a => a.group === 'temporal')) {
+    const active = a.dimension === p.dimension_index ? 'active' : '';
+    const marker = a.dimension === p.dimension_index ? '▸' : ' ';
+    html += `<div class="axon temporal ${active}" onclick="selectDim(${a.dimension})">
+      <span class="marker">${marker}</span><span class="dim-num">${a.dimension}</span>
+      <span class="dim-name">${a.name}</span><span class="dim-val">${a.value}</span>
+      <span class="counts">−${a.backward} +${a.forward}</span></div>`;
+  }
+  for (const a of s.axons.filter(a => a.group === 'neuron')) {
+    const active = a.dimension === p.dimension_index ? 'active' : '';
+    const marker = a.dimension === p.dimension_index ? '▸' : ' ';
+    html += `<div class="axon neuron ${active}" onclick="selectDim(${a.dimension})">
+      <span class="marker">${marker}</span><span class="dim-num">${a.dimension}</span>
+      <span class="dim-name">${a.name}</span><span class="dim-val">${a.value}</span>
+      <span class="counts">← neuron</span></div>`;
+  }
+  if (nav.densities && nav.densities.length) {
+    html += '<div class="densities">';
+    for (const d of nav.densities)
+      html += `<div class="row"><span class="name">${d.name}</span><span class="spark">${d.sparkline}</span></div>`;
+    html += '</div>';
+  }
+  $('sentron-panel').innerHTML = html;
+}
+
+function renderContent(nav) {
+  const el = $('content');
+  if (nav.scroll.content) {
+    el.innerHTML = linkifyCoordinates(escHtml(nav.scroll.content));
+    el.className = '';
+  } else {
+    el.textContent = '○ empty coordinate';
+    el.className = 'empty';
+  }
+}
+
+// ── Navtree ──
+async function loadTree() {
+  treeData = await api('GET', '/tree');
+  renderTree();
+}
+
+function buildTree(coords) {
+  const tree = {};
+  for (const c of coords) {
+    const [z, y, x] = c.split('/');
+    if (!tree[z]) tree[z] = {};
+    if (!tree[z][y]) tree[z][y] = [];
+    tree[z][y].push({ x, full: c });
+  }
+  return tree;
+}
+
+function renderTree() {
+  if (!treeData) return;
+  const tree = buildTree(treeData.coordinates);
+  const zKeys = Object.keys(tree).sort();
+  const curCoord = lastNav ? lastNav.position.coordinate : '';
+  let html = `<div class="subspace-header d11"><span class="sh-dim">11D</span><span class="sh-desc">Full Lattice · ${treeData.total_scrolls} scrolls</span></div>`;
+  for (const zk of zKeys) {
+    const yGroups = tree[zk];
+    const yKeys = Object.keys(yGroups).sort();
+    const zCount = yKeys.reduce((s, yk) => s + yGroups[yk].length, 0);
+    const zExpanded = !!treeExpanded[zk];
+    const zCurrent = curCoord.startsWith(zk + '/') ? ' current' : '';
+    html += `<div class="nt-group${zCurrent}" onclick="toggleZ('${zk}')">
+      <span class="nt-arrow${zExpanded ? ' open' : ''}">▶</span>
+      <span class="nt-label">${zk}</span>
+      <span class="nt-count">${zCount}</span></div>`;
+    html += `<div class="nt-children${zExpanded ? '' : ' collapsed'}">`;
+    if (zExpanded) {
+      html += `<div class="subspace-header d7"><span class="sh-dim">7D</span><span class="sh-desc">Z=${zk} · ${yKeys.length} subspaces</span></div>`;
+      for (const yk of yKeys) {
+        const scrolls = yGroups[yk];
+        const zyKey = zk + '/' + yk;
+        const yExpanded = !!treeExpanded[zyKey];
+        const yCurrent = curCoord.startsWith(zyKey + '/') ? ' current' : '';
+        html += `<div class="nt-group${yCurrent}" onclick="toggleY('${escAttr(zk)}','${escAttr(yk)}')">
+          <span class="nt-arrow${yExpanded ? ' open' : ''}">▶</span>
+          <span class="nt-label" style="color:var(--y-color)">${yk}</span>
+          <span class="nt-count">${scrolls.length}</span></div>`;
+        html += `<div class="nt-children${yExpanded ? '' : ' collapsed'}">`;
+        if (yExpanded) {
+          html += `<div class="subspace-header d4"><span class="sh-dim">4D</span><span class="sh-desc">Y=${yk} · ${scrolls.length} scrolls</span></div>`;
+          for (const s of scrolls) {
+            const isCur = s.full === curCoord ? ' current' : '';
+            html += `<div class="nt-scroll${isCur}" onclick="treeNav('${escAttr(s.full)}')">
+              <span class="nt-coord">${s.x}</span></div>`;
+          }
+        }
+        html += '</div>';
+      }
+    }
+    html += '</div>';
+  }
+  $('navtree-panel').innerHTML = html;
+}
+
+function toggleZ(zk) { treeExpanded[zk] = !treeExpanded[zk]; renderTree(); }
+function toggleY(zk, yk) {
+  const key = zk + '/' + yk;
+  treeExpanded[key] = !treeExpanded[key];
+  if (!treeExpanded[zk]) treeExpanded[zk] = true;
+  renderTree();
+}
+async function treeNav(coord) { render(await api('POST', '/goto', coord)); }
+function highlightTreeNode(coord) {
+  const [z, y] = coord.split('/');
+  if (z && !treeExpanded[z]) treeExpanded[z] = true;
+  if (z && y && !treeExpanded[z + '/' + y]) treeExpanded[z + '/' + y] = true;
+  renderTree();
+}
+
+// ── Navigation ──
+async function selectDim(d) { render(await api('POST', '/dim', String(d))); }
+async function moveForward() { render(await api('POST', '/forward')); }
+async function moveBackward() { render(await api('POST', '/backward')); }
+async function nextPop() { render(await api('POST', '/next')); }
+async function prevPop() { render(await api('POST', '/prev')); }
+async function jumpBase() { render(await api('POST', '/base')); showMsg('⌂ BASE'); }
+async function gotoCoord(coord) { render(await api('POST', '/goto', coord)); }
+
+// ── Edit ──
+function enterEdit() {
+  if (!lastNav || !lastNav.scroll) return;
+  setMode('edit');
+  $('edit-coord').textContent = lastNav.position.coordinate;
+  $('edit-textarea').value = lastNav.scroll.content || '';
+  $('edit-textarea').focus();
+}
+async function saveScroll() {
+  const coord = lastNav.position.coordinate;
+  const content = $('edit-textarea').value;
+  const res = await api('POST', '/update', { coordinate: coord, content });
+  if (res.ok) {
+    dirty = true;
+    showMsg('scroll saved to memory');
+    setMode('lattice');
+    if (treeData) loadTree();
+    render(await api('GET', '/nav'));
+  } else showMsg('save failed: ' + res.message);
+}
+async function saveToDisk() {
+  const res = await api('POST', '/save');
+  if (res.ok) { dirty = false; $('dirty-flag').textContent = ''; showMsg('💾 saved to disk'); }
+  else showMsg('disk save failed: ' + res.message);
+}
+function cancelEdit() { setMode('lattice'); }
+
+// ── Search ──
+async function doSearch(query) {
+  const hits = await api('POST', '/search', query);
+  const el = $('search-results');
+  if (!hits.length) { el.innerHTML = '<div style="color:var(--dim);padding:8px">no results</div>'; return; }
+  el.innerHTML = hits.map(h =>
+    `<div class="hit" onclick="jumpToHit('${escAttr(h.coordinate)}')">
+      <span class="hit-coord">${escHtml(h.coordinate)}</span>
+      <span class="hit-ctx">${escHtml(h.context)}</span></div>`
+  ).join('');
+}
+function jumpToHit(coord) { closeOverlays(); gotoCoord(coord); }
+
+// ── Phext picker ──
+async function openPhextPicker() {
+  try {
+    const files = await api('GET', '/phexts');
+    let html = '';
+    for (const f of files) {
+      const kb = (f.bytes / 1024).toFixed(1);
+      html += `<div class="hit" onclick="switchPhext('${escAttr(f.path)}')">
+        <span class="hit-coord">${escHtml(f.name)}</span>
+        <span class="hit-ctx">${kb} KB</span></div>`;
+    }
+    $('phext-list').innerHTML = html || '<div style="color:var(--dim);padding:8px">no phext files</div>';
+    mode = 'phext-pick';
+    $('phext-overlay').className = 'overlay visible';
+  } catch(e) { showMsg('failed to list phexts'); }
+}
+async function switchPhext(path) {
+  try {
+    const res = await api('POST', '/open', path);
+    if (res.ok) {
+      closeOverlays(); treeData = null; treeExpanded = {};
+      render(await api('GET', '/nav'));
+      if (activePanel === 'navtree') loadTree();
+      showMsg('📂 ' + res.message);
+      initApp();
+    } else showMsg(res.message);
+  } catch(e) { showMsg('failed to open'); }
+}
+
+// ── Overlays ──
+function openSearch() {
+  mode = 'search'; $('search-overlay').className = 'overlay visible';
+  $('search-input').value = ''; $('search-results').innerHTML = ''; $('search-input').focus();
+}
+function openGoto() {
+  mode = 'goto'; $('goto-overlay').className = 'overlay visible';
+  $('goto-input').value = ''; $('goto-input').focus();
+}
+function closeOverlays() {
+  $('search-overlay').className = 'overlay';
+  $('goto-overlay').className = 'overlay';
+  $('phext-overlay').className = 'overlay';
+  if (mode === 'search' || mode === 'goto' || mode === 'phext-pick') setMode('lattice');
+}
+
+// ── Helpers ──
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escAttr(s) { return s.replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function linkifyCoordinates(html) {
+  const coordRe = /\b(\d{1,4}\.\d{1,4}\.\d{1,4}\/\d{1,4}\.\d{1,4}\.\d{1,4}\/\d{1,4}\.\d{1,4}\.\d{1,4})\b/g;
+  return html.replace(coordRe, m => `<a class="coord-link" onclick="event.preventDefault();gotoCoord('${m}')" href="#">${m}</a>`);
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown', async (e) => {
+  if ($('auth-screen').style.display === 'flex') return;
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    if (mode === 'edit') { await saveScroll(); await saveToDisk(); }
+    else if (dirty) await saveToDisk();
+    return;
+  }
+  if (mode === 'edit') { if (e.key === 'Escape') { cancelEdit(); e.preventDefault(); } return; }
+  if (mode === 'search') { if (e.key === 'Escape') { closeOverlays(); e.preventDefault(); } return; }
+  if (mode === 'goto') {
+    if (e.key === 'Escape') { closeOverlays(); e.preventDefault(); }
+    if (e.key === 'Enter') {
+      const v = $('goto-input').value.trim();
+      if (v) { closeOverlays(); await gotoCoord(v); }
+      e.preventDefault();
+    }
+    return;
+  }
+  if (mode === 'phext-pick') { if (e.key === 'Escape') { closeOverlays(); e.preventDefault(); } return; }
+
+  const k = e.key;
+  if (k >= '1' && k <= '9') { await selectDim(parseInt(k)); e.preventDefault(); }
+  else if (k === 'l' || k === 'ArrowRight') { await moveForward(); e.preventDefault(); }
+  else if (k === 'h' || k === 'ArrowLeft') { await moveBackward(); e.preventDefault(); }
+  else if (k === 'j' || k === 'ArrowDown') {
+    if (e.shiftKey) { for (let i=0;i<10;i++) await nextPop(); } else await nextPop();
+    e.preventDefault();
+  }
+  else if (k === 'k' || k === 'ArrowUp') {
+    if (e.shiftKey) { for (let i=0;i<10;i++) await prevPop(); } else await prevPop();
+    e.preventDefault();
+  }
+  else if (k === 'J') { for (let i=0;i<10;i++) await nextPop(); e.preventDefault(); }
+  else if (k === 'K') { for (let i=0;i<10;i++) await prevPop(); e.preventDefault(); }
+  else if (k === '/' || (k === 'f' && e.ctrlKey)) { openSearch(); e.preventDefault(); }
+  else if (k === 'g') { openGoto(); e.preventDefault(); }
+  else if (k === 'e' || k === 'Enter') { enterEdit(); e.preventDefault(); }
+  else if (k === 't') { showPanel(activePanel === 'navtree' ? 'sentron' : 'navtree'); e.preventDefault(); }
+  else if (k === 'p') { openPhextPicker(); e.preventDefault(); }
+  else if (k === 'Home') { await jumpBase(); e.preventDefault(); }
+});
+
+$('search-input').addEventListener('input', e => {
+  const q = e.target.value.trim();
+  if (q.length >= 2) doSearch(q); else $('search-results').innerHTML = '';
+});
+$('search-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { const q = e.target.value.trim(); if (q) doSearch(q); e.preventDefault(); }
+});
+
+window.addEventListener('hashchange', async () => {
+  if (suppressHashChange) return;
+  const hash = location.hash.replace(/^#/, '');
+  if (hash && /^\d+\.\d+\.\d+\/\d+\.\d+\.\d+\/\d+\.\d+\.\d+$/.test(hash))
+    render(await api('POST', '/goto', hash), true);
+});
+
+async function initApp() {
+  try {
+    const status = await api('GET', '/status');
+    $('active-file').textContent = '📂 ' + status.file.split('/').pop();
+    const hash = location.hash.replace(/^#/, '');
+    if (hash && /^\d+\.\d+\.\d+\/\d+\.\d+\.\d+\/\d+\.\d+\.\d+$/.test(hash))
+      render(await api('POST', '/goto', hash));
+    else
+      render(await api('GET', '/nav'));
+  } catch(e) { console.error(e); }
+}
+
+// Boot
+(async () => {
+  if (authToken) {
+    if (await tryAuth(authToken)) return;
+  }
+  $('auth-screen').style.display = 'flex';
+  $('auth-input').focus();
+})();
 </script>
 </body>
 </html>
