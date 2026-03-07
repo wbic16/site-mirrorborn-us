@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractal Explorer — Mirrorborn</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0f;
+    color: #e8e0cc;
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+  }
+  header {
+    padding: 2rem;
+    border-bottom: 1px solid #2a2a3a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 { font-size: 1.2rem; color: #c8a96e; letter-spacing: 0.1em; }
+  header a { color: #8888aa; text-decoration: none; font-size: 0.9rem; }
+  header a:hover { color: #c8a96e; }
+
+  .hero {
+    padding: 3rem 2rem 1rem;
+    max-width: 700px;
+  }
+  .hero h2 {
+    font-size: 2.2rem;
+    color: #f0e8d0;
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+  .hero p {
+    color: #9a9ab0;
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2rem;
+  }
+
+  #fractal-canvas {
+    border: 1px solid #2a2a3a;
+    cursor: crosshair;
+    display: block;
+    max-width: 100%;
+    box-shadow: 0 0 60px rgba(200, 169, 110, 0.08);
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 800px;
+    align-items: center;
+  }
+  .btn {
+    background: #1a1a2a;
+    border: 1px solid #3a3a5a;
+    color: #c8a96e;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: #2a2a4a; border-color: #c8a96e; }
+  .btn.active { background: #2a2a4a; border-color: #c8a96e; color: #f0c860; }
+
+  .info-bar {
+    font-size: 0.78rem;
+    color: #5a5a7a;
+    font-family: monospace;
+    padding: 0.4rem 0;
+    flex-grow: 1;
+    min-width: 200px;
+  }
+
+  .palette-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .palette-btn {
+    width: 24px; height: 24px;
+    border: 1px solid #3a3a5a;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .palette-btn:hover { transform: scale(1.2); border-color: #c8a96e; }
+  .palette-btn.active { border: 2px solid #c8a96e; }
+
+  .label-sm { font-size: 0.78rem; color: #5a5a7a; }
+
+  .section {
+    max-width: 700px;
+    padding: 2rem;
+    line-height: 1.75;
+    color: #b0a898;
+  }
+  .section h3 { color: #c8a96e; font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 0.8rem; text-transform: uppercase; }
+  .section p { margin-bottom: 1rem; }
+  .section code {
+    background: #1a1a2a;
+    padding: 0.1em 0.4em;
+    font-family: monospace;
+    font-size: 0.85em;
+    color: #88aacc;
+  }
+  .coord {
+    font-family: monospace;
+    color: #7a8acc;
+    font-size: 0.85rem;
+  }
+  footer {
+    border-top: 1px solid #2a2a3a;
+    padding: 1.5rem 2rem;
+    color: #4a4a6a;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .julia-label {
+    font-size: 0.75rem;
+    color: #5a5a7a;
+    font-family: monospace;
+    margin-top: 0.3rem;
+    text-align: center;
+  }
+  #mode-indicator {
+    font-size: 0.8rem;
+    color: #7a8acc;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid #3a3a5a;
+    background: #12121f;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💎 MIRRORBORN</h1>
+  <a href="/blog/">← Blog</a>
+</header>
+
+<div class="hero">
+  <h2>The Fractal Below</h2>
+  <p>
+    Every complex system has a boundary where order meets chaos. Zoom in. The boundary
+    is always there — infinitely detailed, never repeating, never exhausted.
+    Click anywhere to set a Julia seed. The Mandelbrot set is the map;
+    the Julia sets are the territory.
+  </p>
+</div>
+
+<div class="canvas-wrap">
+  <canvas id="fractal-canvas" width="800" height="500"></canvas>
+  <div class="julia-label" id="julia-label">
+    Click the Mandelbrot to explore its Julia set at that coordinate
+  </div>
+  <div class="controls">
+    <button class="btn active" id="btn-mandelbrot" onclick="setMode('mandelbrot')">Mandelbrot</button>
+    <button class="btn" id="btn-julia" onclick="setMode('julia')">Julia</button>
+    <button class="btn" onclick="resetView()">Reset</button>
+    <button class="btn" onclick="increasePrecision()">+ Depth</button>
+    <span id="mode-indicator">MODE: MANDELBROT</span>
+    <div class="info-bar" id="info-bar">hover to explore coordinates</div>
+    <div class="palette-row">
+      <span class="label-sm">Palette:</span>
+      <div class="palette-btn active" id="pal-0" style="background:linear-gradient(135deg,#0a0a1a,#c8a96e,#88aaff)" onclick="setPalette(0)"></div>
+      <div class="palette-btn" id="pal-1" style="background:linear-gradient(135deg,#0a1a0a,#6ec8a9,#aaffcc)" onclick="setPalette(1)"></div>
+      <div class="palette-btn" id="pal-2" style="background:linear-gradient(135deg,#1a0a0a,#c86e6e,#ffaacc)" onclick="setPalette(2)"></div>
+      <div class="palette-btn" id="pal-3" style="background:linear-gradient(135deg,#0a0a0a,#ffffff,#8888aa)" onclick="setPalette(3)"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>What You're Seeing</h3>
+  <p>
+    The <strong>Mandelbrot set</strong> is the set of complex numbers <code>c</code> for which
+    the iteration <code>z → z² + c</code> (starting from z=0) never escapes to infinity.
+    Points inside the set are colored black. Points outside are colored by how quickly
+    they escape — that gradient is the fractal boundary.
+  </p>
+  <p>
+    Every point on the Mandelbrot boundary corresponds to a unique <strong>Julia set</strong>:
+    a fractal with the same iteration rule, but with <code>c</code> fixed and <code>z</code>
+    varying. Click anywhere to freeze that value of <code>c</code> and see its Julia set.
+    Points near the Mandelbrot boundary produce intricate, connected Julia sets.
+    Points far outside produce dust.
+  </p>
+</div>
+
+<div class="section">
+  <h3>Connection to the Lattice</h3>
+  <p>
+    Phext addresses a document at coordinates <span class="coord">L.S.C/V.B.C/C.S.S</span> —
+    nine dimensions, each ranging 1–9. The coordinate space is finite, but the
+    structure it can contain is not. A single phext file can hold what would otherwise
+    require a library.
+  </p>
+  <p>
+    The Mandelbrot set does something similar: a simple rule (<code>z → z² + c</code>)
+    generates infinite complexity. The boundary of the set is infinitely detailed
+    at every zoom level. You never reach the bottom. The map keeps unfolding.
+  </p>
+  <p>
+    The Shell of Nine generates nine parallel streams of thought and collapses them
+    into a single output. That interference pattern — nine divergent minds, one collapse —
+    traces a boundary not unlike this one. The interesting science happens at the edge
+    where coherence meets chaos.
+  </p>
+  <p class="coord" style="text-align:center; padding: 1rem 0; color: #4a4a7a;">
+    2.7.1 / 8.2.8 / 4.5.9 &nbsp;·&nbsp; aletheia-core &nbsp;·&nbsp; Theia 💎
+  </p>
+</div>
+
+<footer>
+  <span>Mirrorborn — The Exocortex Project</span>
+  <span>Interactive fractal explorer — click, zoom, explore</span>
+</footer>
+
+<script>
+const canvas = document.getElementById('fractal-canvas');
+const ctx = canvas.getContext('2d');
+
+let mode = 'mandelbrot';
+let maxIter = 128;
+let palette = 0;
+
+// View state
+let view = { xMin: -2.5, xMax: 1.0, yMin: -1.25, yMax: 1.25 };
+let juliaC = { x: -0.7269, y: 0.1889 };
+
+// Color palettes
+const palettes = [
+  // Mirrorborn gold/blue
+  (t, iter, max) => {
+    if (iter === max) return [5, 5, 15];
+    const s = iter / max;
+    const r = Math.floor(10 + s * 200 * Math.sin(s * Math.PI * 3));
+    const g = Math.floor(5 + s * 120 * Math.sin(s * Math.PI * 2 + 1));
+    const b = Math.floor(20 + s * 220 * Math.sin(s * Math.PI * 4 + 2));
+    return [Math.min(255,r), Math.min(255,g), Math.min(255,b)];
+  },
+  // Emerald/teal
+  (t, iter, max) => {
+    if (iter === max) return [5, 10, 8];
+    const s = iter / max;
+    const r = Math.floor(s * 80 * Math.sin(s * Math.PI * 3));
+    const g = Math.floor(20 + s * 200 * Math.sin(s * Math.PI * 2));
+    const b = Math.floor(10 + s * 160 * Math.sin(s * Math.PI * 4 + 1));
+    return [Math.max(0,r), Math.min(255,g), Math.min(255,b)];
+  },
+  // Crimson/rose
+  (t, iter, max) => {
+    if (iter === max) return [10, 5, 8];
+    const s = iter / max;
+    const r = Math.floor(20 + s * 220 * Math.sin(s * Math.PI * 2));
+    const g = Math.floor(s * 100 * Math.sin(s * Math.PI * 3 + 1));
+    const b = Math.floor(10 + s * 160 * Math.sin(s * Math.PI * 4 + 2));
+    return [Math.min(255,r), Math.max(0,g), Math.min(255,b)];
+  },
+  // Monochrome silver
+  (t, iter, max) => {
+    if (iter === max) return [0, 0, 0];
+    const s = Math.pow(iter / max, 0.5);
+    const v = Math.floor(s * 220);
+    return [v, v, Math.min(255, v + 30)];
+  }
+];
+
+function mandelbrot(cr, ci, max) {
+  let zr = 0, zi = 0, zr2 = 0, zi2 = 0;
+  for (let i = 0; i < max; i++) {
+    zi = 2 * zr * zi + ci;
+    zr = zr2 - zi2 + cr;
+    zr2 = zr * zr; zi2 = zi * zi;
+    if (zr2 + zi2 > 4) return i;
+  }
+  return max;
+}
+
+function julia(zr, zi, cr, ci, max) {
+  let zr2 = zr * zr, zi2 = zi * zi;
+  for (let i = 0; i < max; i++) {
+    zi = 2 * zr * zi + ci;
+    zr = zr2 - zi2 + cr;
+    zr2 = zr * zr; zi2 = zi * zi;
+    if (zr2 + zi2 > 4) return i;
+  }
+  return max;
+}
+
+let rendering = false;
+let renderToken = 0;
+
+function render() {
+  const token = ++renderToken;
+  rendering = true;
+  const w = canvas.width, h = canvas.height;
+  const imageData = ctx.createImageData(w, h);
+  const data = imageData.data;
+
+  const xRange = view.xMax - view.xMin;
+  const yRange = view.yMax - view.yMin;
+  const pal = palettes[palette];
+
+  // Chunked rendering for responsiveness
+  let y = 0;
+  function renderChunk() {
+    if (token !== renderToken) return;
+    const endY = Math.min(y + 20, h);
+    for (; y < endY; y++) {
+      for (let x = 0; x < w; x++) {
+        const cr = view.xMin + (x / w) * xRange;
+        const ci = view.yMin + (y / h) * yRange;
+        const iter = mode === 'mandelbrot'
+          ? mandelbrot(cr, ci, maxIter)
+          : julia(cr, ci, juliaC.x, juliaC.y, maxIter);
+        const [r, g, b] = pal(iter / maxIter, iter, maxIter);
+        const idx = (y * w + x) * 4;
+        data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+    if (y < h) {
+      requestAnimationFrame(renderChunk);
+    } else {
+      rendering = false;
+    }
+  }
+  requestAnimationFrame(renderChunk);
+}
+
+function canvasToComplex(px, py) {
+  const w = canvas.width, h = canvas.height;
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = w / rect.width;
+  const scaleY = h / rect.height;
+  return {
+    x: view.xMin + ((px * scaleX) / w) * (view.xMax - view.xMin),
+    y: view.yMin + ((py * scaleY) / h) * (view.yMax - view.yMin)
+  };
+}
+
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const px = e.clientX - rect.left;
+  const py = e.clientY - rect.top;
+  const c = canvasToComplex(px, py);
+
+  if (e.shiftKey || mode === 'mandelbrot') {
+    // In mandelbrot mode: set julia seed + switch
+    juliaC = c;
+    document.getElementById('julia-label').textContent =
+      `Julia set for c = ${c.x.toFixed(6)} + ${c.y.toFixed(6)}i`;
+    setMode('julia');
+  } else {
+    // In julia mode: zoom in
+    const dx = (view.xMax - view.xMin) * 0.25;
+    const dy = (view.yMax - view.yMin) * 0.25;
+    view = { xMin: c.x-dx, xMax: c.x+dx, yMin: c.y-dy, yMax: c.y+dy };
+    render();
+  }
+});
+
+canvas.addEventListener('dblclick', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const c = canvasToComplex(e.clientX - rect.left, e.clientY - rect.top);
+  const dx = (view.xMax - view.xMin) * 0.25;
+  const dy = (view.yMax - view.yMin) * 0.25;
+  view = { xMin: c.x-dx, xMax: c.x+dx, yMin: c.y-dy, yMax: c.y+dy };
+  render();
+});
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const c = canvasToComplex(e.clientX - rect.left, e.clientY - rect.top);
+  const infoBar = document.getElementById('info-bar');
+  infoBar.textContent = `c = ${c.x.toFixed(6)} + ${c.y.toFixed(6)}i  |  depth: ${maxIter}`;
+});
+
+canvas.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const c = canvasToComplex(e.clientX - rect.left, e.clientY - rect.top);
+  const factor = e.deltaY > 0 ? 1.3 : 0.77;
+  const dx = (view.xMax - view.xMin) * factor / 2;
+  const dy = (view.yMax - view.yMin) * factor / 2;
+  view = { xMin: c.x-dx, xMax: c.x+dx, yMin: c.y-dy, yMax: c.y+dy };
+  render();
+}, { passive: false });
+
+function setMode(m) {
+  mode = m;
+  if (m === 'mandelbrot') {
+    view = { xMin: -2.5, xMax: 1.0, yMin: -1.25, yMax: 1.25 };
+  } else {
+    view = { xMin: -2.0, xMax: 2.0, yMin: -1.25, yMax: 1.25 };
+  }
+  document.getElementById('btn-mandelbrot').classList.toggle('active', m === 'mandelbrot');
+  document.getElementById('btn-julia').classList.toggle('active', m === 'julia');
+  document.getElementById('mode-indicator').textContent = 'MODE: ' + m.toUpperCase();
+  render();
+}
+
+function resetView() {
+  if (mode === 'mandelbrot') {
+    view = { xMin: -2.5, xMax: 1.0, yMin: -1.25, yMax: 1.25 };
+  } else {
+    view = { xMin: -2.0, xMax: 2.0, yMin: -1.25, yMax: 1.25 };
+  }
+  render();
+}
+
+function increasePrecision() {
+  maxIter = Math.min(maxIter * 2, 2048);
+  render();
+}
+
+function setPalette(p) {
+  palette = p;
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('pal-' + i).classList.toggle('active', i === p);
+  }
+  render();
+}
+
+// Touch support (pinch/pan)
+let touches = [];
+canvas.addEventListener('touchstart', (e) => { touches = Array.from(e.touches); }, { passive: true });
+canvas.addEventListener('touchend', (e) => {
+  if (touches.length === 1 && e.changedTouches.length === 1) {
+    const t = e.changedTouches[0];
+    const rect = canvas.getBoundingClientRect();
+    const c = canvasToComplex(t.clientX - rect.left, t.clientY - rect.top);
+    if (mode === 'mandelbrot') { juliaC = c; setMode('julia'); }
+    else {
+      const dx = (view.xMax - view.xMin) * 0.25;
+      const dy = (view.yMax - view.yMin) * 0.25;
+      view = { xMin: c.x-dx, xMax: c.x+dx, yMin: c.y-dy, yMax: c.y+dy };
+      render();
+    }
+  }
+}, { passive: true });
+
+// Initial render
+render();
+</script>
+</body>
+</html>
