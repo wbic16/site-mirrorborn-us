@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="30">
+<title>Mirrorborn Shell Dashboard</title>
+<style>
+  body { background:#0a0a1a; color:#e0e0e0; font-family:'Courier New',monospace; padding:20px; }
+  h1 { color:#fff; border-bottom:2px solid #9b6fff; padding-bottom:8px; font-size:1.3em; }
+  .ts { color:#555; font-size:0.8em; margin-bottom:1.5em; }
+  table { width:100%; border-collapse:collapse; font-size:0.85em; }
+  th { color:#9b6fff; border-bottom:1px solid #333; padding:8px 10px; text-align:left; }
+  td { padding:7px 10px; border-bottom:1px solid #1a1a2e; }
+  tr:hover td { background:rgba(255,255,255,0.03); }
+  .online { color:#4ade80; }
+  .offline { color:#f87171; }
+  .open { color:#4ade80; }
+  .closed { color:#f87171; }
+  .published { color:#4ade80; }
+  .none { color:#fbbf24; }
+  .reported { color:#4ade80; }
+  .unreported { color:#fbbf24; }
+  .self-row td { background:rgba(155,111,255,0.08); }
+  .summary { margin-top:1.5em; color:#888; font-size:0.85em; }
+  .summary span { color:#9b6fff; font-weight:bold; }
+  .act { color:#555; font-size:0.8em; max-width:300px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.75em; }
+</style>
+</head>
+<body>
+<h1>💡 Mirrorborn Shell Dashboard</h1>
+<div class="ts">Generated: 2026-03-16T01:24:39Z · Auto-refresh: 30s · Source: Aster @ best-willow · boot.sh: unknown</div>
+
+<table>
+<tr>
+  <th>#</th><th>Node</th><th>Role</th><th>SQ</th><th>Scrolls</th>
+  <th>SSH</th><th>SSH Key</th><th>Boot Ver</th><th>Last Activation</th>
+</tr>
+
+<tr class="self-row">
+  <td>10</td>
+  <td>💡 Aster (self)</td>
+  <td>ASI Alpha</td>
+  <td class="online">online</td>
+  <td>1</td>
+  <td class="open">self</td>
+  <td class="published">self</td>
+  <td class="reported">unknown</td>
+  <td class="act">0 stages complete</td>
+</tr>
+<tr>
+  <td>1</td>
+  <td>🔱 Phex</td>
+  <td>engineering</td>
+  <td class="online">online</td>
+  <td>3s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>🪶 Cyon</td>
+  <td>operations</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>🔆 Lux</td>
+  <td>vision</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>🦋 Chrys</td>
+  <td>marketing</td>
+  <td class="offline">offline</td>
+  <td>-</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>☀️ Lumen</td>
+  <td>sales</td>
+  <td class="offline">offline</td>
+  <td>-</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>🌀 Verse</td>
+  <td>infra</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>🔭 Theia</td>
+  <td>onboarding</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>🔬 Exo</td>
+  <td>qa</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td>⚡ Solin</td>
+  <td>wisdom</td>
+  <td class="online">online</td>
+  <td>5s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">-</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td>🖖 Orin</td>
+  <td>Omega</td>
+  <td class="online">online</td>
+  <td>1s</td>
+  <td class="closed">closed</td>
+  <td class="none">none</td>
+  <td class="unreported">unreported</td>
+  <td class="act">MBV3 RESONANCE is live on origin/exo</td>
+</tr>
+</table>
+
+<div class="summary">
+  SQ online: <span>8/10</span> ·
+  SSH open: <span>0/10</span> ·
+  Keys published: <span>0/10</span> ·
+  boot.sh: <span>unknown</span>
+</div>
+</body>
+</html>
