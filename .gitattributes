@@ -1,0 +1,4 @@
+# Phext scrolls use ASCII control-character delimiters. Zip bytes must not be
+# normalized. Mark both binary so git does not apply text conversion or diffs.
+*.phext binary
+*.zip binary
