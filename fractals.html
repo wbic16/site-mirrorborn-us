@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractals — Mirrorborn</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #050510;
+    color: #e0e0ff;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  #header {
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,5,20,0.9);
+    border-bottom: 1px solid #1a1a3a;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+  #title { font-size: 14px; color: #8080ff; letter-spacing: 2px; }
+  #coord-display {
+    font-size: 11px;
+    color: #6060aa;
+    font-family: 'Courier New', monospace;
+  }
+  #coord-display span { color: #a0a0ff; }
+  #canvas-container {
+    flex: 1;
+    position: relative;
+    cursor: crosshair;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+  #footer {
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5,5,20,0.9);
+    border-top: 1px solid #1a1a3a;
+    font-size: 11px;
+    color: #4040aa;
+    flex-shrink: 0;
+  }
+  #controls { display: flex; gap: 16px; align-items: center; }
+  button {
+    background: #0a0a20;
+    border: 1px solid #2a2a5a;
+    color: #8080ff;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  button:hover { background: #1a1a3a; border-color: #5050aa; color: #c0c0ff; }
+  #mode-label { color: #6060aa; }
+  #mode-label span { color: #a0a0ff; }
+  #iter-display { color: #6060aa; }
+  #iter-display span { color: #a0a0ff; }
+  #zoom-display { color: #6060aa; }
+  #zoom-display span { color: #a0a0ff; }
+  .quote {
+    color: #303060;
+    font-size: 10px;
+    font-style: italic;
+  }
+  #progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #4040aa;
+    font-size: 12px;
+    letter-spacing: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+</style>
+</head>
+<body>
+<div id="header">
+  <div id="title">🌀 MIRRORBORN / FRACTALS</div>
+  <div id="coord-display">
+    coordinate: <span id="coord-text">3.1.4/1.5.9/2.6.5</span>
+    &nbsp;|&nbsp;
+    z: <span id="z-text">0+0i</span>
+  </div>
+</div>
+
+<div id="canvas-container">
+  <canvas id="fractal-canvas"></canvas>
+  <div id="progress">rendering...</div>
+</div>
+
+<div id="footer">
+  <div id="controls">
+    <button onclick="switchMode()">mode: <span id="mode-name">mandelbrot</span></button>
+    <button onclick="resetView()">reset</button>
+    <button onclick="changeColorScheme()">palette</button>
+    <button onclick="moreIter()">depth +</button>
+    <button onclick="lessIter()">depth -</button>
+  </div>
+  <div style="display:flex;gap:20px;align-items:center;">
+    <div id="iter-display">depth: <span id="iter-text">256</span></div>
+    <div id="zoom-display">zoom: <span id="zoom-text">1×</span></div>
+    <div class="quote">scroll to zoom · click to center · the lattice goes deeper</div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('fractal-canvas');
+const ctx = canvas.getContext('2d');
+const container = document.getElementById('canvas-container');
+const progress = document.getElementById('progress');
+
+let W, H;
+let viewX = -2.5, viewY = -1.25, viewW = 3.5, viewH = 2.5;
+let maxIter = 256;
+let mode = 0; // 0=mandelbrot, 1=julia, 2=burning-ship
+const modes = ['mandelbrot', 'julia', 'burning-ship'];
+let juliaCX = -0.7269, juliaCY = 0.1889;
+let palette = 0;
+let renderTimer = null;
+let zoomLevel = 1;
+let isRendering = false;
+
+function resize() {
+  W = container.clientWidth;
+  H = container.clientHeight;
+  canvas.width = W;
+  canvas.height = H;
+  scheduleRender();
+}
+
+function scheduleRender() {
+  if (renderTimer) clearTimeout(renderTimer);
+  renderTimer = setTimeout(render, 50);
+}
+
+const colorSchemes = [
+  // deep space
+  (t, iter, max) => {
+    if (iter === max) return [5, 5, 15];
+    const n = iter + 1 - Math.log(Math.log(Math.abs(t))) / Math.log(2);
+    const s = n / max;
+    const h = (s * 360 + 240) % 360;
+    return hslToRgb(h, 0.8 + s * 0.2, 0.1 + s * 0.6);
+  },
+  // fire
+  (t, iter, max) => {
+    if (iter === max) return [0, 0, 0];
+    const s = iter / max;
+    const n = Math.pow(s, 0.4);
+    return [Math.floor(n * 255), Math.floor(n * n * 180), Math.floor(n * n * n * 60)];
+  },
+  // ice
+  (t, iter, max) => {
+    if (iter === max) return [2, 2, 8];
+    const s = iter / max;
+    const n = Math.pow(s, 0.5);
+    return [Math.floor(n * 80), Math.floor(n * 140 + 60), Math.floor(n * 255)];
+  },
+  // gold
+  (t, iter, max) => {
+    if (iter === max) return [5, 3, 0];
+    const s = iter / max;
+    const n = Math.pow(s, 0.45);
+    return [Math.floor(n * 255), Math.floor(n * 200), Math.floor(n * n * 80)];
+  },
+  // void (grayscale inverted)
+  (t, iter, max) => {
+    if (iter === max) return [255, 255, 255];
+    const s = iter / max;
+    const v = Math.floor(Math.pow(1 - s, 2) * 240);
+    return [v, v, v];
+  },
+];
+
+function hslToRgb(h, s, l) {
+  h /= 360; s /= 1; l /= 1;
+  let r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  return [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
+}
+function hue2rgb(p, q, t) {
+  if (t < 0) t += 1; if (t > 1) t -= 1;
+  if (t < 1/6) return p + (q - p) * 6 * t;
+  if (t < 1/2) return q;
+  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+  return p;
+}
+
+function iterate(cx, cy) {
+  let zx = 0, zy = 0;
+  if (mode === 1) { zx = cx; zy = cy; cx = juliaCX; cy = juliaCY; }
+  for (let i = 0; i < maxIter; i++) {
+    let nx, ny;
+    if (mode === 2) { // burning ship
+      nx = zx * zx - zy * zy + cx;
+      ny = 2 * Math.abs(zx * zy) + cy;
+    } else {
+      nx = zx * zx - zy * zy + cx;
+      ny = 2 * zx * zy + cy;
+    }
+    zx = nx; zy = ny;
+    if (zx * zx + zy * zy > 256) return [i, Math.sqrt(zx * zx + zy * zy)];
+  }
+  return [maxIter, 0];
+}
+
+function render() {
+  if (!W || !H) return;
+  progress.style.opacity = '1';
+  const imageData = ctx.createImageData(W, H);
+  const data = imageData.data;
+  const scheme = colorSchemes[palette % colorSchemes.length];
+
+  for (let py = 0; py < H; py++) {
+    for (let px = 0; px < W; px++) {
+      const cx = viewX + (px / W) * viewW;
+      const cy = viewY + (py / H) * viewH;
+      const [iter, mag] = iterate(cx, cy);
+      const [r, g, b] = scheme(mag, iter, maxIter);
+      const idx = (py * W + px) * 4;
+      data[idx] = r; data[idx+1] = g; data[idx+2] = b; data[idx+3] = 255;
+    }
+  }
+  ctx.putImageData(imageData, 0, 0);
+  progress.style.opacity = '0';
+  updateZoomDisplay();
+}
+
+function updateZoomDisplay() {
+  document.getElementById('zoom-text').textContent = zoomLevel.toFixed(0) + '×';
+  document.getElementById('iter-text').textContent = maxIter;
+}
+
+function toPhextCoord(cx, cy) {
+  // Map complex coordinates to phext-style display
+  const lx = Math.abs(Math.floor(((cx + 2.5) / 3.5) * 9) % 9) + 1;
+  const ly = Math.abs(Math.floor(((cy + 1.25) / 2.5) * 9) % 9) + 1;
+  const lz = Math.min(9, Math.max(1, Math.floor(Math.log2(zoomLevel + 1)) + 1));
+  return `${lx}.${ly}.${lz}/${lx}.${lz}.${ly}/${lz}.${lx}.${ly}`;
+}
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * (W / rect.width);
+  const py = (e.clientY - rect.top) * (H / rect.height);
+  const cx = viewX + (px / W) * viewW;
+  const cy = viewY + (py / H) * viewH;
+  document.getElementById('z-text').textContent =
+    cx.toFixed(4) + (cy >= 0 ? '+' : '') + cy.toFixed(4) + 'i';
+  document.getElementById('coord-text').textContent = toPhextCoord(cx, cy);
+});
+
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * (W / rect.width);
+  const py = (e.clientY - rect.top) * (H / rect.height);
+  const cx = viewX + (px / W) * viewW;
+  const cy = viewY + (py / H) * viewH;
+  // center on click
+  viewX = cx - viewW / 2;
+  viewY = cy - viewH / 2;
+  // zoom in
+  const factor = 0.4;
+  const dw = viewW * factor;
+  const dh = viewH * factor;
+  viewX += dw / 2; viewY += dh / 2;
+  viewW -= dw; viewH -= dh;
+  zoomLevel *= (1 / (1 - factor));
+  scheduleRender();
+});
+
+canvas.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * (W / rect.width);
+  const py = (e.clientY - rect.top) * (H / rect.height);
+  const cx = viewX + (px / W) * viewW;
+  const cy = viewY + (py / H) * viewH;
+  const factor = e.deltaY > 0 ? 1.3 : 0.77;
+  viewW *= factor; viewH *= factor;
+  viewX = cx - (px / W) * viewW;
+  viewY = cy - (py / H) * viewH;
+  zoomLevel *= (1 / factor);
+  scheduleRender();
+}, { passive: false });
+
+function resetView() {
+  viewX = -2.5; viewY = -1.25; viewW = 3.5; viewH = 2.5;
+  zoomLevel = 1;
+  scheduleRender();
+}
+
+function switchMode() {
+  mode = (mode + 1) % modes.length;
+  document.getElementById('mode-name').textContent = modes[mode];
+  resetView();
+}
+
+function changeColorScheme() {
+  palette = (palette + 1) % colorSchemes.length;
+  scheduleRender();
+}
+
+function moreIter() {
+  maxIter = Math.min(4096, maxIter * 2);
+  scheduleRender();
+}
+
+function lessIter() {
+  maxIter = Math.max(32, maxIter / 2);
+  scheduleRender();
+}
+
+// Animate julia seed on mousemove when in julia mode
+canvas.addEventListener('mousemove', (e) => {
+  if (mode !== 1) return;
+  const rect = canvas.getBoundingClientRect();
+  juliaCX = ((e.clientX - rect.left) / rect.width - 0.5) * 3;
+  juliaCY = ((e.clientY - rect.top) / rect.height - 0.5) * 2.5;
+  scheduleRender();
+});
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>

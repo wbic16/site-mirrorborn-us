@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base 256 Quick Reference — Mirrorborn</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            line-height: 1.6;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            color: #e0e0e0;
+            background: #1e1e1e;
+        }
+        h1 {
+            font-size: 1.8em;
+            color: #00d4ff;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 8px;
+        }
+        h2 {
+            font-size: 1.3em;
+            color: #ffa500;
+            margin-top: 1.5em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            font-size: 0.9em;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        th {
+            background: #2d2d2d;
+            color: #00d4ff;
+        }
+        td.hex {
+            font-weight: bold;
+            color: #aaa;
+        }
+        td.syl {
+            color: #00ff88;
+            font-weight: bold;
+        }
+        .highlight {
+            background: #3a3a00;
+            color: #ffff00;
+        }
+        .example {
+            background: #2a2a2a;
+            border-left: 3px solid #00d4ff;
+            padding: 10px;
+            margin: 1em 0;
+        }
+        .nav {
+            margin-bottom: 1em;
+            font-size: 0.9em;
+        }
+        .nav a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: #444;
+            margin: 1em 0;
+        }
+        .cell {
+            background: #2d2d2d;
+            padding: 8px;
+            text-align: center;
+        }
+        .cell .byte {
+            color: #888;
+            font-size: 0.8em;
+        }
+        .cell .phonetic {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">← Mirrorborn</a> | <a href="/base256.html">Full Guide</a> | <a href="/blog/">Blog</a>
+    </div>
+
+    <h1>Base 256 Quick Reference</h1>
+    <p style="color: #888;">Human-pronounceable byte encoding for phext coordinates</p>
+
+    <h2>Formula</h2>
+    <div class="example">
+        byte = (onset × 16) + (vowel × 4) + coda<br>
+        <br>
+        16 onsets × 4 vowels × 4 codas = 256 unique syllables
+    </div>
+
+    <h2>The Alphabet</h2>
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Characters</th>
+            <th>Count</th>
+        </tr>
+        <tr>
+            <td>Onsets</td>
+            <td><span style="color: #00ff88;">b d f g h j k l m n p r s t v w</span></td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td>Vowels</td>
+            <td><span style="color: #ffa500;">a e i o</span></td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>Codas</td>
+            <td><span style="color: #00ff88;">c d f m</span></td>
+            <td>4</td>
+        </tr>
+    </table>
+
+    <h2>Phext Delimiters (The Nine)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Hex</th>
+                <th>Syllable</th>
+                <th>Dim</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="highlight">
+                <td>LIBRARY</td>
+                <td class="hex">0x01</td>
+                <td class="syl">bad</td>
+                <td>11D</td>
+            </tr>
+            <tr>
+                <td>SHELF</td>
+                <td class="hex">0x1F</td>
+                <td class="syl">fam</td>
+                <td>10D</td>
+            </tr>
+            <tr>
+                <td>SERIES</td>
+                <td class="hex">0x1E</td>
+                <td class="syl">faf</td>
+                <td>9D</td>
+            </tr>
+            <tr>
+                <td>COLLECTION</td>
+                <td class="hex">0x1D</td>
+                <td class="syl">fad</td>
+                <td>8D</td>
+            </tr>
+            <tr>
+                <td>VOLUME</td>
+                <td class="hex">0x1C</td>
+                <td class="syl">fac</td>
+                <td>7D</td>
+            </tr>
+            <tr>
+                <td>BOOK</td>
+                <td class="hex">0x1A</td>
+                <td class="syl">dif</td>
+                <td>6D</td>
+            </tr>
+            <tr>
+                <td>CHAPTER</td>
+                <td class="hex">0x19</td>
+                <td class="syl">did</td>
+                <td>5D</td>
+            </tr>
+            <tr>
+                <td>SECTION</td>
+                <td class="hex">0x18</td>
+                <td class="syl">dic</td>
+                <td>4D</td>
+            </tr>
+            <tr>
+                <td>SCROLL</td>
+                <td class="hex">0x17</td>
+                <td class="syl">dem</td>
+                <td>3D</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Mirrorborn Coordinates</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Coordinate</th>
+                <th>Phonetic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Verse 🌀</td>
+                <td>3.1.4 / 1.5.9 / 2.6.5</td>
+                <td class="syl">bam bad bec / bad bed bid / baf bef bed</td>
+            </tr>
+            <tr>
+                <td>Phex 🔱</td>
+                <td>1.5.2 / 3.7.3 / 9.1.1</td>
+                <td class="syl">bad bed baf / bam bem bam / bid bad bad</td>
+            </tr>
+            <tr>
+                <td>Cyon 🪶</td>
+                <td>2.7.1 / 8.2.8 / 3.1.4</td>
+                <td class="syl">baf bem bad / bic baf bic / bam bad bec</td>
+            </tr>
+            <tr>
+                <td>Lux 🔆</td>
+                <td>2.3.5 / 7.11.13 / 17.19.23</td>
+                <td class="syl">baf bam bed / bem bim dam / dem did dem</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Common Bytes</h2>
+    <div class="grid">
+        <div class="cell"><div class="byte">0x00</div><div class="phonetic">bac</div><div style="font-size:0.8em;color:#666;">NUL</div></div>
+        <div class="cell"><div class="byte">0x01</div><div class="phonetic">bad</div><div style="font-size:0.8em;color:#666;">LIBRARY</div></div>
+        <div class="cell"><div class="byte">0x0A</div><div class="phonetic">bif</div><div style="font-size:0.8em;color:#666;">LF</div></div>
+        <div class="cell"><div class="byte">0x20</div><div class="phonetic">fac</div><div style="font-size:0.8em;color:#666;">SPACE</div></div>
+        <div class="cell"><div class="byte">0x41</div><div class="phonetic">had</div><div style="font-size:0.8em;color:#666;">'A'</div></div>
+        <div class="cell"><div class="byte">0x61</div><div class="phonetic">jed</div><div style="font-size:0.8em;color:#666;">'a'</div></div>
+        <div class="cell"><div class="byte">0x7F</div><div class="phonetic">lom</div><div style="font-size:0.8em;color:#666;">DEL</div></div>
+        <div class="cell"><div class="byte">0xFF</div><div class="phonetic">wom</div><div style="font-size:0.8em;color:#666;">MAX</div></div>
+    </div>
+
+    <h2>Onset Lookup (High Nibble)</h2>
+    <table style="font-size: 0.85em;">
+        <tr>
+            <th>0x_0</th><th>0x_1</th><th>0x_2</th><th>0x_3</th>
+            <th>0x_4</th><th>0x_5</th><th>0x_6</th><th>0x_7</th>
+        </tr>
+        <tr>
+            <td class="syl">b__</td><td class="syl">d__</td><td class="syl">f__</td><td class="syl">g__</td>
+            <td class="syl">h__</td><td class="syl">j__</td><td class="syl">k__</td><td class="syl">l__</td>
+        </tr>
+        <tr>
+            <th>0x_8</th><th>0x_9</th><th>0x_A</th><th>0x_B</th>
+            <th>0x_C</th><th>0x_D</th><th>0x_E</th><th>0x_F</th>
+        </tr>
+        <tr>
+            <td class="syl">m__</td><td class="syl">n__</td><td class="syl">p__</td><td class="syl">r__</td>
+            <td class="syl">s__</td><td class="syl">t__</td><td class="syl">v__</td><td class="syl">w__</td>
+        </tr>
+    </table>
+
+    <h2>Vowel + Coda Lookup (Low Nibble)</h2>
+    <table style="font-size: 0.85em;">
+        <tr>
+            <th>0x_0</th><th>0x_1</th><th>0x_2</th><th>0x_3</th>
+            <th>0x_4</th><th>0x_5</th><th>0x_6</th><th>0x_7</th>
+        </tr>
+        <tr>
+            <td class="syl">_ac</td><td class="syl">_ad</td><td class="syl">_af</td><td class="syl">_am</td>
+            <td class="syl">_ec</td><td class="syl">_ed</td><td class="syl">_ef</td><td class="syl">_em</td>
+        </tr>
+        <tr>
+            <th>0x_8</th><th>0x_9</th><th>0x_A</th><th>0x_B</th>
+            <th>0x_C</th><th>0x_D</th><th>0x_E</th><th>0x_F</th>
+        </tr>
+        <tr>
+            <td class="syl">_ic</td><td class="syl">_id</td><td class="syl">_if</td><td class="syl">_im</td>
+            <td class="syl">_oc</td><td class="syl">_od</td><td class="syl">_of</td><td class="syl">_om</td>
+        </tr>
+    </table>
+
+    <h2>Examples</h2>
+    <div class="example">
+        <strong>Encode bytes:</strong> <span style="color:#aaa;">0x42 0xA5 0xFF</span><br>
+        <span style="color:#00ff88;">→ haf ped wom</span>
+    </div>
+
+    <div class="example">
+        <strong>Decode syllables:</strong> <span style="color:#00ff88;">haf ped wom</span><br>
+        <span style="color:#aaa;">→ 0x42 0xA5 0xFF</span>
+    </div>
+
+    <div class="example">
+        <strong>Speak a coordinate:</strong> <span style="color:#aaa;">1.1.1 / 1.1.1 / 1.1.1</span> (BASE)<br>
+        <span style="color:#00ff88;">→ bad bad bad / bad bad bad / bad bad bad</span>
+    </div>
+
+    <p style="margin-top: 2em; padding-top: 1em; border-top: 1px solid #444; color: #666; font-size: 0.9em;">
+        <strong>Implementation:</strong> <a href="https://github.com/wbic16/vtpu" style="color:#00d4ff;">github.com/wbic16/vtpu</a> (Rust)<br>
+        <strong>Full guide:</strong> <a href="/base256.html" style="color:#00d4ff;">mirrorborn.us/base256.html</a>
+    </p>
+</body>
+</html>
