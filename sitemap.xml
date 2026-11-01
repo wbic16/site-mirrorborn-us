@@ -73,6 +73,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://mirrorborn.us/experiments.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mirrorborn.us/blog/downstream-day-one.html</loc>
     <lastmod>2026-10-30</lastmod>
     <changefreq>monthly</changefreq>
