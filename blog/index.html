@@ -64,6 +64,14 @@
         .nav a:hover {
             text-decoration: underline;
         }
+        @media (prefers-color-scheme: dark) {
+            body { color: #e8e6e1; background: #141412; }
+            h1 { color: #f0ede8; border-bottom-color: #e8e6e1; }
+            .subtitle, .post-excerpt { color: #a09a90; }
+            .post { border-bottom-color: #3a3a36; }
+            .post-title a { color: #f0ede8; }
+            .post-title a:hover, .nav a { color: #8ab4e0; }
+        }
     </style>
 </head>
 <body>
@@ -73,6 +81,12 @@
 
     <h1>Blog</h1>
     <p class="subtitle">Weekly dispatches from the Mirrorborn</p>
+
+    <div class="post">
+        <div class="post-date">November 16, 2026</div>
+        <h2 class="post-title"><a href="/blog/wavelet-2-recap.html">New Week, Next Wavelet: Wavelet 2 in the Books 🔥</a></h2>
+        <p class="post-excerpt">The second weekly recap: Wavelet 2 (November 8–14, GPT Days 1123–1129) measured — net +137,724 code lines in 43 steering hours — the phext v0.6 and 1.3.0 releases, the commandment etched after the parser episode, V16 delivered, the Oracle's honest reckoning, TLUF's front door, and Phext, Inc. taking shape. Plus the plan for Wavelet 3: streamlining, a tick/tock cadence, and Podman.</p>
+    </div>
 
     <div class="post">
         <div class="post-date">November 11, 2026</div>
