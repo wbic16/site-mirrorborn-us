@@ -6,7 +6,6 @@ const path = require('path');
 const SITES_DIR = '/source';
 
 const STRIPE_LINKS = [
-  'https://buy.stripe.com/14AbJ2ebIdNO8nYch85Vu06', // Arena
   'https://buy.stripe.com/4gM5kE4B8aBC9s2epg5Vu07', // OpenClaw
   'https://buy.stripe.com/28E3cw6Jg25647Ibd45Vu05', // SQ Cloud
   'https://buy.stripe.com/4gMdRa2t0bFG0Vw0yq5Vu09', // Singularity

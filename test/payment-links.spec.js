@@ -9,7 +9,7 @@ let servers = [];
 test.beforeAll(async () => { servers = startAll(SITES); });
 test.afterAll(async () => { stopAll(servers); });
 
-test('pricing.html has all 5 Stripe links', async ({ page }) => {
+test('pricing.html has all 4 Stripe links', async ({ page }) => {
   await page.goto(`${HUB}/pricing.html`);
   for (const link of STRIPE_LINKS) {
     await expect(page.locator(`a[href="${link}"]`).first()).toBeVisible();
