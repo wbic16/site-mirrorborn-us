@@ -52,6 +52,43 @@
   .downloads { background: #1b2129; border: 1px solid #2c333c;
                border-radius: 6px; padding: 1rem 1.25rem; }
   .downloads li { margin: .3rem 0; }
+  #pl-state p { margin: .3rem auto; max-width: 34rem; font-size: .92rem; }
+  .state-ok { color: #7fb069; }
+  .state-warn { color: #eaa63f; }
+  .state-error { color: #e4572e; }
+  .hashline { font-family: 'Courier New', ui-monospace, monospace;
+              font-size: .78rem; color: #a09a90; word-break: break-all;
+              max-width: 38rem; margin: .6rem auto 0; text-align: left; }
+  .pl-scrolls { background: #1b2129; border: 1px solid #2c333c;
+                border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+  .pl-scrolls-head { margin-top: 0; }
+  .pl-scroll { border-top: 1px solid #2c333c; padding: .5rem 0 .2rem; }
+  .pl-scroll-addr { font-family: 'Courier New', ui-monospace, monospace;
+                    color: #8ab4e0; font-size: .9rem; }
+  .pl-scroll pre { border: none; background: #101418; margin: .3rem 0 .5rem; }
+  .editor { background: #1b2129; border: 1px solid #2c333c;
+            border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+  .ed-universe { border: 1px solid #2c333c; border-radius: 6px;
+                 margin: .8rem 0; overflow: hidden; }
+  .ed-universe-head { background: #242c36; padding: .4rem .8rem;
+                      font-weight: bold; color: #f0ede8; }
+  .ed-scroll { border-top: 1px solid #2c333c; padding: .5rem .8rem .7rem; }
+  .ed-scroll-addr { font-family: 'Courier New', ui-monospace, monospace;
+                    color: #8ab4e0; font-size: .9rem; margin-bottom: .3rem; }
+  .ed-scroll-text { width: 100%; box-sizing: border-box;
+                    background: #101418; color: #e8e6e1;
+                    border: 1px solid #3a3f45; border-radius: 4px;
+                    font-family: 'Courier New', ui-monospace, monospace;
+                    font-size: .88rem; line-height: 1.45;
+                    padding: .45rem .6rem; }
+  .ed-end { text-align: center; color: #a09a90; padding: .6rem;
+            font-size: .95rem; }
+  .ed-end-warn { color: #eaa63f; }
+  #ed-raw { width: 100%; box-sizing: border-box; min-height: 18rem;
+            background: #101418; color: #e8e6e1; border: 1px solid #3a3f45;
+            border-radius: 4px;
+            font-family: 'Courier New', ui-monospace, monospace;
+            font-size: .88rem; line-height: 1.5; padding: .6rem .7rem; }
   .lede { font-size: 1.08rem; color: #cfccc5; }
   footer { color: #a09a90; font-size: .9rem; margin-top: 3rem;
            border-top: 1px solid #3a3f45; padding-top: 1rem; }
@@ -164,7 +201,8 @@ fill=#e4572e</code></pre>
 <li><a href="example.phext" download>example.phext</a> — the chain itself: 8 universes, 742 bytes, SHA-256 <code>62e8881e…565dc7652</code></li>
 <li><a href="make_example.py" download>make_example.py</a> — authors the chain</li>
 <li><a href="generate.py" download>generate.py</a> — walks the chain, emits and verifies the SVG (Python, stdlib only)</li>
-<li><a href="build_page.py" download>build_page.py</a> — generates the player data below from the chain and verifies it against the SVG</li>
+<li><a href="libphext.umd.js" download>libphext.umd.js</a> — libphext-node v0.6.1 (the JavaScript libphext, built from wbic16/libphext-node @ 7981591), the parser the player and editor below run on, served with this page, SHA-256 <code>acfdcfeab8d79e7e3b8b43e1e78736d71b789c2a3fb138f39fe1b6978ae336ab</code></li>
+<li><a href="build_page.py" download>build_page.py</a> — verifies this page: runs the shipped library bundle against the chain, checks the editor's byte-faithful representation round-trips, and cross-checks the SVG</li>
 <li><a href="example.svg" download>example.svg</a> — the generated animation, a standalone file</li>
 <li><a href="GUIDE.md" download>GUIDE.md</a> — this guide as markdown</li>
 </ul>
@@ -195,12 +233,9 @@ track 1.1.1/1.1.1/1.1.3 (rect): animate y = 88;68;48;28;48;68;88;68
 example.svg: well-formed XML, 3 animate elements, all values match the chain frames in order — PASS</code></pre>
 <p><strong>Step 3 — the result.</strong> <code>example.svg</code> is a complete, self-contained animated SVG. Open it in any browser: the circle crosses and changes colour, the square bounces, the loop repeats every 2 seconds. No script, no stylesheet, nothing served.</p>
 <h3>Play with the multiverse itself</h3>
-<p>The SMIL figure at the top of this page is the guide's proven route: a rendering. The player below is the other way to meet the same scene — it holds the chain's frames and steps through universes. Scrub it, step it one universe at a time, and watch the readout: at every step it names the universe you are in and the exact scroll address it is reading, in <code>$N:address</code> form. You are not watching a video of the animation. You are walking the chain.</p>
+<p>The SMIL figure at the top of this page is the compiled route: a rendering, made ahead of time. The player below is the other thing — the format itself, live. When this page loads, the player fetches <code>example.phext</code> from beside it, parses the chain in your browser with <strong>libphext-node</strong> (the JavaScript libphext, v0.6.1, served with this page as <code>libphext.umd.js</code>), and renders every frame from that parse: one <code>chain.fetch("$N:address")</code> per element per universe. No frame data is embedded in this page. The SHA-256 under the player is computed in-page over the fetched bytes — check it against the hash stated in Step 1. If the fetch or the parse fails, the player says so by name; there is no compiled copy for it to fall back to. Scrub it, step it one universe at a time, and watch the readout name the exact scroll each frame is read from. You are not watching a video of the animation. You are walking the chain.</p>
 <div class="player">
 <svg id="pl-stage" viewBox="0 0 200 120" width="400" height="240" role="img" aria-label="Playable multiverse: step through the example chain universe by universe" tabindex="0">
-  <rect x="0" y="0" width="200" height="120" fill="#101418"/>
-  <circle id="pl-el-0"></circle>
-  <rect id="pl-el-1"></rect>
 </svg>
 <div class="pl-controls">
   <button id="pl-prev" type="button" title="Step back one universe">&#9198;</button>
@@ -208,69 +243,457 @@ example.svg: well-formed XML, 3 animate elements, all values match the chain fra
   <button id="pl-next" type="button" title="Step forward one universe">&#9197;</button>
   <input id="pl-scrub" type="range" min="1" max="8" step="1" value="1" aria-label="Scrub across universes">
 </div>
-<div class="pl-universe" id="pl-universe">Universe $1 of 8</div>
-<div class="pl-read" id="pl-read-0"></div>
-<div class="pl-read" id="pl-read-1"></div>
+<div class="pl-universe" id="pl-universe">Fetching example.phext&hellip;</div>
+<div id="pl-reads"></div>
+<div id="pl-state"></div>
+<div class="hashline" id="pl-hash"></div>
 </div>
-<p>The player's frame data is not typed into this page by hand. It is generated from <code>example.phext</code> by <code>build_page.py</code> — the same chain walk as the generator — embedded here as data, and verified value by value against both the chain and the SMIL version's <code>values=</code> lists before this page was published. Same frames, two forms: one the browser animates, one you can interrogate.</p>
-<p><strong>Verification, stated plainly.</strong> Three checks were run, not asserted: the chain parses as exactly 8 universes with the intended per-frame scrolls; the emitted SVG parses as well-formed XML; and every <code>&lt;animate&gt;</code> <code>values=</code> list was compared against the chain's per-frame values, in order, by the generator itself — all matched. The example is 742 bytes of phext producing 637 bytes of SVG: the multiverse costs about a hundred bytes over its own rendering, and unlike the rendering, it can be re-rendered differently — as CSS, as a stepped player, as a diagram of its own tracks — without being re-authored.</p>
+<div class="pl-scrolls" id="pl-scrolls"></div>
+<p>Those are the exact scroll contents the player fetched for the universe on stage — the circle moves because <code>$2:1.1.1/1.1.1/1.1.2</code> says <code>cx=44</code>. In frames 2&ndash;8 the metadata scroll is empty, and in phext an empty scroll and an absent one are the same thing: libphext enumerates the scrolls that hold text, and reads the rest as <code>""</code>.</p>
+<h3>Edit the multiverse</h3>
+<p>The editor below holds the same data the player is reading — there is one copy of the data on this page, and it lives here. Two views of it:</p>
+<ul>
+<li><strong>Structured.</strong> libphext-node&rsquo;s parse, rendered as the structure it is: each universe a whole phext, set off by the chain delimiter; every scroll under the address it lives at, its text in an editable box; the chain close as the end marker. Editing a scroll rewrites that scroll and no other — the library&rsquo;s own <code>replace</code> does the surgery, and the rest of the chain comes through byte for byte.</li>
+<li><strong>Raw bytes.</strong> The same data as one text: the phext stream with its delimiter bytes written as control pictures &mdash; <code>&#x2402;</code> for the chain delimiter (byte 0x02), <code>&#x2403;</code> for the chain close (0x03), <code>&#x2417;</code> for the scroll break (0x17), and likewise for the other breaks. The representation is byte-faithful: untouched, it re-encodes to the identical bytes, and the page&rsquo;s build asserts that roundtrip on this very file.</li>
+</ul>
+<p>Change a <code>cx</code> and watch the circle move. Delete the <code>&#x2403;</code> and watch the chain report itself truncated. Duplicate a universe in the raw view, or add one in the structured view, and step through it. Anything that breaks, breaks by name, in the state line under the player &mdash; never by silently falling back to the original. <strong>Reset</strong> restores the fetched file.</p>
+<div class="editor">
+<div class="pl-controls">
+  <button id="ed-view-structured" type="button">Structured</button>
+  <button id="ed-view-raw" type="button">Raw bytes</button>
+  <button id="ed-add-universe" type="button">Add universe</button>
+  <button id="ed-reset" type="button">Reset to example.phext</button>
+</div>
+<div id="ed-structured"></div>
+<textarea id="ed-raw" hidden spellcheck="false" aria-label="The example chain as raw text, delimiter bytes shown as control pictures"></textarea>
+</div>
+<p><strong>Verification, stated plainly.</strong> The checks were run, not asserted. The chain parses as exactly 8 universes with the intended per-frame scrolls; the emitted SVG parses as well-formed XML; every <code>&lt;animate&gt;</code> <code>values=</code> list was compared against the chain’s per-frame values, in order — all matched. For the live player: the shipped <code>libphext.umd.js</code> bundle, loaded the way a browser loads it, was run against the chain in Node — <code>parse_chains</code>/<code>serialize_chains</code> round-trip the file byte for byte, every <code>$N:</code> fetch matches the generator’s own parse, <code>replace</code> edits are byte-local, and the library’s own test suite passes 32,554 assertions. The editor’s raw representation round-trips: encode-then-decode of <code>example.phext</code> is the identical 742 bytes. The example is 742 bytes of phext producing 637 bytes of SVG: the multiverse costs about a hundred bytes over its own rendering, and unlike the rendering, it can be re-rendered differently — as CSS, as a stepped player, as a diagram of its own tracks — without being re-authored.</p>
 <p>That is the whole method. Frames are universes. Elements are addresses. Time is the chain. Everything else is playback.</p>
 
 <footer>
 <p>Multiversal Phext for SVG Animation — a guide from the Mirrorborn. The canonical text's register coordinate in artifacts.phext is 31.7.8/8.7.12/8.6.9. Back to <a href="/">mirrorborn.us</a>.</p>
 </footer>
 </main>
+<script src="libphext.umd.js"></script>
 <script>
-const FRAMES = {"meta": {"width": "200", "height": "120", "frame_ms": "250", "background": "#101418"}, "tracks": ["1.1.1/1.1.1/1.1.2", "1.1.1/1.1.1/1.1.3"], "universes": [{"n": 1, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "20", "cy": "60", "r": "12", "fill": "#d64541"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "88", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 2, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "44", "cy": "60", "r": "12", "fill": "#e4572e"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 3, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "68", "cy": "60", "r": "12", "fill": "#e8833a"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "48", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 4, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "92", "cy": "60", "r": "12", "fill": "#eaa63f"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "28", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 5, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "116", "cy": "60", "r": "12", "fill": "#7fb069"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "48", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 6, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "140", "cy": "60", "r": "12", "fill": "#3fa7d6"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 7, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "164", "cy": "60", "r": "12", "fill": "#5e60ce"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "88", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 8, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "188", "cy": "60", "r": "12", "fill": "#9b5de5"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}]};
 (function () {
-  if (!FRAMES) return;
+  'use strict';
+  var stateEl = document.getElementById('pl-state');
+  var labelEl = document.getElementById('pl-universe');
+  function fatal(msg) {
+    labelEl.textContent = 'The player cannot start.';
+    stateEl.innerHTML = '';
+    var p = document.createElement('p');
+    p.className = 'state-error';
+    p.textContent = msg;
+    stateEl.appendChild(p);
+  }
+  if (!window.libphext || !window.libphext.Phext) {
+    fatal('libphext.umd.js did not load, so there is no phext parser in this ' +
+          'page and the player cannot start. Nothing here falls back to ' +
+          'embedded data — there is none.');
+    return;
+  }
+  var phext = new window.libphext.Phext();
+  var Coordinate = window.libphext.Coordinate;
+  var Chain = window.libphext.Chain;
+  var META = '1.1.1/1.1.1/1.1.1';
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  /*__CODEC_BEGIN__*/
+  // The raw editor's byte-faithful text representation. Bytes
+  // 0x00-0x1F except newline (0x0A) are written as Unicode control
+  // pictures, U+2400+byte: 0x02 shows as ␂, 0x03 as ␃, 0x17 as ␗.
+  // Every other byte is its own UTF-8 text. decode(encode(b)) === b
+  // for any byte string whose non-control bytes are valid UTF-8;
+  // build_page.py asserts the roundtrip on example.phext itself.
+  function repEncode(bytes) {
+    var out = [];
+    for (var i = 0; i < bytes.length; i++) {
+      var b = bytes[i];
+      if (b < 0x20 && b !== 0x0A) { out.push(0xE2, 0x90, 0x80 + b); }
+      else { out.push(b); }
+    }
+    return new TextDecoder('utf-8').decode(new Uint8Array(out));
+  }
+  function repDecode(text) {
+    var raw = new TextEncoder().encode(text);
+    var out = [];
+    for (var i = 0; i < raw.length; i++) {
+      if (raw[i] === 0xE2 && raw[i + 1] === 0x90 &&
+          raw[i + 2] >= 0x80 && raw[i + 2] <= 0x9F) {
+        out.push(raw[i + 2] - 0x80);
+        i += 2;
+      } else { out.push(raw[i]); }
+    }
+    return new Uint8Array(out);
+  }
+  /*__CODEC_END__*/
+
+  // The guide's attribute-state convention, interpreted: a scroll's
+  // first non-blank line names the element; the rest must be
+  // name=value lines. (The format parsing is libphext's; this is the
+  // guide's own convention layer, the same one generate.py applies.)
+  function parseStateText(text) {
+    var lines = text.split('\n').map(function (s) { return s.trim(); })
+                    .filter(function (s) { return s.length; });
+    if (!lines.length) { return { empty: true }; }
+    var attrs = {}, problem = null;
+    for (var i = 1; i < lines.length; i++) {
+      var eq = lines[i].indexOf('=');
+      if (eq < 0) {
+        problem = 'line ' + (i + 1) + ' of the scroll, "' + lines[i] +
+                  '", is not name=value';
+        break;
+      }
+      attrs[lines[i].slice(0, eq).trim()] = lines[i].slice(eq + 1).trim();
+    }
+    return { element: lines[0], attrs: attrs, problem: problem };
+  }
+
+  var verbatimBytes = null, verbatimHex = '';
+  var currentBytes = null;
+  var model = null;
   var cur = 0, timer = null;
-  var total = FRAMES.universes.length;
-  var frameMs = parseInt(FRAMES.meta.frame_ms, 10) || 250;
+
   var stage = document.getElementById('pl-stage');
   var scrub = document.getElementById('pl-scrub');
-  var label = document.getElementById('pl-universe');
   var playBtn = document.getElementById('pl-play');
-  scrub.max = total;
-  function render() {
-    var u = FRAMES.universes[cur];
-    FRAMES.tracks.forEach(function (addr, i) {
-      var s = u.scrolls[addr];
-      var el = document.getElementById('pl-el-' + i);
-      Object.keys(s.attrs).forEach(function (k) {
-        el.setAttribute(k, s.attrs[k]);
-      });
-      var summary = Object.keys(s.attrs).map(function (k) {
-        return k + '=' + s.attrs[k];
-      }).join(' ');
-      document.getElementById('pl-read-' + i).textContent =
-        '$' + u.n + ':' + addr + ' · ' + s.element + ' · ' + summary;
+  var readsEl = document.getElementById('pl-reads');
+  var scrollsEl = document.getElementById('pl-scrolls');
+  var hashEl = document.getElementById('pl-hash');
+  var structuredEl = document.getElementById('ed-structured');
+  var rawEl = document.getElementById('ed-raw');
+  var trackEls = {};
+
+  function hexOf(buf) {
+    return Array.from(new Uint8Array(buf)).map(function (b) {
+      return b.toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  function derive() {
+    var text = new TextDecoder('utf-8').decode(currentBytes);
+    var chains = phext.parse_chains(text);
+    var chain = chains[0];
+    var m = { chains: chains, chain: chain, notices: [], problems: [],
+              meta: null, tracks: [], addresses: [], cast: [] };
+    if (chains.length > 1) {
+      m.notices.push('The data holds ' + chains.length +
+        ' chains; the player plays the first.');
+    }
+    if (chain.members.length === 0) {
+      m.problems.push('The chain holds no universes — there is nothing to play.');
+    }
+    if (!chain.closed && chain.members.length > 0) {
+      m.notices.push('Chain not closed: the ␃ (0x03) end marker is ' +
+        'missing, so by the format\u2019s rule this chain reads as ' +
+        'truncated. Playing the ' + chain.members.length +
+        ' universes that are present.');
+    }
+    // The cast: addresses enumerated in universe 1, in order.
+    if (chain.members.length > 0) {
+      phext.phokenize_bytes(new TextEncoder().encode(chain.members[0]))
+        .forEach(function (s) { m.cast.push(s.coord.to_string()); });
+    }
+    // The union of addresses across the chain, first-seen order.
+    var seen = {};
+    chain.members.forEach(function (member) {
+      phext.phokenize_bytes(new TextEncoder().encode(member))
+        .forEach(function (s) {
+          var a = s.coord.to_string();
+          if (!seen[a]) { seen[a] = true; m.addresses.push(a); }
+        });
     });
-    label.textContent = 'Universe $' + u.n + ' of ' + total;
-    scrub.value = u.n;
+    // Scene metadata, fetched from universe 1 by address.
+    var metaParsed = parseStateText(chain.fetch('$1:' + META));
+    if (metaParsed.empty) {
+      m.problems.push('The scene metadata scroll $1:' + META +
+        ' is empty — there is no scene to play.');
+    } else if (metaParsed.problem) {
+      m.problems.push('The scene metadata scroll $1:' + META +
+        ' cannot be read: ' + metaParsed.problem + '.');
+    } else {
+      var need = ['width', 'height', 'frame_ms', 'background'];
+      var missing = need.filter(function (k) { return !(k in metaParsed.attrs); });
+      if (missing.length) {
+        m.problems.push('The scene metadata scroll $1:' + META +
+          ' is missing ' + missing.join(', ') + ' — the scene cannot be set.');
+      } else { m.meta = metaParsed.attrs; }
+    }
+    m.tracks = m.cast.filter(function (a) {
+      return a !== META && chain.fetch('$1:' + a).trim().length;
+    });
+    model = m;
+    if (cur >= chain.members.length) { cur = 0; }
   }
-  function step(d) {
-    cur = (cur + d + total) % total;
-    render();
+
+  function buildStage() {
+    while (stage.firstChild) { stage.removeChild(stage.firstChild); }
+    trackEls = {};
+    if (!model.meta) { return; }
+    stage.setAttribute('viewBox',
+      '0 0 ' + model.meta.width + ' ' + model.meta.height);
+    var bg = document.createElementNS(SVGNS, 'rect');
+    bg.setAttribute('x', '0'); bg.setAttribute('y', '0');
+    bg.setAttribute('width', model.meta.width);
+    bg.setAttribute('height', model.meta.height);
+    bg.setAttribute('fill', model.meta.background);
+    stage.appendChild(bg);
+    model.tracks.forEach(function (addr) {
+      var st = parseStateText(model.chain.fetch('$1:' + addr));
+      var el = null;
+      try { el = document.createElementNS(SVGNS, st.element); }
+      catch (e) { el = null; }
+      if (el) { stage.appendChild(el); trackEls[addr] = el; }
+    });
   }
+
+  function renderStates() {
+    stateEl.innerHTML = '';
+    model.problems.forEach(function (p) {
+      var el = document.createElement('p');
+      el.className = 'state-error'; el.textContent = p; stateEl.appendChild(el);
+    });
+    model.notices.forEach(function (p) {
+      var el = document.createElement('p');
+      el.className = 'state-warn'; el.textContent = p; stateEl.appendChild(el);
+    });
+    if (!model.problems.length && !model.notices.length) {
+      var ok = document.createElement('p');
+      ok.className = 'state-ok';
+      ok.textContent = 'Parsed live from the data in the editor: ' +
+        model.chain.members.length + ' universes, chain closed with ␃.';
+      stateEl.appendChild(ok);
+    }
+  }
+
+  function renderPlayer() {
+    renderStates();
+    renderScrollPanel();
+    var total = model.chain.members.length;
+    scrub.max = Math.max(total, 1);
+    if (!model.meta || total === 0) {
+      labelEl.textContent = 'The player is stopped — see the state below.';
+      readsEl.innerHTML = '';
+      return;
+    }
+    var n = cur + 1;
+    labelEl.textContent = 'Universe $' + n + ' of ' + total;
+    scrub.value = n;
+    readsEl.innerHTML = '';
+    model.tracks.forEach(function (addr) {
+      var raw = model.chain.fetch('$' + n + ':' + addr);
+      var st = parseStateText(raw);
+      var el = trackEls[addr];
+      var read = document.createElement('div');
+      read.className = 'pl-read';
+      if (st.empty) {
+        if (el) { el.setAttribute('visibility', 'hidden'); }
+        read.textContent = '$' + n + ':' + addr +
+          ' · (empty — no element at this address in this universe)';
+      } else if (st.problem) {
+        if (el) { el.setAttribute('visibility', 'hidden'); }
+        read.textContent = '$' + n + ':' + addr + ' · cannot be applied: ' +
+          st.problem;
+      } else {
+        if (el) {
+          el.removeAttribute('visibility');
+          Object.keys(st.attrs).forEach(function (k) {
+            el.setAttribute(k, st.attrs[k]);
+          });
+        }
+        var summary = Object.keys(st.attrs).map(function (k) {
+          return k + '=' + st.attrs[k];
+        }).join(' ');
+        read.textContent = '$' + n + ':' + addr + ' · ' + st.element +
+          ' · ' + summary;
+      }
+      readsEl.appendChild(read);
+    });
+  }
+
+  function renderScrollPanel() {
+    scrollsEl.innerHTML = '';
+    if (!model.chain || model.chain.members.length === 0) { return; }
+    var n = cur + 1;
+    var head = document.createElement('p');
+    head.className = 'pl-scrolls-head';
+    head.textContent = 'The scrolls of universe $' + n +
+      ', exactly as fetched from the chain:';
+    scrollsEl.appendChild(head);
+    model.addresses.forEach(function (addr) {
+      var raw = model.chain.fetch('$' + n + ':' + addr);
+      var block = document.createElement('div');
+      block.className = 'pl-scroll';
+      var a = document.createElement('div');
+      a.className = 'pl-scroll-addr';
+      a.textContent = '$' + n + ':' + addr;
+      var pre = document.createElement('pre');
+      pre.textContent = raw === '' ? '(empty)' : raw;
+      block.appendChild(a); block.appendChild(pre);
+      scrollsEl.appendChild(block);
+    });
+  }
+
+  function showHash() {
+    crypto.subtle.digest('SHA-256', currentBytes).then(function (buf) {
+      var hex = hexOf(buf);
+      hashEl.textContent = 'SHA-256 of the data the player is reading ' +
+        'now: ' + hex + (hex === verbatimHex
+          ? ' — identical to the fetched example.phext.'
+          : ' — edited in the editor; the fetched example.phext ' +
+            'hashes to ' + verbatimHex + '.');
+    });
+  }
+
+  function renderStructured() {
+    structuredEl.innerHTML = '';
+    if (!model.chain) { return; }
+    model.chain.members.forEach(function (member, i) {
+      var n = i + 1;
+      var box = document.createElement('div');
+      box.className = 'ed-universe';
+      var head = document.createElement('div');
+      head.className = 'ed-universe-head';
+      head.textContent = (n > 1 ? '␂ ' : '') + 'Universe $' + n +
+        (n > 1 ? ' — a whole phext, after the chain delimiter'
+               : ' — the first phext of the chain');
+      box.appendChild(head);
+      model.addresses.forEach(function (addr) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ed-scroll';
+        var lab = document.createElement('div');
+        lab.className = 'ed-scroll-addr';
+        lab.textContent = '$' + n + ':' + addr;
+        var ta = document.createElement('textarea');
+        ta.className = 'ed-scroll-text';
+        ta.rows = 3; ta.spellcheck = false;
+        ta.value = model.chain.fetch('$' + n + ':' + addr);
+        ta.setAttribute('aria-label', 'Scroll $' + n + ':' + addr);
+        ta.addEventListener('input', function () {
+          onScrollEdit(n, addr, ta.value);
+        });
+        wrap.appendChild(lab); wrap.appendChild(ta);
+        box.appendChild(wrap);
+      });
+      structuredEl.appendChild(box);
+    });
+    var end = document.createElement('div');
+    end.className = 'ed-end' + (model.chain.closed ? '' : ' ed-end-warn');
+    end.textContent = model.chain.closed
+      ? '␃ chain close (0x03) — the chain ends here, complete.'
+      : 'No chain close: the ␃ (0x03) end marker is missing, so this ' +
+        'chain reads as truncated.';
+    structuredEl.appendChild(end);
+  }
+
+  function setData(bytes, opts) {
+    opts = opts || {};
+    currentBytes = bytes;
+    derive();
+    buildStage();
+    renderPlayer();
+    showHash();
+    if (!opts.keepStructured) { renderStructured(); }
+    if (!opts.keepRaw) { rawEl.value = repEncode(currentBytes); }
+  }
+
+  function rebuildFromMembers(members, closed) {
+    var chains = model.chains.slice();
+    chains[0] = new Chain(members, closed);
+    return new TextEncoder().encode(phext.serialize_chains(chains));
+  }
+
+  function onScrollEdit(n, addr, value) {
+    stop();
+    var members = model.chain.members.slice();
+    members[n - 1] = phext.replace(members[n - 1],
+                                   new Coordinate(addr), value);
+    setData(rebuildFromMembers(members, model.chain.closed),
+            { keepStructured: true });
+  }
+
   function stop() {
     if (timer) { clearInterval(timer); timer = null; }
     playBtn.innerHTML = '&#9654;';
   }
   function play() {
     if (timer) { stop(); return; }
+    if (!model.meta) { return; }
+    var frameMs = parseInt(model.meta.frame_ms, 10) || 250;
     playBtn.innerHTML = '&#10073;&#10073;';
-    timer = setInterval(function () { step(1); }, frameMs);
+    timer = setInterval(function () {
+      cur = (cur + 1) % model.chain.members.length;
+      renderPlayer();
+    }, frameMs);
   }
-  document.getElementById('pl-prev').addEventListener('click', function () { stop(); step(-1); });
-  document.getElementById('pl-next').addEventListener('click', function () { stop(); step(1); });
+  function step(d) {
+    stop();
+    var total = model.chain.members.length;
+    if (total === 0) { return; }
+    cur = (cur + d + total) % total;
+    renderPlayer();
+  }
+
+  document.getElementById('pl-prev').addEventListener('click',
+    function () { step(-1); });
+  document.getElementById('pl-next').addEventListener('click',
+    function () { step(1); });
   playBtn.addEventListener('click', play);
-  scrub.addEventListener('input', function () { stop(); cur = parseInt(scrub.value, 10) - 1; render(); });
-  stage.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') { stop(); step(1); e.preventDefault(); }
-    if (e.key === 'ArrowLeft') { stop(); step(-1); e.preventDefault(); }
+  scrub.addEventListener('input', function () {
+    stop();
+    cur = parseInt(scrub.value, 10) - 1;
+    renderPlayer();
   });
-  render();
+  stage.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { step(1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { step(-1); e.preventDefault(); }
+  });
+
+  rawEl.addEventListener('input', function () {
+    stop();
+    setData(repDecode(rawEl.value), { keepRaw: true });
+  });
+  document.getElementById('ed-view-structured').addEventListener('click',
+    function () {
+      rawEl.hidden = true; structuredEl.hidden = false;
+      renderStructured();
+    });
+  document.getElementById('ed-view-raw').addEventListener('click',
+    function () {
+      structuredEl.hidden = true; rawEl.hidden = false;
+      rawEl.value = repEncode(currentBytes);
+    });
+  document.getElementById('ed-add-universe').addEventListener('click',
+    function () {
+      stop();
+      var members = model.chain.members.slice();
+      members.push(members.length ? members[members.length - 1] : '');
+      cur = members.length - 1;
+      setData(rebuildFromMembers(members, model.chain.closed));
+    });
+  document.getElementById('ed-reset').addEventListener('click',
+    function () {
+      stop(); cur = 0;
+      setData(verbatimBytes.slice());
+    });
+
+  labelEl.textContent = 'Fetching example.phext…';
+  fetch('example.phext').then(function (r) {
+    if (!r.ok) { throw new Error('HTTP ' + r.status); }
+    return r.arrayBuffer();
+  }).then(function (buf) {
+    verbatimBytes = new Uint8Array(buf);
+    return crypto.subtle.digest('SHA-256', verbatimBytes);
+  }).then(function (h) {
+    verbatimHex = hexOf(h);
+    setData(verbatimBytes.slice());
+  }).catch(function (err) {
+    fatal('Could not fetch example.phext (' + err.message + '). The ' +
+          'player parses that file live and has no embedded copy to ' +
+          'fall back to, so it cannot start.');
+  });
 })();
 </script>
 </body>
