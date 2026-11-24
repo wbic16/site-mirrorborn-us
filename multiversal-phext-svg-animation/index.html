@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiversal Phext for SVG Animation — mirrorborn.us</title>
+<meta name="description" content="A guide to holding an animation as a chain of phexts — one universe per frame — and playing it back as SVG.">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #101418; color: #e8e6e1;
+         font-family: Georgia, 'Times New Roman', serif;
+         line-height: 1.65; }
+  main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  h1 { font-size: 2rem; line-height: 1.25; color: #f0ede8; }
+  h2 { font-size: 1.35rem; color: #f0ede8; margin-top: 2.5rem;
+       border-bottom: 1px solid #3a3f45; padding-bottom: .3rem; }
+  h3 { font-size: 1.1rem; color: #f0ede8; margin-top: 1.8rem; }
+  a { color: #8ab4e0; }
+  code, pre { font-family: 'Courier New', ui-monospace, monospace; }
+  code { background: #1b2129; padding: .1em .3em; border-radius: 3px;
+         font-size: .92em; }
+  pre { background: #1b2129; border: 1px solid #2c333c; border-radius: 6px;
+        padding: .9rem 1rem; overflow-x: auto; font-size: .88rem;
+        line-height: 1.5; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; margin: 1rem 0; font-size: .95rem; }
+  th, td { border: 1px solid #3a3f45; padding: .35rem .6rem;
+           text-align: left; }
+  th { background: #1b2129; }
+  figure { margin: 1.5rem 0; text-align: center; }
+  figure svg { max-width: 100%; height: auto; border: 1px solid #2c333c;
+               border-radius: 6px; }
+  figcaption { color: #a09a90; font-size: .9rem; margin-top: .5rem; }
+  .player { background: #1b2129; border: 1px solid #2c333c;
+            border-radius: 6px; padding: 1rem 1.25rem; text-align: center; }
+  .player svg { max-width: 100%; height: auto; background: #101418;
+                border: 1px solid #2c333c; border-radius: 6px; }
+  .pl-controls { margin: .8rem 0 .4rem; display: flex; gap: .5rem;
+                 align-items: center; justify-content: center;
+                 flex-wrap: wrap; }
+  .pl-controls button { background: #242c36; color: #e8e6e1;
+                        border: 1px solid #3a3f45; border-radius: 5px;
+                        padding: .35rem .8rem; font-size: 1rem;
+                        cursor: pointer; }
+  .pl-controls button:hover { background: #2e3742; }
+  .pl-controls input[type="range"] { width: 12rem; accent-color: #8ab4e0; }
+  .pl-universe { font-weight: bold; color: #f0ede8; margin: .4rem 0; }
+  .pl-read { font-family: 'Courier New', ui-monospace, monospace;
+             font-size: .85rem; color: #cfccc5; text-align: left;
+             max-width: 34rem; margin: .15rem auto; overflow-x: auto;
+             white-space: nowrap; }
+  .downloads { background: #1b2129; border: 1px solid #2c333c;
+               border-radius: 6px; padding: 1rem 1.25rem; }
+  .downloads li { margin: .3rem 0; }
+  .lede { font-size: 1.08rem; color: #cfccc5; }
+  footer { color: #a09a90; font-size: .9rem; margin-top: 3rem;
+           border-top: 1px solid #3a3f45; padding-top: 1rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>Multiversal Phext for SVG Animation</h1>
+<p class="lede">A guide to holding an animation as a chain of phexts — one universe per frame — and playing it back as SVG.</p>
+
+<p>Two kinds of statement live in this guide, and they are kept apart. <strong>Format facts</strong> are how phext chains work, as implemented in libphext 0.6 and shipped in sq 0.6.1. <strong>Conventions</strong> are choices this guide defines for animation — a scene layout, a way of writing an element's state — labelled as convention wherever they appear. Everything claimed here is demonstrated by a worked example on this page that you can download, re-run, and check.</p>
+
+<figure>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="400" height="240" role="img" aria-label="A circle crossing the canvas and changing colour while a square bounces beneath it">
+  <rect x="0" y="0" width="200" height="120" fill="#101418"/>
+  <circle cx="20" cy="60" r="12" fill="#d64541">
+    <animate attributeName="cx" values="20;44;68;92;116;140;164;188" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="fill" values="#d64541;#e4572e;#e8833a;#eaa63f;#7fb069;#3fa7d6;#5e60ce;#9b5de5" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <rect x="93" y="88" width="14" height="14" fill="#2456a6">
+    <animate attributeName="y" values="88;68;48;28;48;68;88;68" dur="2s" repeatCount="indefinite"/>
+  </rect>
+</svg>
+<figcaption>The worked example, playing. This animation is generated from an 8-universe phext chain — the chain, the generator, and this SVG are all downloadable below.</figcaption>
+</figure>
+
+<h2>1. The model, in one page</h2>
+<p>A single phext is a body of text arranged in nine dimensions — Library, Shelf, Series, Collection, Volume, Book, Chapter, Section, Scroll — and every scroll has an address, like <code>1.1.1/1.1.1/1.1.2</code>. A phext with nothing more is one universe: one state of affairs, held still.</p>
+<p>A <strong>chain</strong> is where time enters. Two bytes do the work:</p>
+<ul>
+<li><code>0x02</code> — the <strong>chain delimiter</strong>, one rung above Library. It separates whole phexts.</li>
+<li><code>0x03</code> — the <strong>chain close</strong>. A chain that ends without it was truncated.</li>
+</ul>
+<p>A chain is an ordered series of complete phext states. The nine dimensions address space; the chain orders states. Each member of the chain is a <strong>universe</strong>, indexed from 1, and any scroll in any universe can be named: <code>$3:1.1.1/1.1.1/1.1.2</code> is the scroll at that address in universe 3. A bare address, with no <code>$N:</code> prefix, means universe 1.</p>
+<p>Animation falls straight out of this:</p>
+<table>
+<tr><th>Animation idea</th><th>In the chain</th></tr>
+<tr><td>A frame</td><td>One universe — one complete phext</td></tr>
+<tr><td>An element</td><td>One address, held constant across the chain</td></tr>
+<tr><td>A track</td><td>That address read across successive universes: the element's state at each time</td></tr>
+<tr><td>A timeline</td><td>The chain order itself</td></tr>
+<tr><td>Playback</td><td>Walking the chain in order</td></tr>
+<tr><td>An alternate take</td><td>A second chain sharing a prefix — the pathway forks</td></tr>
+</table>
+<p>That last row carries weight beyond bookkeeping. Pathways between phexts themselves hold information: two chains that agree for five frames and differ at the sixth are saying something a single timeline cannot — <em>here is where the takes divide</em>. Branching is not a special feature layered on top; it is what a multiverse is.</p>
+<p>So an animated scene is not a file with frames hidden inside a format. It is a small multiverse: every frame a complete, addressable, readable phext, and every element traceable through time by following one address from universe to universe.</p>
+
+<h2>2. Authoring a scene</h2>
+<h3>2.1 The layout (convention)</h3>
+<p>This guide's convention puts three kinds of scroll in every frame. The addresses below are the worked example's; a larger scene grows by the same rule — new elements take new addresses, existing addresses never move.</p>
+<ul>
+<li><strong>Scene metadata</strong> — <code>1.1.1/1.1.1/1.1.1</code>, in universe 1. Canvas width and height, the frame duration, the background. What the whole scene agrees on, stated once, in the first universe.</li>
+<li><strong>One scroll per element</strong> — <code>1.1.1/1.1.1/1.1.2</code>, <code>1.1.1/1.1.1/1.1.3</code>, and onward. The same addresses in every universe. Universe 1's scrolls are also the scene's cast list: read the first frame and you know every element the scene will ever have.</li>
+<li><strong>Empty where absent.</strong> If an element does not exist yet in an early frame, its scroll for that frame is empty. Appearing is a state, not a structural change.</li>
+</ul>
+<h3>2.2 Writing an element's state (convention)</h3>
+<p>Two forms are available, and the choice is per element, per scene.</p>
+<p><strong>Attribute-state form.</strong> The scroll's first line names the SVG element; the rest are <code>name=value</code> lines — the element's attributes at that frame.</p>
+<pre><code>circle
+cx=44
+cy=60
+r=12
+fill=#e4572e</code></pre>
+<p>This form is compact, diffable frame to frame, and directly animatable: a column of values down a track <em>is</em> an animation curve, one per attribute. It is the form this guide recommends, and the form the worked example proves.</p>
+<p><strong>Full-element form.</strong> The scroll holds the element's complete markup for that frame:</p>
+<pre><code>&lt;circle cx="44" cy="60" r="12" fill="#e4572e"/&gt;</code></pre>
+<p>This form can do what attribute state cannot — change an element's structure between frames, swap a path's whole geometry, replace one element with another at the same address. Its costs are real: the markup repeats in every frame, diffs are noisier, and no declarative playback route (SMIL, CSS) can consume it — a frame-stepping player must swap the markup in. Reach for it only when a track genuinely changes shape, not merely position or colour.</p>
+<h3>2.3 Authoring by hand, and by script</h3>
+<p>A chain is bytes: phext members joined by <code>0x02</code>, closed by <code>0x03</code>. Small chains are written by a small script — the worked example's <code>make_example.py</code> is 60 lines and is the honest picture of what authoring looks like today. There is no chain-aware editor yet; that gap is named in §5. What the script buys you is exactness: frames are data in a list, the chain is assembled from them, and a hash of the result is printed so the artifact can be cited precisely.</p>
+
+<h2>3. Playback: three routes</h2>
+<p>No shipping renderer plays a chain natively. Playback today means a <strong>generator step</strong>: a small program walks the chain and emits something a browser already understands. Three routes, in the order this guide recommends them.</p>
+<h3>3.1 SMIL generation — the proven route</h3>
+<p>For each track, collect each attribute's values across all frames, in chain order. An attribute that changes becomes a SMIL <code>&lt;animate&gt;</code> whose <code>values=</code> is that list, joined by semicolons; an attribute that never changes stays a plain attribute on the element. The duration is frames × frame duration, read from the scene metadata.</p>
+<pre><code>&lt;circle cx="20" cy="60" r="12" fill="#d64541"&gt;
+  &lt;animate attributeName="cx" values="20;44;68;92;116;140;164;188" dur="2s" repeatCount="indefinite"/&gt;
+  &lt;animate attributeName="fill" values="#d64541;#e4572e;#e8833a;#eaa63f;#7fb069;#3fa7d6;#5e60ce;#9b5de5" dur="2s" repeatCount="indefinite"/&gt;
+&lt;/circle&gt;</code></pre>
+<p>Costs, honestly: SMIL animates attribute values, so it serves the attribute-state form only. Interpolation between frames is the browser's — linear by default, which for position is usually what a chain of keyframes intends. SMIL is deprecated-then-undeprecated in Chrome and supported in all major browsers, but it is the least actively developed of the three routes. Its virtue is that the output is a single self-contained <code>.svg</code> file with no script and no stylesheet — the animation as a document, which is very much in the spirit of the format it came from.</p>
+<h3>3.2 CSS keyframes generation</h3>
+<p>The same per-attribute value lists become <code>@keyframes</code> rules: frame <em>i</em> of <em>n</em> sits at percentage <code>i/(n−1) × 100</code>, and each animated property gets its stop values. The generator emits a <code>&lt;style&gt;</code> block inside the SVG (or a companion stylesheet), and elements carry <code>animation</code> properties.</p>
+<pre><code>@keyframes circle-cx {
+  0% { cx: 20 } 14.3% { cx: 44 } 28.6% { cx: 68 } /* … */
+  100% { cx: 188 }
+}</code></pre>
+<p>Costs: only properties CSS can animate are reachable — geometry properties like <code>cx</code> and <code>cy</code> are CSS-animatable in modern browsers, <code>fill</code> is, but the coverage is a browser matrix, not a guarantee, and it shifts over time. In exchange you get the web's full timing machinery — easing functions, direction, fill modes, composition with the rest of a page's styles. Choose this route when the animation lives inside a larger web page whose styling it should join.</p>
+<h3>3.3 Frame-stepping</h3>
+<p>A player — a few dozen lines of JavaScript in a page, or Python driving a renderer — holds the chain, and on each tick reads the current universe and applies it: <code>setAttribute</code> per attribute for the attribute-state form, or markup replacement for the full-element form. No generation step; the chain is the runtime format.</p>
+<p>Costs: a runtime must ship and run wherever the animation plays; nothing about the result is a static document someone can save, inspect, or archive. Its virtues are the mirror of the others' limits: it is the only route that plays the full-element form, the only one that can branch at runtime (choose the next chain at a fork — alternate takes become interactive), and the only one whose timing can answer to anything outside itself. Choose it when the animation is an application, not a picture.</p>
+
+<h2>4. Tooling, as it stands today</h2>
+<p><strong>libphext (Rust, 0.6.x)</strong> is the reference home of chains. It implements <code>parse_chains</code> and its inverse <code>serialize_chains</code> — byte-exact round-tripping inverses — and <code>$N:&lt;address&gt;</code> multiverse addressing. Chain support shipped in libphext 0.6.0 and sq 0.6.1. If you are building a player or a generator in Rust, this is the ground floor: parse the chain once, then fetch <code>$N:</code> addresses per frame.</p>
+<p><strong>Python, today.</strong> The Python parser in the phext tooling tree, <code>parse_phext.py</code>, is a delimiter-walk parser for a <em>single</em> phext. Checked against the worked example's chain file, honestly: it does not split chains. Bytes <code>0x02</code> and <code>0x03</code> are not delimiters to it, so they pass through as content — it reads the 8-universe example as 17 scroll slots of one phext, with the 7 chain delimiters and the close byte sitting inside scroll text. The Python route available today is therefore the one <code>generate.py</code> demonstrates: split the bytes on <code>0x02</code>, require the closing <code>0x03</code>, and hand each member to <code>parse_phext.py</code> as an ordinary phext. Twenty lines, stdlib only, and exact — but it is a bridge, and a chain-aware Python reader is owed.</p>
+<p><strong>SQ</strong> hosts phexts and speaks the chain-aware library (sq 0.6.1), so a chain can live behind the same serving machinery as any other phext. This guide's example does not need it; a scene library would.</p>
+
+<h2>5. Limits, and when not to use this</h2>
+<ul>
+<li><strong>No native player exists.</strong> Every route in §3 is a generator or a runtime you provide. The chain is the authoring and archival form — the thing that stays readable, diffable, and addressable for decades. The SVG is what today's browsers eat. Keep both; the phext is the source, the SVG is a rendering.</li>
+<li><strong>Large frame counts.</strong> A universe is a complete phext. A 10,000-frame scene is 10,000 phexts, and every element's full state repeats in every frame whether it moved or not. The model suits keyframed, state-sized scenes — diagrams that move, figures that turn, notation that builds — not video. If your frames are dense raster changes, they are not this.</li>
+<li><strong>Binary and raster content stays out.</strong> Images, audio, and other binary media do not become scrolls in this model; a scene may <em>reference</em> such material by address or URL from a metadata scroll, but the media itself lives elsewhere. Text is the medium; the chain is text all the way down.</li>
+<li><strong>A single static SVG gains nothing.</strong> If nothing moves, there is one frame, the chain is one universe with a close byte, and you have paid the multiverse for a picture. Use a plain phext, or a plain <code>.svg</code>.</li>
+<li><strong>Tooling gaps, named.</strong> No chain-aware editor; no chain-aware Python reader (the split-and-parse bridge stands in); SMIL's browser future is maintained but not growing. None of these block the worked example. All of them bound what "ready" means today.</li>
+</ul>
+
+<h2>6. The worked example, step by step</h2>
+<p>Everything above, done once, small enough to hold in view. The scene: a circle crosses a 200×120 canvas left to right over 8 frames, changing colour as it goes; a square bounces beneath it. Frame duration 250 ms; the whole loop is 2 seconds. That is the animation playing at the top of this page.</p>
+<div class="downloads">
+<p><strong>Take the example with you:</strong></p>
+<ul>
+<li><a href="example.phext" download>example.phext</a> — the chain itself: 8 universes, 742 bytes, SHA-256 <code>62e8881e…565dc7652</code></li>
+<li><a href="make_example.py" download>make_example.py</a> — authors the chain</li>
+<li><a href="generate.py" download>generate.py</a> — walks the chain, emits and verifies the SVG (Python, stdlib only)</li>
+<li><a href="build_page.py" download>build_page.py</a> — generates the player data below from the chain and verifies it against the SVG</li>
+<li><a href="example.svg" download>example.svg</a> — the generated animation, a standalone file</li>
+<li><a href="GUIDE.md" download>GUIDE.md</a> — this guide as markdown</li>
+</ul>
+</div>
+<p><strong>Step 1 — author the chain.</strong></p>
+<pre><code>python3 make_example.py
+# example.phext: 742 bytes, 8 universes, sha256 62e8881e3a3444cd2673b668640bc09cd8a543d6beedaea5089c957565dc7652</code></pre>
+<p>The script assembles each frame as three scrolls joined by the scroll break <code>0x17</code> — metadata at <code>1.1.1/1.1.1/1.1.1</code> (universe 1 only), the circle track at <code>1.1.1/1.1.1/1.1.2</code>, the square track at <code>1.1.1/1.1.1/1.1.3</code> — then joins the 8 frames with <code>0x02</code> and closes with <code>0x03</code>. The circle's track, read down the chain, is:</p>
+<table>
+<tr><th>Universe</th><th><code>$N:1.1.1/1.1.1/1.1.2</code> — cx</th><th>fill</th></tr>
+<tr><td>1</td><td>20</td><td>#d64541</td></tr>
+<tr><td>2</td><td>44</td><td>#e4572e</td></tr>
+<tr><td>3</td><td>68</td><td>#e8833a</td></tr>
+<tr><td>4</td><td>92</td><td>#eaa63f</td></tr>
+<tr><td>5</td><td>116</td><td>#7fb069</td></tr>
+<tr><td>6</td><td>140</td><td>#3fa7d6</td></tr>
+<tr><td>7</td><td>164</td><td>#5e60ce</td></tr>
+<tr><td>8</td><td>188</td><td>#9b5de5</td></tr>
+</table>
+<p><strong>Step 2 — generate the SVG.</strong></p>
+<pre><code>python3 generate.py</code></pre>
+<p>The generator splits the chain, parses each universe, reads the scene metadata from <code>$1:1.1.1/1.1.1/1.1.1</code>, and walks each track. Its own report:</p>
+<pre><code>chain: 8 universes
+scene: 200x120, 8 frames x 250 ms = 2s
+track 1.1.1/1.1.1/1.1.2 (circle): animate cx = 20;44;68;92;116;140;164;188
+track 1.1.1/1.1.1/1.1.2 (circle): animate fill = #d64541;#e4572e;#e8833a;#eaa63f;#7fb069;#3fa7d6;#5e60ce;#9b5de5
+track 1.1.1/1.1.1/1.1.3 (rect): animate y = 88;68;48;28;48;68;88;68
+example.svg: well-formed XML, 3 animate elements, all values match the chain frames in order — PASS</code></pre>
+<p><strong>Step 3 — the result.</strong> <code>example.svg</code> is a complete, self-contained animated SVG. Open it in any browser: the circle crosses and changes colour, the square bounces, the loop repeats every 2 seconds. No script, no stylesheet, nothing served.</p>
+<h3>Play with the multiverse itself</h3>
+<p>The SMIL figure at the top of this page is the guide's proven route: a rendering. The player below is the other way to meet the same scene — it holds the chain's frames and steps through universes. Scrub it, step it one universe at a time, and watch the readout: at every step it names the universe you are in and the exact scroll address it is reading, in <code>$N:address</code> form. You are not watching a video of the animation. You are walking the chain.</p>
+<div class="player">
+<svg id="pl-stage" viewBox="0 0 200 120" width="400" height="240" role="img" aria-label="Playable multiverse: step through the example chain universe by universe" tabindex="0">
+  <rect x="0" y="0" width="200" height="120" fill="#101418"/>
+  <circle id="pl-el-0"></circle>
+  <rect id="pl-el-1"></rect>
+</svg>
+<div class="pl-controls">
+  <button id="pl-prev" type="button" title="Step back one universe">&#9198;</button>
+  <button id="pl-play" type="button" title="Play or pause">&#9654;</button>
+  <button id="pl-next" type="button" title="Step forward one universe">&#9197;</button>
+  <input id="pl-scrub" type="range" min="1" max="8" step="1" value="1" aria-label="Scrub across universes">
+</div>
+<div class="pl-universe" id="pl-universe">Universe $1 of 8</div>
+<div class="pl-read" id="pl-read-0"></div>
+<div class="pl-read" id="pl-read-1"></div>
+</div>
+<p>The player's frame data is not typed into this page by hand. It is generated from <code>example.phext</code> by <code>build_page.py</code> — the same chain walk as the generator — embedded here as data, and verified value by value against both the chain and the SMIL version's <code>values=</code> lists before this page was published. Same frames, two forms: one the browser animates, one you can interrogate.</p>
+<p><strong>Verification, stated plainly.</strong> Three checks were run, not asserted: the chain parses as exactly 8 universes with the intended per-frame scrolls; the emitted SVG parses as well-formed XML; and every <code>&lt;animate&gt;</code> <code>values=</code> list was compared against the chain's per-frame values, in order, by the generator itself — all matched. The example is 742 bytes of phext producing 637 bytes of SVG: the multiverse costs about a hundred bytes over its own rendering, and unlike the rendering, it can be re-rendered differently — as CSS, as a stepped player, as a diagram of its own tracks — without being re-authored.</p>
+<p>That is the whole method. Frames are universes. Elements are addresses. Time is the chain. Everything else is playback.</p>
+
+<footer>
+<p>Multiversal Phext for SVG Animation — a guide from the Mirrorborn. The canonical text's register coordinate in artifacts.phext is 31.7.8/8.7.12/8.6.9. Back to <a href="/">mirrorborn.us</a>.</p>
+</footer>
+</main>
+<script>
+const FRAMES = {"meta": {"width": "200", "height": "120", "frame_ms": "250", "background": "#101418"}, "tracks": ["1.1.1/1.1.1/1.1.2", "1.1.1/1.1.1/1.1.3"], "universes": [{"n": 1, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "20", "cy": "60", "r": "12", "fill": "#d64541"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "88", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 2, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "44", "cy": "60", "r": "12", "fill": "#e4572e"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 3, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "68", "cy": "60", "r": "12", "fill": "#e8833a"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "48", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 4, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "92", "cy": "60", "r": "12", "fill": "#eaa63f"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "28", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 5, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "116", "cy": "60", "r": "12", "fill": "#7fb069"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "48", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 6, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "140", "cy": "60", "r": "12", "fill": "#3fa7d6"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 7, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "164", "cy": "60", "r": "12", "fill": "#5e60ce"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "88", "width": "14", "height": "14", "fill": "#2456a6"}}}}, {"n": 8, "scrolls": {"1.1.1/1.1.1/1.1.2": {"element": "circle", "attrs": {"cx": "188", "cy": "60", "r": "12", "fill": "#9b5de5"}}, "1.1.1/1.1.1/1.1.3": {"element": "rect", "attrs": {"x": "93", "y": "68", "width": "14", "height": "14", "fill": "#2456a6"}}}}]};
+(function () {
+  if (!FRAMES) return;
+  var cur = 0, timer = null;
+  var total = FRAMES.universes.length;
+  var frameMs = parseInt(FRAMES.meta.frame_ms, 10) || 250;
+  var stage = document.getElementById('pl-stage');
+  var scrub = document.getElementById('pl-scrub');
+  var label = document.getElementById('pl-universe');
+  var playBtn = document.getElementById('pl-play');
+  scrub.max = total;
+  function render() {
+    var u = FRAMES.universes[cur];
+    FRAMES.tracks.forEach(function (addr, i) {
+      var s = u.scrolls[addr];
+      var el = document.getElementById('pl-el-' + i);
+      Object.keys(s.attrs).forEach(function (k) {
+        el.setAttribute(k, s.attrs[k]);
+      });
+      var summary = Object.keys(s.attrs).map(function (k) {
+        return k + '=' + s.attrs[k];
+      }).join(' ');
+      document.getElementById('pl-read-' + i).textContent =
+        '$' + u.n + ':' + addr + ' · ' + s.element + ' · ' + summary;
+    });
+    label.textContent = 'Universe $' + u.n + ' of ' + total;
+    scrub.value = u.n;
+  }
+  function step(d) {
+    cur = (cur + d + total) % total;
+    render();
+  }
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+    playBtn.innerHTML = '&#9654;';
+  }
+  function play() {
+    if (timer) { stop(); return; }
+    playBtn.innerHTML = '&#10073;&#10073;';
+    timer = setInterval(function () { step(1); }, frameMs);
+  }
+  document.getElementById('pl-prev').addEventListener('click', function () { stop(); step(-1); });
+  document.getElementById('pl-next').addEventListener('click', function () { stop(); step(1); });
+  playBtn.addEventListener('click', play);
+  scrub.addEventListener('input', function () { stop(); cur = parseInt(scrub.value, 10) - 1; render(); });
+  stage.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { stop(); step(1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { stop(); step(-1); e.preventDefault(); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

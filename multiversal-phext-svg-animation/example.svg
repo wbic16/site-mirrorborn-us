@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="200" height="120">
+  <rect x="0" y="0" width="200" height="120" fill="#101418"/>
+  <circle cx="20" cy="60" r="12" fill="#d64541">
+    <animate attributeName="cx" values="20;44;68;92;116;140;164;188" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="fill" values="#d64541;#e4572e;#e8833a;#eaa63f;#7fb069;#3fa7d6;#5e60ce;#9b5de5" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <rect x="93" y="88" width="14" height="14" fill="#2456a6">
+    <animate attributeName="y" values="88;68;48;28;48;68;88;68" dur="2s" repeatCount="indefinite"/>
+  </rect>
+</svg>
